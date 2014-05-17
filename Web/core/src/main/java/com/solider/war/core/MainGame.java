@@ -7,7 +7,10 @@ import java.util.Set;
 
 import javax.security.auth.kerberos.KerberosKey;
 
+import org.w3c.dom.css.RGBColor;
+
 import com.solider.war.core.model.MousePoint;
+import com.solider.war.core.tools.MarkArea;
 import com.solider.war.model.sprites.impl.Solider;
 
 import static playn.core.PlayN.assets;
@@ -28,7 +31,9 @@ public class MainGame extends Game.Default {
 	private  GroupLayer soliderLayer;
 	private List<Solider> soliders = new ArrayList<Solider>(0);
 	private MousePoint mousePoint = new MousePoint();
-	ImageLayer bgLayer;
+	
+	ImageLayer bgLayer;	
+	MarkArea markArea;
 	
 	float transformX = 0.0f;
 	float transformY = 0.0f;
@@ -45,59 +50,67 @@ public class MainGame extends Game.Default {
 		
 		Image bgImage = assets().getImage("sprites/bg.png");
 		
-	    // draw a soothing flat background
-	    CanvasImage bgtile = graphics().createImage(30, 30);
-	    bgtile.canvas().setStrokeColor(0xFFFFFFFF);
-	    bgtile.canvas().strokeRect(0, 0, 30, 30);
-	    bgtile.setRepeat(true, true);
-	    ImageLayer bg = graphics().createImageLayer(bgtile);
-	    bg.setWidth(1321);
-	    bg.setHeight(1321);
-		
+
 		// create a group layer to hold everything
 		layer = graphics().createGroupLayer();
 		bgLayer = graphics().createImageLayer(bgImage);
 		soliderLayer = graphics().createGroupLayer();
 		
+		
+		
 		graphics().rootLayer().add(layer);
 		layer.add(bgLayer);
-		layer.add(bg);
 		layer.add(soliderLayer);
-		// create and add background image layer
+		
+		markArea = new MarkArea(layer);
+		
 		
 		// Add one solider sprite  to game the game
 		addSolider(graphics().width() / 2, graphics().height() / 2);
 		
-	
+		
 		// add a listener for pointer (mouse, touch) input
 		PlayN.mouse().setListener(new Mouse.Adapter() {
-			 	
+
 			 	boolean mouseDown = false;
+			 	boolean mouseLeftButton = false;			 	
+			 	
 			    @Override
 			    public void onMouseDown(ButtonEvent event) {
-			    	startPoint.setPoint(event.x()+(-transformX), event.y()+(-transformY));
+			    	startPoint.setPoint(event.x()+(-transformX), event.y()+(-transformY));			    	
 			    	if( event.button() ==  Mouse.BUTTON_RIGHT ) {
 			    		mouseDown = true;
+			    	}
+			    	
+			    	if( event.button() ==  Mouse.BUTTON_LEFT ) {
+			    		mouseLeftButton = true;
 			    	}
 			    }
 			    
 			    @Override
-			    public void onMouseUp(ButtonEvent event) { 
+			    public void onMouseUp(ButtonEvent event) {
+			    	markArea.clear();
 			    	if( event.button() ==  Mouse.BUTTON_LEFT ) {
+			    		mouseLeftButton = false;
 				    	mousePoint.setPoint(event.x()+(-transformX), event.y()+(-transformY));
 						for (Solider solider : soliders) {
 							solider.setRotationToMouse(mousePoint);
 						}
 			    	}
-			    	
 					if( event.button() ==  Mouse.BUTTON_RIGHT ) {
 						mouseDown = false; 
 					}
 			    }
 			    
 			    @Override
-			    public void onMouseMove(MotionEvent event) { 
-			    	if(mouseDown) {
+			    public void onMouseMove(MotionEvent event) {
+			    	
+			    	if(mouseLeftButton) {
+			    		markArea.startMarking( (int) (startPoint.getX()+(-transformX)), (int) (startPoint.getY()+(-transformY)), 
+				    			(int) ((event.x()-startPoint.getX())+(-transformX)), (int)((event.y()-startPoint.getY())+(-transformY)));	
+			    	}
+			    	
+			    	if(mouseDown) {    	
 				    	endPoint.setPoint(event.x(), event.y());
 						transformX = endPoint.getX() -startPoint.getX();
 						transformY = endPoint.getY() -startPoint.getY();
@@ -107,7 +120,6 @@ public class MainGame extends Game.Default {
 			    
 			    @Override
 			    public void onMouseWheelScroll(WheelEvent event) { 
-			    	
 			    }
 		});
 		
