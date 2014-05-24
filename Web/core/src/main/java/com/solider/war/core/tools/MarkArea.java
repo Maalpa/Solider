@@ -9,27 +9,31 @@ import playn.core.ImageLayer;
 
 /**
  * @author Paweł Kępa
- * Klasa bedzie w przyszłosci singletonem
- *
+ * 
  */
 public class MarkArea {
+	private static final int WIDTH = 1021;
+	private static final int HEIGHT = 1021;
+	private static final float ALPHA = 0.5f;
+	private static final int COLOR = 0xff87ceeb;
+	
 	private int clearX;
 	private int clearY;
 	private int clearWidthX;
 	private int clearWidthY;
 	
-	CanvasImage	bgtile;	
-	ImageLayer bg;
-	Canvas canvas;
+	private CanvasImage	bgtile;	
+	private ImageLayer bg;
+	private Canvas canvas;
 	
 	public MarkArea(GroupLayer parentLayer) {
-		this.bgtile = graphics().createImage(1000, 1000);
+		this.bgtile = graphics().createImage(WIDTH, HEIGHT);
     	this.canvas = bgtile.canvas();
-    	this.canvas.setFillColor(0xff87ceeb).setAlpha(0.5f);
+    	this.canvas.setFillColor(COLOR).setAlpha(ALPHA);
     	this.bg = graphics().createImageLayer(bgtile);
-    	this.bg.setWidth(1000);
-    	this.bg.setHeight(1000);
-    	
+    	this.bg.setWidth(WIDTH);
+    	this.bg.setHeight(HEIGHT);
+ 
     	// Add to main layer 
     	parentLayer.add(bg);
 	}
@@ -41,6 +45,25 @@ public class MarkArea {
 		clearY = y;
 		clearWidthX = width;
 		clearWidthY = height;
+	}
+	
+	public void mark(float startX, float startY, float endX, float endY) {
+		// first 
+		if( (startX < endX) && (startY < endY) ) {
+			startMarking( (int) (startX), (int) (startY), (int) (endX - startX), (int) (endY - startY));
+		} 
+		// secound
+		else if ( (startX > endX) &&  (startY < endY) ) {
+			startMarking( (int) (endX), (int) (startY), (int) (startX - endX), (int) (endY - startY));
+		}
+		// third 
+		else if ( (startX > endX) && (startY > endY) ) {
+			startMarking( (int) (endX), (int) (endY), (int) (startX - endX), (int) (startY - endY));
+		}
+		// four
+		else if ( (startX < endX) &&  (startY > endY) ) {
+			startMarking( (int) (startX), (int) (endY), (int) (endX - startX), (int) (startY - endY));
+		}
 	}
 	
 	public void clear(){
