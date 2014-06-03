@@ -14,6 +14,7 @@ import com.solider.war.core.tools.MarkArea;
 import com.solider.war.core.tools.Point;
 import com.solider.war.core.tools.Transform;
 import com.solider.war.model.sprites.impl.Solider;
+import com.solider.war.model.sprites.impl.Tank;
 
 import static playn.core.PlayN.assets;
 import static playn.core.PlayN.graphics;
@@ -32,6 +33,7 @@ public class MainGame extends Game.Default {
 	private GroupLayer layer;
 	private  GroupLayer soliderLayer;
 	private List<Solider> soliders = new ArrayList<Solider>(0);
+	private List<Tank> tanks = new ArrayList<Tank>(0);
 	
 	ImageLayer bgLayer;	
 	MarkArea markArea;
@@ -72,6 +74,7 @@ public class MainGame extends Game.Default {
 		// Add one solider sprite  to game the game
 		addSolider(graphics().width() / 2, graphics().height() / 2);
 		
+		
 		// add a listener for pointer (mouse, touch) input
 		PlayN.mouse().setListener(new Mouse.Adapter() {
 				
@@ -105,6 +108,10 @@ public class MainGame extends Game.Default {
 			    		System.out.println("soliderPoint ("+Point.getSoliderPoint().getX() +","+Point.getSoliderPoint().getY()+")");
 						for (Solider solider : soliders) {
 							solider.setRotationToMouse(Point.getSoliderPoint());
+						}
+						
+						for (Tank tank : tanks) {
+							tank.setRotationToMouse(Point.getSoliderPoint());
 						}
 			    	}
 			    	
@@ -152,9 +159,15 @@ public class MainGame extends Game.Default {
 
 	@Override
 	public void update(int delta) {
+		
 		for (Solider solider : soliders) {
 			if(solider.isMoving()) solider.update(delta, Point.getSoliderPoint());
 		}
+		
+		for (Tank tank : tanks) {
+			if(tank.isMoving()) tank.update(delta, Point.getSoliderPoint());
+		}
+		
 	}
 	
 	@Override
@@ -165,6 +178,11 @@ public class MainGame extends Game.Default {
 	
 	private void addSolider(float x, float y) {
 		Solider solider = new Solider(soliderLayer, x, y);
-		soliders.add(solider);
+		// Add tank 
+		Tank tank = new Tank(soliderLayer, x, y);
+				
+	//	soliders.add(solider);
+		tanks.add(tank);
+
 	}
 }
