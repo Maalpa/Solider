@@ -10,11 +10,12 @@ import javax.security.auth.kerberos.KerberosKey;
 import org.w3c.dom.css.RGBColor;
 
 import com.solider.war.core.model.MousePoint;
+import com.solider.war.core.sprites.Animation;
+import com.solider.war.core.sprites.model.Solider;
+import com.solider.war.core.sprites.model.Tank;
 import com.solider.war.core.tools.MarkArea;
 import com.solider.war.core.tools.Point;
 import com.solider.war.core.tools.Transform;
-import com.solider.war.model.sprites.impl.Solider;
-import com.solider.war.model.sprites.impl.Tank;
 
 import static playn.core.PlayN.assets;
 import static playn.core.PlayN.graphics;
@@ -29,15 +30,23 @@ import playn.core.canvas.GroupLayerCanvas;
 import static playn.core.PlayN.*;
 
 public class MainGame extends Game.Default {
-		
+	
+	private boolean MOUSE_RIGHT_BUTTON_DOWN = false;
+ 	private boolean MOUSE_LEFT_BUTTON_DOWN = false;
+ 	private boolean MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN = false;
+ 	private boolean MOUSE_HAVE_MOVING_WITH_LEFT_BITTON_DOWN = false;
+ 	
 	private GroupLayer layer;
-	private  GroupLayer soliderLayer;
+	private  GroupLayer animationLayer;
+	private  GroupLayer tankLayer;
+	
 	private List<Solider> soliders = new ArrayList<Solider>(0);
 	private List<Tank> tanks = new ArrayList<Tank>(0);
+	private List<Animation> animationObjects = new ArrayList<Animation>();
 	
 	ImageLayer bgLayer;	
 	MarkArea markArea;
-
+	
 	public MainGame() {
 		super(25); // call update every 33ms (30 times per second)
 	}
@@ -50,12 +59,11 @@ public class MainGame extends Game.Default {
 		// create a group layer to hold everything
 		layer = graphics().createGroupLayer();
 		bgLayer = graphics().createImageLayer(bgImage);
-		soliderLayer = graphics().createGroupLayer();
+		animationLayer = graphics().createGroupLayer();
 		
 	    // draw a soothing flat background
 	    CanvasImage bgtile = graphics().createImage(30, 30);
 	    bgtile.canvas().setFillColor(0xFFCCCCCC);
-//	    bgtile.canvas().fillRect(0, 0, 64, 64);
 	    bgtile.canvas().setStrokeColor(0xFFFFFFFF);
 	    bgtile.canvas().strokeRect(0, 0, 30, 30);
 	    bgtile.setRepeat(true, true);
@@ -65,31 +73,48 @@ public class MainGame extends Game.Default {
 	    bg.setHeight(1021);
 	    
 		graphics().rootLayer().add(layer);
-		//layer.add(bgLayer);  // BACKGROUND
+//		layer.add(bgLayer);  // BACKGROUND
 		
 		layer.add(bg);
 		markArea = new MarkArea(layer);
-		layer.add(soliderLayer);
+		layer.add(animationLayer);
 		
 		// Add one solider sprite  to game the game
 		addSolider(graphics().width() / 2, graphics().height() / 2);
-		
+		addTank(50,50);
 		
 		// add a listener for pointer (mouse, touch) input
 		PlayN.mouse().setListener(new Mouse.Adapter() {
-				
-			 	boolean mouseDown = false;
-			 	boolean mouseLeftButton = false;
-			 	
+			
 			    @Override
 			    public void onMouseDown(ButtonEvent event) {
 			    	Point.setStartPoint(event.x(), event.y());		    	
 			    	if( event.button() ==  Mouse.BUTTON_RIGHT ) {
-			    		mouseDown = true;
+			    		MOUSE_RIGHT_BUTTON_DOWN = true;
 			    	}
 			    	
 			    	if( event.button() ==  Mouse.BUTTON_LEFT ) {
-			    		mouseLeftButton = true;
+			    		MOUSE_LEFT_BUTTON_DOWN = true;
+			    	}
+			    }
+			        
+			    @Override
+			    public void onMouseMove(MotionEvent event) {
+			    
+			    	if(MOUSE_LEFT_BUTTON_DOWN) {
+			    			markArea.mark(Point.getTransformStartPoint().getX(),
+			    						  Point.getTransformStartPoint().getY(),
+			    						  event.x()+(-Transform.getX()), 
+			    						  event.y()+(-Transform.getY()) );
+			    	}
+			    	
+			    	if(MOUSE_RIGHT_BUTTON_DOWN) {
+			    		MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN = true;
+			    		Point.setEndPoint(event.x(), event.y());
+						Transform.setTransform(event.x() - Point.getTransformStartPoint().getX(), event.y() - Point.getTransformStartPoint().getY());
+						layer.setTranslation(Transform.getX(), Transform.getY());
+			    	} else {
+			    		MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN = false;
 			    	}
 			    }
 			    
@@ -98,7 +123,7 @@ public class MainGame extends Game.Default {
 			    	
 			    	markArea.clear();
 			    	if( event.button() ==  Mouse.BUTTON_LEFT ) {
-			    		mouseLeftButton = false;
+			    		MOUSE_LEFT_BUTTON_DOWN = false;
 			    		Point.setMousePoint(event.x(), event.y());
 			    		System.out.println("Mouse Point ("+Point.getTransformMousePoint().getX()+","+ Point.getTransformMousePoint().getY()+")");
 			    		int corX = (int) (Point.getTransformMousePoint().getX()/30);
@@ -106,7 +131,7 @@ public class MainGame extends Game.Default {
 			    		System.out.println("Cords ("+corX +","+corY+")");
 			    		Point.setSoliderPoint((corX*30)+15, (corY*30)+15);
 			    		System.out.println("soliderPoint ("+Point.getSoliderPoint().getX() +","+Point.getSoliderPoint().getY()+")");
-						for (Solider solider : soliders) {
+			    		for (Solider solider : soliders) {
 							solider.setRotationToMouse(Point.getSoliderPoint());
 						}
 						
@@ -115,26 +140,19 @@ public class MainGame extends Game.Default {
 						}
 			    	}
 			    	
-					if( event.button() ==  Mouse.BUTTON_RIGHT ) {
-						mouseDown = false; 
+			    	if( event.button() ==  Mouse.BUTTON_RIGHT ) {
+			    		MOUSE_RIGHT_BUTTON_DOWN = false;
+			    	}
+			    	
+					if( event.button() ==  Mouse.BUTTON_RIGHT && !MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN ) {
+						for(Tank tank : tanks) {
+			    			tank.isSelected(event.x(), event.y() );
+			    		}
+						
+						for(Solider solider : soliders) {
+							solider.isSelected(event.x(), event.y());
+						}
 					}
-			    }
-			    
-			    @Override
-			    public void onMouseMove(MotionEvent event) {
-			    	
-			    	if(mouseLeftButton) {
-			    			markArea.mark(Point.getTransformStartPoint().getX(),
-			    						  Point.getTransformStartPoint().getY(),
-			    						  event.x()+(-Transform.getX()), 
-			    						  event.y()+(-Transform.getY()) );
-			    	}
-			    	
-			    	if(mouseDown) {
-			    		Point.setEndPoint(event.x(), event.y());
-						Transform.setTransform(event.x() - Point.getTransformStartPoint().getX(), event.y() - Point.getTransformStartPoint().getY());
-						layer.setTranslation(Transform.getX(), Transform.getY());
-			    	}
 			    }
 			    
 			    @Override
@@ -177,12 +195,12 @@ public class MainGame extends Game.Default {
 	}
 	
 	private void addSolider(float x, float y) {
-		Solider solider = new Solider(soliderLayer, x, y);
-		// Add tank 
-		Tank tank = new Tank(soliderLayer, x, y);
-				
-	//	soliders.add(solider);
+		Solider solider = new Solider(animationLayer, x, y);	
+		soliders.add(solider);
+	}
+	
+	private void addTank(float x, float y) {
+		Tank tank = new Tank(animationLayer, x, y);
 		tanks.add(tank);
-
 	}
 }
