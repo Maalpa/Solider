@@ -12,6 +12,7 @@ import playn.core.ImageLayer;
  * 
  */
 public class MarkArea {
+	
 	private static final int WIDTH = 1021;
 	private static final int HEIGHT = 1021;
 	private static final float ALPHA = 0.5f;
@@ -21,6 +22,12 @@ public class MarkArea {
 	private int clearY;
 	private int clearWidthX;
 	private int clearWidthY;
+	
+	// cords used to check if objects intersets with others objects
+	private int x;
+	private int y;
+	private int width;
+	private int height;
 	
 	private CanvasImage	bgtile;	
 	private ImageLayer bg;
@@ -39,12 +46,16 @@ public class MarkArea {
 	}
 	
 	public void startMarking(int x, int y, int width, int height) {
-		canvas.clearRect(clearX, clearY, clearWidthX, clearWidthY);
-		canvas.fillRect( x , y, width, height);		
-		clearX = x;
-		clearY = y;
-		clearWidthX = width;
-		clearWidthY = height;
+		this.canvas.clearRect(clearX, clearY, clearWidthX, clearWidthY);
+		this.canvas.fillRect( x , y, width, height);		
+		this.clearX = x;
+		this.clearY = y;
+		this.clearWidthX = width;
+		this.clearWidthY = height;
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
 	}
 	
 	public void mark(float startX, float startY, float endX, float endY) {
@@ -69,4 +80,37 @@ public class MarkArea {
 	public void clear(){
 		canvas.clear();
 	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+	
 }

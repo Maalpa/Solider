@@ -36,7 +36,7 @@ public class MainGame extends Game.Default {
  	private boolean MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN = false;
  	private boolean MOUSE_HAVE_MOVING_WITH_LEFT_BITTON_DOWN = false;
  	
-	private GroupLayer layer;
+	private  GroupLayer layer;
 	private  GroupLayer animationLayer;
 	private  GroupLayer tankLayer;
 	
@@ -88,7 +88,7 @@ public class MainGame extends Game.Default {
 			
 			    @Override
 			    public void onMouseDown(ButtonEvent event) {
-			    	Point.setStartPoint(event.x(), event.y());		    	
+			    	Point.setStartPoint(event.x(), event.y());
 			    	if( event.button() ==  Mouse.BUTTON_RIGHT ) {
 			    		MOUSE_RIGHT_BUTTON_DOWN = true;
 			    	}
@@ -106,24 +106,36 @@ public class MainGame extends Game.Default {
 			    						  Point.getTransformStartPoint().getY(),
 			    						  event.x()+(-Transform.getX()), 
 			    						  event.y()+(-Transform.getY()) );
+			    			
+			    			Point.setEndPoint(event.x(), event.y());
 			    	}
 			    	
 			    	if(MOUSE_RIGHT_BUTTON_DOWN) {
 			    		MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN = true;
-			    		Point.setEndPoint(event.x(), event.y());
 						Transform.setTransform(event.x() - Point.getTransformStartPoint().getX(), event.y() - Point.getTransformStartPoint().getY());
 						layer.setTranslation(Transform.getX(), Transform.getY());
 			    	} else {
 			    		MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN = false;
 			    	}
+			    	
+			    	if( MOUSE_LEFT_BUTTON_DOWN  ) {
+						
+						for(Tank tank : tanks) {
+			    			tank.isSelected(event.x(), event.y(), markArea);
+			    		}
+						
+						for(Solider solider : soliders) {
+							solider.isSelected(event.x(), event.y(), markArea);
+						}
+					}
 			    }
 			    
 			    @Override
 			    public void onMouseUp(ButtonEvent event) {
 			    	
 			    	markArea.clear();
-			    	if( event.button() ==  Mouse.BUTTON_LEFT ) {
-			    		MOUSE_LEFT_BUTTON_DOWN = false;
+			    	if( event.button() ==  Mouse.BUTTON_RIGHT ) {
+			    		MOUSE_RIGHT_BUTTON_DOWN = false;
 			    		Point.setMousePoint(event.x(), event.y());
 			    		System.out.println("Mouse Point ("+Point.getTransformMousePoint().getX()+","+ Point.getTransformMousePoint().getY()+")");
 			    		int corX = (int) (Point.getTransformMousePoint().getX()/30);
@@ -140,17 +152,15 @@ public class MainGame extends Game.Default {
 						}
 			    	}
 			    	
-			    	if( event.button() ==  Mouse.BUTTON_RIGHT ) {
-			    		MOUSE_RIGHT_BUTTON_DOWN = false;
-			    	}
-			    	
-					if( event.button() ==  Mouse.BUTTON_RIGHT && !MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN ) {
+					if( event.button() ==  Mouse.BUTTON_LEFT  ) {
+						MOUSE_LEFT_BUTTON_DOWN = false;
+						
 						for(Tank tank : tanks) {
-			    			tank.isSelected(event.x(), event.y() );
+			    			tank.isSelected(event.x(), event.y(), markArea);
 			    		}
 						
 						for(Solider solider : soliders) {
-							solider.isSelected(event.x(), event.y());
+							solider.isSelected(event.x(), event.y(), markArea);
 						}
 					}
 			    }
@@ -177,7 +187,6 @@ public class MainGame extends Game.Default {
 
 	@Override
 	public void update(int delta) {
-		
 		for (Solider solider : soliders) {
 			if(solider.isMoving()) solider.update(delta, Point.getSoliderPoint());
 		}
@@ -185,7 +194,6 @@ public class MainGame extends Game.Default {
 		for (Tank tank : tanks) {
 			if(tank.isMoving()) tank.update(delta, Point.getSoliderPoint());
 		}
-		
 	}
 	
 	@Override

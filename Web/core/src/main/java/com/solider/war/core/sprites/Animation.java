@@ -6,6 +6,7 @@ import playn.core.util.Callback;
 
 import com.solider.war.core.model.MousePoint;
 
+import com.solider.war.core.tools.MarkArea;
 import com.solider.war.core.tools.Transform;
 import org.jbox2d.dynamics.contacts.*;
 import org.jbox2d.dynamics.*;
@@ -92,7 +93,7 @@ public abstract class Animation {
 		}
 	}
 	
-	public boolean isSelected(float mouseX , float mouseY) {
+	public boolean isSelected(float mouseX , float mouseY, MarkArea markArea) {
 		
 		System.out.println("Selected mouse (" + mouseX + "," + mouseY + ")" );
 		System.out.println("Selected tank (" + imageX + "," + imageY + ")" );
@@ -104,13 +105,19 @@ public abstract class Animation {
 		imageY = (float) ((this.y+Transform.getY()) - (height/2.0f));	// calculating where image starts by transforming
 		
 		if( ((mouseX >= (imageX))  && (mouseX <= (imageX+this.width))) && (((mouseY) >= (imageY))  && (mouseY <= (imageY+this.height))) ) {
-			System.out.println("Selected");
+			System.out.println("Selected by click");
 			selected = true;
 			moving = false;
 		} else {
-			System.out.println("Not Selected");
+			System.out.println("Not Selected by click");
 			selected = false;
 		}
+		
+		if( ((imageX >= (markArea.getX()))  && (mouseX <= (markArea.getX()+markArea.getWidth()))) && (((mouseY) >= (markArea.getY()))  && (mouseY <= (markArea.getY()+markArea.getHeight()))) ) {
+			System.out.println("Selected by mark area ");
+			selected = true;
+			moving = false;
+		} 
 		
 		return selected;
 	}
