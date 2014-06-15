@@ -39,9 +39,7 @@ public class Tank extends Animation {
 	}	
 
 	public void update(int delta, MousePoint mousePoint) {	
-		if(selected) {
-			super.update(delta, mousePoint);
-		}
+		super.update(delta, mousePoint);
 	}
 }
 

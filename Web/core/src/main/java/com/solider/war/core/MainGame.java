@@ -9,6 +9,7 @@ import javax.security.auth.kerberos.KerberosKey;
 
 import org.w3c.dom.css.RGBColor;
 
+import com.solider.war.core.model.DestinationPoint;
 import com.solider.war.core.model.MousePoint;
 import com.solider.war.core.sprites.Animation;
 import com.solider.war.core.sprites.model.Solider;
@@ -111,9 +112,13 @@ public class MainGame extends Game.Default {
 			    	}
 			    	
 			    	if(MOUSE_RIGHT_BUTTON_DOWN) {
+			    		
 			    		MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN = true;
 						Transform.setTransform(event.x() - Point.getTransformStartPoint().getX(), event.y() - Point.getTransformStartPoint().getY());
 						layer.setTranslation(Transform.getX(), Transform.getY());
+						
+						
+						
 			    	} else {
 			    		MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN = false;
 			    	}
@@ -121,11 +126,11 @@ public class MainGame extends Game.Default {
 			    	if( MOUSE_LEFT_BUTTON_DOWN  ) {
 						
 						for(Tank tank : tanks) {
-			    			tank.isSelected(event.x(), event.y(), markArea);
+			    			tank.select(event.x(), event.y(), markArea);
 			    		}
 						
 						for(Solider solider : soliders) {
-							solider.isSelected(event.x(), event.y(), markArea);
+							solider.select(event.x(), event.y(), markArea);
 						}
 					}
 			    }
@@ -137,18 +142,34 @@ public class MainGame extends Game.Default {
 			    	if( event.button() ==  Mouse.BUTTON_RIGHT ) {
 			    		MOUSE_RIGHT_BUTTON_DOWN = false;
 			    		Point.setMousePoint(event.x(), event.y());
+			    		
+			    		
 			    		System.out.println("Mouse Point ("+Point.getTransformMousePoint().getX()+","+ Point.getTransformMousePoint().getY()+")");
 			    		int corX = (int) (Point.getTransformMousePoint().getX()/30);
 			    		int corY = (int) (Point.getTransformMousePoint().getY()/30);
 			    		System.out.println("Cords ("+corX +","+corY+")");
+			    		
+			    		
+			    		
 			    		Point.setSoliderPoint((corX*30)+15, (corY*30)+15);
+			    		
+			    		
 			    		System.out.println("soliderPoint ("+Point.getSoliderPoint().getX() +","+Point.getSoliderPoint().getY()+")");
+			    		
+			    		
+			    		
 			    		for (Solider solider : soliders) {
 							solider.setRotationToMouse(Point.getSoliderPoint());
+							if(solider.isSelected()) {
+								solider.setDestinationPoint(new DestinationPoint((corX*30)+15, (corY*30)+15));
+							}
 						}
 						
 						for (Tank tank : tanks) {
 							tank.setRotationToMouse(Point.getSoliderPoint());
+							if(tank.isSelected()) {
+								tank.setDestinationPoint(new DestinationPoint((corX*30)+15, (corY*30)+15));
+							}
 						}
 			    	}
 			    	
@@ -156,11 +177,11 @@ public class MainGame extends Game.Default {
 						MOUSE_LEFT_BUTTON_DOWN = false;
 						
 						for(Tank tank : tanks) {
-			    			tank.isSelected(event.x(), event.y(), markArea);
+			    			tank.select(event.x(), event.y(), markArea);
 			    		}
 						
 						for(Solider solider : soliders) {
-							solider.isSelected(event.x(), event.y(), markArea);
+							solider.select(event.x(), event.y(), markArea);
 						}
 					}
 			    }

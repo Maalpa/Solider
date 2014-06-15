@@ -39,9 +39,7 @@ public class Solider extends Animation {
 	}
 	
 	public void update(int delta, MousePoint mousePoint) {
-		if(selected) {
 			super.update(delta, mousePoint);
-		}
 	}
 }
 

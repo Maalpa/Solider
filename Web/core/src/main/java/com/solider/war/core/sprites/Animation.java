@@ -4,10 +4,11 @@ import static playn.core.PlayN.log;
 import playn.core.GroupLayer;
 import playn.core.util.Callback;
 
+import com.solider.war.core.model.DestinationPoint;
 import com.solider.war.core.model.MousePoint;
-
 import com.solider.war.core.tools.MarkArea;
 import com.solider.war.core.tools.Transform;
+
 import org.jbox2d.dynamics.contacts.*;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.common.*;
@@ -30,7 +31,8 @@ public abstract class Animation {
 	protected boolean selected = false;
 	protected float width;						// width of sprite image i required for couting if object selected, working with imageX 
 	protected float height;						// width of sprite image i required for couting if object selected, working with imageY 
-	
+
+	protected DestinationPoint destinationPoint = null;  // Object destination point - it sets when object is selected and right mouse is pressed
 	
 	public Animation(final GroupLayer layer, final float x, final float y, final String image, final String json ) {
 
@@ -74,11 +76,13 @@ public abstract class Animation {
 			
 		    int	posX = (int) this.x;
 		    int posY = (int) this.y;
-			
-			if((posX <= (mousePoint.getX()+2.00) && posX >= (mousePoint.getX()-2.00)) 
-				&& (posY <= (mousePoint.getY()+2.00) && posY >= (mousePoint.getY()-2.00)) )
+		    
+			if((posX <= (destinationPoint.getX()+2.00) && posX >= (destinationPoint.getX()-2.00)) 
+				&& (posY <= (destinationPoint.getY()+2.00) && posY >= (destinationPoint.getY()-2.00)) )
 			{
-				sprite.layer().setTranslation(mousePoint.getX(), mousePoint.getY());
+				//sprite.layer().setTranslation(destinationPoint.getX(), destinationPoint.getY());
+				
+				System.out.println("Jestem");
 				moving = false;
 			}
 		}
@@ -93,7 +97,7 @@ public abstract class Animation {
 		}
 	}
 	
-	public boolean isSelected(float mouseX , float mouseY, MarkArea markArea) {
+	public boolean select(float mouseX , float mouseY, MarkArea markArea) {
 		
 		System.out.println("Selected mouse (" + mouseX + "," + mouseY + ")" );
 		System.out.println("Selected tank (" + imageX + "," + imageY + ")" );
@@ -122,6 +126,10 @@ public abstract class Animation {
 		return selected;
 	}
 	
+	public boolean isSelected() {
+		return selected;
+	}
+
 	public double angleTo(MousePoint target) {
 		return Math.atan2(target.getX() - this.x, target.getY() -  this.y);	
 	}
@@ -194,8 +202,6 @@ public abstract class Animation {
 		this.counting = counting;
 	}
 
-
-
 	public void setSelected(boolean selected) {
 		this.selected = selected;
 	}
@@ -215,4 +221,13 @@ public abstract class Animation {
 	public void setHeight(float height) {
 		this.height = height;
 	}
+
+	public DestinationPoint getDestinationPoint() {
+		return destinationPoint;
+	}
+
+	public void setDestinationPoint(DestinationPoint destinationPoint) {
+		this.destinationPoint = destinationPoint;
+	}
+	
 }
