@@ -1,0 +1,11 @@
+<module rename-to='Web'>
+  <inherits name='playn.PlayN'/>
+  <inherits name='MainGameAssets'/>
+
+  <source path='core'/>
+  <source path='html'/>
+
+  <public path="resources" />
+
+  <entry-point class='com.solider.war.html.MainGameHtml'/>
+</module>

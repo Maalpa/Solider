@@ -10,7 +10,9 @@ import javax.security.auth.kerberos.KerberosKey;
 import org.w3c.dom.css.RGBColor;
 
 import com.solider.war.core.model.DestinationPoint;
+import com.solider.war.core.model.GameMap;
 import com.solider.war.core.model.MousePoint;
+import com.solider.war.core.path.CalcPath;
 import com.solider.war.core.sprites.Animation;
 import com.solider.war.core.sprites.model.Solider;
 import com.solider.war.core.sprites.model.Tank;
@@ -35,12 +37,13 @@ public class MainGame extends Game.Default {
 	private boolean MOUSE_RIGHT_BUTTON_DOWN = false;
  	private boolean MOUSE_LEFT_BUTTON_DOWN = false;
  	private boolean MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN = false;
+ 	private final int MAP_SIZE = 1021;
  	
-	private  GroupLayer layer;
-	private  GroupLayer animationLayer;
-
-	
+	private GroupLayer layer;
+	private GroupLayer animationLayer;
+	private GameMap gameMap = new GameMap(MAP_SIZE, MAP_SIZE); 
 	private List<Animation> animations = new ArrayList<Animation>();
+	CalcPath calcPath; 
 	
 	ImageLayer bgLayer;	
 	MarkArea markArea;
@@ -67,8 +70,9 @@ public class MainGame extends Game.Default {
 	    bgtile.setRepeat(true, true);
 
 	    ImageLayer bg = graphics().createImageLayer(bgtile);
-	    bg.setWidth(1021);
-	    bg.setHeight(1021);
+	    bg.setWidth(MAP_SIZE);
+	    bg.setHeight(MAP_SIZE);
+	    
 	    
 		graphics().rootLayer().add(layer);
 //		layer.add(bgLayer);  // BACKGROUND
@@ -79,6 +83,7 @@ public class MainGame extends Game.Default {
 		
 		// Add one solider sprite  to game the game
 		addSolider(graphics().width() / 2, graphics().height() / 2);
+		
 		addTank(50,50);
 		
 		// add a listener for pointer (mouse, touch) input
@@ -147,9 +152,12 @@ public class MainGame extends Game.Default {
 				    			animation.setRotationToMouse(Point.getSoliderPoint());
 								if(animation.isSelected()) {
 									animation.setDestinationPoint(new DestinationPoint((corX*30)+15, (corY*30)+15));
+									calcPath = new CalcPath(animation, MAP_SIZE);
+									calcPath.calcPath();
 								}
 							}
 			    		}
+			    		
 			    	}
 			    	
 					if( event.button() ==  Mouse.BUTTON_LEFT  ) {

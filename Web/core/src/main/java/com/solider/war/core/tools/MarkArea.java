@@ -59,6 +59,7 @@ public class MarkArea {
 	}
 	
 	public void mark(float startX, float startY, float endX, float endY) {
+		
 		// first 
 		if( (startX < endX) && (startY < endY) ) {
 			startMarking( (int) (startX), (int) (startY), (int) (endX - startX), (int) (endY - startY));

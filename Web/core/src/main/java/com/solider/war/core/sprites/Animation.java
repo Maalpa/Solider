@@ -18,7 +18,7 @@ import org.jbox2d.dynamics.joints.*;
 
 public abstract class Animation {
 	
-	protected float x;							// center position x 
+	protected float x;							// center position x
 	protected float y; 							// center position y
 	protected float imageX; 					// left Top position x
 	protected float imageY; 					// left top position y 
@@ -80,9 +80,7 @@ public abstract class Animation {
 			if((posX <= (destinationPoint.getX()+2.00) && posX >= (destinationPoint.getX()-2.00)) 
 				&& (posY <= (destinationPoint.getY()+2.00) && posY >= (destinationPoint.getY()-2.00)) )
 			{
-				//sprite.layer().setTranslation(destinationPoint.getX(), destinationPoint.getY());
-				
-				System.out.println("Jestem");
+				sprite.layer().setTranslation(destinationPoint.getX(), destinationPoint.getY());
 				moving = false;
 			}
 		}
