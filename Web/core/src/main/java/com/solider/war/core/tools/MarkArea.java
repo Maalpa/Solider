@@ -58,6 +58,12 @@ public class MarkArea {
 		this.height = height;
 	}
 	
+	
+	public void markPath(int x, int y, int width, int height) {
+	//	this.canvas.clearRect(clearX, clearY, clearWidthX, clearWidthY);
+		this.canvas.fillRect( x , y, width, height);
+	}
+	
 	public void mark(float startX, float startY, float endX, float endY) {
 		
 		// first 

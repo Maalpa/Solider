@@ -153,7 +153,7 @@ public class MainGame extends Game.Default {
 								if(animation.isSelected()) {
 									animation.setDestinationPoint(new DestinationPoint((corX*30)+15, (corY*30)+15));
 									calcPath = new CalcPath(animation, MAP_SIZE);
-									calcPath.calcPath();
+									calcPath.calcPath(markArea);
 								}
 							}
 			    		}
