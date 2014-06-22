@@ -69,41 +69,46 @@ public class CalcPath {
 						Q.add(pathMap[w.getX()+1][w.getY()]);
 					}
 				}
+
 				if(i == 1) {
-					if((w.getX()+1)<pathMap.length &&  !pathMap[w.getX()+1][w.getY()+1].isVisited()) {
-						pathMap[w.getX()+1][w.getY()+1].setVisited(true);
-						pathMap[w.getX()+1][w.getY()+1].setValue(w.getValue()+1);
-						Q.add(pathMap[w.getX()+1][w.getY()+1]);
-					}
-				}
-				if(i == 2) {
 					if((w.getY()+1)<pathMap.length && !pathMap[w.getX()][w.getY()+1].isVisited()) {
 						pathMap[w.getX()][w.getY()+1].setVisited(true);
 						pathMap[w.getX()][w.getY()+1].setValue(w.getValue()+1);
 						Q.add(pathMap[w.getX()][w.getY()+1]);
 					}
 				}
-				if(i == 3) {
+				if(i == 2) {
 					if((w.getX()-1)>0 && !pathMap[w.getX()-1][w.getY()].isVisited()) {
 						pathMap[w.getX()-1][w.getY()].setVisited(true);
 						pathMap[w.getX()-1][w.getY()].setValue(w.getValue()+1);
 						Q.add(pathMap[w.getX()-1][w.getY()]);
 					}
 				}
-				if(i == 4) {
-					if((w.getX()-1)>0 && (w.getY()-1)>0 && !pathMap[w.getX()-1][w.getY()-1].isVisited()) {
-						pathMap[w.getX()-1][w.getY()-1].setVisited(true);
-						pathMap[w.getX()-1][w.getY()-1].setValue(w.getValue()+1);
-						Q.add(pathMap[w.getX()-1][w.getY()-1]);
-					}
-				}
-				if(i == 5) {
+
+				if(i == 3) {
 					if((w.getY()-1)>0 && !pathMap[w.getX()][w.getY()-1].isVisited()) {
 						pathMap[w.getX()][w.getY()-1].setVisited(true);
 						pathMap[w.getX()][w.getY()-1].setValue(w.getValue()+1);
 						Q.add(pathMap[w.getX()][w.getY()-1]);
 					}
 				}
+
+				if(i == 4) {
+					if( (w.getX()-1)>0 && (w.getY()+1)<pathMap.length && !pathMap[w.getX()-1][w.getY()+1].isVisited()) {
+						pathMap[w.getX()-1][w.getY()+1].setVisited(true);
+						pathMap[w.getX()-1][w.getY()+1].setValue(w.getValue()+1);
+						Q.add(pathMap[w.getX()-1][w.getY()+1]);
+					}
+				}
+				
+				if(i == 5) {
+					if((w.getX()+1)<pathMap.length &&  !pathMap[w.getX()+1][w.getY()+1].isVisited()) {
+						pathMap[w.getX()+1][w.getY()+1].setVisited(true);
+						pathMap[w.getX()+1][w.getY()+1].setValue(w.getValue()+1);
+						Q.add(pathMap[w.getX()+1][w.getY()+1]);
+					}
+				}
+				
 				if(i == 6) {
 					if((w.getX()+1)<pathMap.length && (w.getY()-1)>0 && !pathMap[w.getX()+1][w.getY()-1].isVisited()) {
 						pathMap[w.getX()+1][w.getY()-1].setVisited(true);
@@ -111,11 +116,12 @@ public class CalcPath {
 						Q.add(pathMap[w.getX()+1][w.getY()-1]);
 					}
 				}
+				
 				if(i == 7) {
-					if( (w.getX()-1)>0 && (w.getY()+1)<pathMap.length && !pathMap[w.getX()-1][w.getY()+1].isVisited()) {
-						pathMap[w.getX()-1][w.getY()+1].setVisited(true);
-						pathMap[w.getX()-1][w.getY()+1].setValue(w.getValue()+1);
-						Q.add(pathMap[w.getX()-1][w.getY()+1]);
+					if((w.getX()-1)>0 && (w.getY()-1)>0 && !pathMap[w.getX()-1][w.getY()-1].isVisited()) {
+						pathMap[w.getX()-1][w.getY()-1].setVisited(true);
+						pathMap[w.getX()-1][w.getY()-1].setValue(w.getValue()+1);
+						Q.add(pathMap[w.getX()-1][w.getY()-1]);
 					}
 				}
 			}
@@ -142,45 +148,51 @@ public class CalcPath {
 						break;
 					}
 				}
+
 				if(i == 1) {
-					if( pathMap[w.getX()+1][w.getY()+1].getValue() == (w.getValue()-1) ) {
-						w=pathMap[w.getX()+1][w.getY()+1];
-						break;
-					}
-				}
-				if(i == 2) {
 					if( pathMap[w.getX()][w.getY()+1].getValue() == (w.getValue()-1) ) {
 						w=pathMap[w.getX()][w.getY()+1];
 						break;
 					}
 				}
-				if(i == 3) {
+				if(i == 2) {
 					if( pathMap[w.getX()-1][w.getY()].getValue() == (w.getValue()-1) ) {
 						w=pathMap[w.getX()-1][w.getY()];
 						break;
 					}
 				}
-				if(i == 4) {
-					if( pathMap[w.getX()-1][w.getY()-1].getValue() == (w.getValue()-1) ) {
-						w=pathMap[w.getX()-1][w.getY()-1];
-						break;
-					}
-				}
-				if(i == 5) {
+	
+				if(i == 3) {
 					if( pathMap[w.getX()][w.getY()-1].getValue() == (w.getValue()-1) ) {
 						w=pathMap[w.getX()][w.getY()-1];
 						break;
 					}
 				}
-				if(i == 6) {
+				
+				if(i == 4) {
 					if( pathMap[w.getX()+1][w.getY()-1].getValue() == (w.getValue()-1) ) {
 						w=pathMap[w.getX()+1][w.getY()-1];
 						break;
 					}
 				}
-				if(i == 7) {
+				
+				if(i == 5) {
 					if( pathMap[w.getX()-1][w.getY()+1].getValue() == (w.getValue()-1) ) {
 						w=pathMap[w.getX()-1][w.getY()+1];
+						break;
+					}
+				}
+				
+				if(i == 6) {
+					if( pathMap[w.getX()+1][w.getY()+1].getValue() == (w.getValue()-1) ) {
+						w=pathMap[w.getX()+1][w.getY()+1];
+						break;
+					}
+				}
+				
+				if(i == 7) {
+					if( pathMap[w.getX()-1][w.getY()-1].getValue() == (w.getValue()-1) ) {
+						w=pathMap[w.getX()-1][w.getY()-1];
 						break;
 					}
 				}
