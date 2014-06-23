@@ -1,38 +1,42 @@
 package com.solider.war.core.sprites;
 
 import static playn.core.PlayN.log;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 import playn.core.GroupLayer;
 import playn.core.util.Callback;
 
+import com.google.common.collect.Lists;
 import com.solider.war.core.model.DestinationPoint;
 import com.solider.war.core.model.MousePoint;
+import com.solider.war.core.path.PathPoint;
 import com.solider.war.core.tools.MarkArea;
 import com.solider.war.core.tools.Transform;
-
-import org.jbox2d.dynamics.contacts.*;
-import org.jbox2d.dynamics.*;
-import org.jbox2d.common.*;
-import org.jbox2d.collision.*;
-import org.jbox2d.dynamics.joints.*;
 
 
 public abstract class Animation {
 	
-	protected float x;							// center position x
-	protected float y; 							// center position y
-	protected float imageX; 					// left Top position x
-	protected float imageY; 					// left top position y 
-	protected boolean moving;
-	protected float angle;						// angle of sprite rotation
+	protected float x;									// center position x
+	protected float y; 									// center position y
+	protected float imageX; 							// left Top position x
+	protected float imageY; 							// left top position y 
+	protected boolean moving;							// is animation moving on the map
+	protected float angle;								// angle of sprite rotation
 	protected Sprite sprite;					
-	protected int spriteIndex = 0;				// index of rendering sprite
-	protected boolean hasLoaded = false; 		// set to true when resources have loaded
-	int counting = 0;							// update sprite image every 4 iteration of  main loop			
-	protected boolean selected = false;
-	protected float width;						// width of sprite image i required for couting if object selected, working with imageX 
-	protected float height;						// width of sprite image i required for couting if object selected, working with imageY 
-
-	protected DestinationPoint destinationPoint = null;  // Object destination point - it sets when object is selected and right mouse is pressed
+	protected int spriteIndex = 0;						// index of rendering sprite
+	protected boolean hasLoaded = false; 				// set to true when resources have loaded		
+	protected boolean selected = false;					// is animation selected
+	protected float width;								// width of sprite image i required for couting if object selected, working with imageX 
+	protected float height;								// width of sprite image i required for couting if object selected, working with imageY 
+	protected LinkedList<PathPoint> path;				// path of single point to destination point
+	protected PathPoint destinationPoint = null;  		// Object destination point - it sets when object is selected and right mouse is pressed
+	
+	private int counting = 0;							// update sprite image every 4 iteration of  main loop	
+	private MousePoint mousePoint = new MousePoint();
+	
 	
 	public Animation(final GroupLayer layer, final float x, final float y, final String image, final String json ) {
 
@@ -79,9 +83,12 @@ public abstract class Animation {
 		    
 			if((posX <= (destinationPoint.getX()+2.00) && posX >= (destinationPoint.getX()-2.00)) 
 				&& (posY <= (destinationPoint.getY()+2.00) && posY >= (destinationPoint.getY()-2.00)) )
-			{
-				sprite.layer().setTranslation(destinationPoint.getX(), destinationPoint.getY());
-				moving = false;
+			{	
+				if(path != null && !path.isEmpty()) {
+					setNextDestinationPoint();
+				} else {
+					moving = false;
+				}
 			}
 		}
 	}
@@ -116,12 +123,36 @@ public abstract class Animation {
 		}
 		
 		if( ((imageX >= (markArea.getX()))  && (mouseX <= (markArea.getX()+markArea.getWidth()))) && (((mouseY) >= (markArea.getY()))  && (mouseY <= (markArea.getY()+markArea.getHeight()))) ) {
-			System.out.println("Selected by mark area ");
+			System.out.println("Selected by mark area ");			
 			selected = true;
 			moving = false;
 		} 
 		
 		return selected;
+	}
+	
+	private void fixDestinationPoint() {
+		this.destinationPoint.setX((destinationPoint.getX()*30)+15);
+		this.destinationPoint.setY((destinationPoint.getY()*30)+15);
+	}
+	
+	public void setNextDestinationPoint() {
+		this.destinationPoint = path.pollLast();
+		if(this.destinationPoint != null ) {
+			fixDestinationPoint();
+			mousePoint.setPoint( destinationPoint.getX(), destinationPoint.getY());
+			setRotationToMouse(mousePoint);
+		}
+	}
+	
+	public void setPath(LinkedList<PathPoint> path) {
+		this.path = path;
+		this.destinationPoint = path.pollLast(); // delete first one because this is point where animation is standing 
+		setNextDestinationPoint();
+	}
+	
+	public List<PathPoint> getPath() {
+		return path;
 	}
 	
 	public boolean isSelected() {
@@ -220,12 +251,8 @@ public abstract class Animation {
 		this.height = height;
 	}
 
-	public DestinationPoint getDestinationPoint() {
+	public PathPoint getDestinationPoint() {
 		return destinationPoint;
-	}
-
-	public void setDestinationPoint(DestinationPoint destinationPoint) {
-		this.destinationPoint = destinationPoint;
 	}
 	
 }

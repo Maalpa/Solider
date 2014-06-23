@@ -4,8 +4,9 @@ public class PathPoint {
 	
 	private int x;
 	private int y;
-	boolean visited = false;
-	int value = -1; 
+	private boolean visited = false;
+	private boolean occupied = false;   	// is this field is occupied
+	private int value = -1;
 	
 	public PathPoint(int x, int y) {
 		this.x = x;
@@ -42,5 +43,13 @@ public class PathPoint {
 
 	public void setValue(int value) {
 		this.value = value;
+	}
+
+	public boolean isOccupied() {
+		return occupied;
+	}
+
+	public void setOccupied(boolean occupied) {
+		this.occupied = occupied;
 	}
 }

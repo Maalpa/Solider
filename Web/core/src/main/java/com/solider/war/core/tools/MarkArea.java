@@ -60,7 +60,6 @@ public class MarkArea {
 	
 	
 	public void markPath(int x, int y, int width, int height) {
-	//	this.canvas.clearRect(clearX, clearY, clearWidthX, clearWidthY);
 		this.canvas.fillRect( x , y, width, height);
 	}
 	

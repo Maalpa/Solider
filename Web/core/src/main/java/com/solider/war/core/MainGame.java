@@ -149,15 +149,12 @@ public class MainGame extends Game.Default {
 			    		
 			    		if(!MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN) {
 				    		for (Animation animation : animations) {
-				    			animation.setRotationToMouse(Point.getSoliderPoint());
 								if(animation.isSelected()) {
-									animation.setDestinationPoint(new DestinationPoint((corX*30)+15, (corY*30)+15));
 									calcPath = new CalcPath(animation, MAP_SIZE);
-									calcPath.calcPath(markArea);
+									animation.setPath(calcPath.calcPath(markArea));
 								}
 							}
-			    		}
-			    		
+			    		}	
 			    	}
 			    	
 					if( event.button() ==  Mouse.BUTTON_LEFT  ) {
