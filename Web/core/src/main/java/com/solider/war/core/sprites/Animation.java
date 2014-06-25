@@ -104,11 +104,11 @@ public abstract class Animation {
 	
 	public boolean select(float mouseX , float mouseY, MarkArea markArea) {
 		
-		System.out.println("Selected mouse (" + mouseX + "," + mouseY + ")" );
-		System.out.println("Selected tank (" + imageX + "," + imageY + ")" );
-		System.out.println("Selected tank + delta (" + (this.x+this.width) + "," + (this.y+this.height) + ")" );
-		System.out.println("Image size (" + (this.width) + "," + (this.height) + ")" );		
-		System.out.println("Transform (" + Transform.getX() + "," + Transform.getY() + ")" );
+//		System.out.println("Selected mouse (" + mouseX + "," + mouseY + ")" );
+//		System.out.println("Selected tank (" + imageX + "," + imageY + ")" );
+//		System.out.println("Selected tank + delta (" + (this.x+this.width) + "," + (this.y+this.height) + ")" );
+//		System.out.println("Image size (" + (this.width) + "," + (this.height) + ")" );		
+//		System.out.println("Transform (" + Transform.getX() + "," + Transform.getY() + ")" );
 		
 		imageX = (float) ((this.x+Transform.getX()) - (width/2.0f));	// calculating where image starts by transforming
 		imageY = (float) ((this.y+Transform.getY()) - (height/2.0f));	// calculating where image starts by transforming
@@ -253,6 +253,5 @@ public abstract class Animation {
 
 	public PathPoint getDestinationPoint() {
 		return destinationPoint;
-	}
-	
+	}	
 }

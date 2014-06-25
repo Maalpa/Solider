@@ -6,14 +6,10 @@ public class Point {
 	
 	public static final MousePoint startPoint = new MousePoint();					// Start point when mouse button is pressed down
 	public static final MousePoint transformStartPoint = new MousePoint();			// Start point when mouse button is pressed down with map transform
-	
 	public static final MousePoint endPoint = new MousePoint();						// End point when mouse button is pressed up
 	public static final MousePoint transformEndPoint = new MousePoint();			// End point when mouse button is pressed up with map transform
-	
 	public static final MousePoint mousePoint = new MousePoint();					// Current cords for mouse 
 	public static final MousePoint transformMousePoint = new MousePoint();			// Current cords for mouse with map transform
-	
-	
 	public static final MousePoint soliderPoint = new MousePoint();
 	
 	
@@ -43,7 +39,6 @@ public class Point {
 		soliderPoint.setY(y);
 	}
 	
-	
 	public static MousePoint getSoliderPoint() {
 		return soliderPoint;
 	}
@@ -64,7 +59,6 @@ public class Point {
 		return transformMousePoint;
 	}
 	
-
 	public static MousePoint getTransformStartPoint() {
 		return transformStartPoint;
 	}

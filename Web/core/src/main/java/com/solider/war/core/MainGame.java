@@ -37,6 +37,7 @@ public class MainGame extends Game.Default {
 	private boolean MOUSE_RIGHT_BUTTON_DOWN = false;
  	private boolean MOUSE_LEFT_BUTTON_DOWN = false;
  	private boolean MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN = false;
+ 	private boolean KEY_CTRL_DOWN = false;
  	private final int MAP_SIZE = 1021;
  	
 	private GroupLayer layer;
@@ -56,6 +57,7 @@ public class MainGame extends Game.Default {
 	public void init() {
 		
 		Image bgImage = assets().getImage("sprites/bg.png");
+		calcPath = new CalcPath();
 		
 		// create a group layer to hold everything
 		layer = graphics().createGroupLayer();
@@ -100,7 +102,7 @@ public class MainGame extends Game.Default {
 			    		MOUSE_LEFT_BUTTON_DOWN = true;
 			    	}
 			    }
-			        
+			    
 			    @Override
 			    public void onMouseMove(MotionEvent event) {
 			    
@@ -143,6 +145,11 @@ public class MainGame extends Game.Default {
 			    		int corY = (int) (Point.getTransformMousePoint().getY()/30);
 			    		System.out.println("Cords ("+corX +","+corY+")");
 			    		
+			    		if(KEY_CTRL_DOWN == true ) {
+			    			markArea.markPathOnClick((corX*30), (corY*30), 30, 30);
+			    			calcPath.getPathMap()[corX][corY].setOccupied(true);
+			    		}
+			    		
 			    		Point.setSoliderPoint((corX*30)+15, (corY*30)+15);   // this is important !!!! 
 			    		
 			    		System.out.println("soliderPoint ("+Point.getSoliderPoint().getX() +","+Point.getSoliderPoint().getY()+")");
@@ -150,7 +157,7 @@ public class MainGame extends Game.Default {
 			    		if(!MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN) {
 				    		for (Animation animation : animations) {
 								if(animation.isSelected()) {
-									calcPath = new CalcPath(animation, MAP_SIZE);
+									calcPath.beforeCalc(animation);
 									animation.setPath(calcPath.calcPath(markArea));
 								}
 							}
@@ -172,15 +179,14 @@ public class MainGame extends Game.Default {
 		});
 		
 	    PlayN.keyboard().setListener(new Keyboard.Adapter() {
-	    	
 	    	@Override
 	        public void onKeyDown(Keyboard.Event event) {
-	        	
+	    		KEY_CTRL_DOWN = true;
 	        }
 
 	        @Override
 	        public void onKeyUp(Keyboard.Event event) {
-	          
+	        	KEY_CTRL_DOWN = false;
 	        }
 	     });
 	}

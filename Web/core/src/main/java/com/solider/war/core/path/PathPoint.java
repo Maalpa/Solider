@@ -1,7 +1,7 @@
 package com.solider.war.core.path;
 
 public class PathPoint {
-	
+
 	private int x;
 	private int y;
 	private boolean visited = false;

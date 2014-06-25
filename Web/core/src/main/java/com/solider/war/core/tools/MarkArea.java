@@ -17,6 +17,7 @@ public class MarkArea {
 	private static final int HEIGHT = 1021;
 	private static final float ALPHA = 0.5f;
 	private static final int COLOR = 0xff87ceeb;
+	private static final int COLOR_RED = 0xff87eeee;
 	
 	private int clearX;
 	private int clearY;
@@ -30,8 +31,12 @@ public class MarkArea {
 	private int height;
 	
 	private CanvasImage	bgtile;	
+	private CanvasImage	bgtile2;	
 	private ImageLayer bg;
+	private ImageLayer bg2;
 	private Canvas canvas;
+	
+	private Canvas canvas2;
 	
 	public MarkArea(GroupLayer parentLayer) {
 		this.bgtile = graphics().createImage(WIDTH, HEIGHT);
@@ -40,9 +45,18 @@ public class MarkArea {
     	this.bg = graphics().createImageLayer(bgtile);
     	this.bg.setWidth(WIDTH);
     	this.bg.setHeight(HEIGHT);
- 
+    	
+    	// secound canvas for wall rendering
+    	this.bgtile2 = graphics().createImage(WIDTH, HEIGHT);
+    	canvas2 = bgtile2.canvas();
+    	this.canvas2.setFillColor(COLOR_RED).setAlpha(ALPHA);
+    	this.bg2 = graphics().createImageLayer(bgtile2);
+    	this.bg2.setWidth(WIDTH);
+    	this.bg2.setHeight(HEIGHT);
+    	
     	// Add to main layer 
     	parentLayer.add(bg);
+    	parentLayer.add(bg2);
 	}
 	
 	public void startMarking(int x, int y, int width, int height) {
@@ -61,6 +75,10 @@ public class MarkArea {
 	
 	public void markPath(int x, int y, int width, int height) {
 		this.canvas.fillRect( x , y, width, height);
+	}
+	
+	public void markPathOnClick(int x, int y, int width, int height) {
+		this.canvas2.fillRect( x , y, width, height);
 	}
 	
 	public void mark(float startX, float startY, float endX, float endY) {
