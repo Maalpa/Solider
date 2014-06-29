@@ -31,11 +31,15 @@ public class Tank extends Animation {
 	public static String IMAGE = "sprites/tank.png";
 	public static String JSON = "sprites/tank.json";
 	
+	Barrel barrel;
+	
 	public Tank(final GroupLayer soliderLayer, final float x, final float y) {
 		super(soliderLayer, x, y, IMAGE, JSON);
 		
 		this.width = 71.0f;
 		this.height = 83.0f;
+        
+		barrel = new Barrel(soliderLayer, (x+10.0f), (y +20.0f));
 	}	
 
 	public void update(int delta, MousePoint mousePoint) {	
