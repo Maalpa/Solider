@@ -28,22 +28,34 @@ import org.jbox2d.collision.shapes.EdgeShape;
 
 public class Tank extends Animation {
 	
-	public static String IMAGE = "sprites/tank.png";
-	public static String JSON = "sprites/tank.json";
+	private static String IMAGE = "sprites/tank.png";
+	private static String JSON = "sprites/tank.json";
 	
-	Barrel barrel;
+	private Barrel barrel;
 	
-	public Tank(final GroupLayer soliderLayer, final float x, final float y) {
-		super(soliderLayer, x, y, IMAGE, JSON);
+	public Tank( final float x, final float y, final GroupLayer... layer) {
+		
+		super(layer[0], x, y, IMAGE, JSON);
 		
 		this.width = 71.0f;
 		this.height = 83.0f;
-        
-		barrel = new Barrel(soliderLayer, (x+10.0f), (y +20.0f));
+
+		barrel = new Barrel(x, y, layer[1]);
 	}	
 
 	public void update(int delta, MousePoint mousePoint) {	
+		updateBarrel(delta, mousePoint);
 		super.update(delta, mousePoint);
+	}
+	
+	private void updateBarrel(int delta, MousePoint mousePoint) {
+		barrel.setDestinationPoint(this.destinationPoint);
+		barrel.setAngle(this.getAngle());
+		barrel.setObjectRotation(this.rotation);
+		
+		
+		
+		barrel.update(delta, mousePoint);
 	}
 }
 

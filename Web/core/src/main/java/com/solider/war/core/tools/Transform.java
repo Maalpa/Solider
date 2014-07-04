@@ -15,4 +15,10 @@ public class Transform {
 		Transform.X = x;
 		Transform.Y = y;
 	}
+	public static void setX(float x) {
+		X = x;
+	}
+	public static void setY(float y) {
+		Y = y;
+	}
 }

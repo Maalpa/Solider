@@ -31,8 +31,8 @@ public class Solider extends Animation {
 	public static String IMAGE = "sprites/solider_mini.png";
 	public static String JSON = "sprites/solider.json";
 	
-	public Solider(final GroupLayer soliderLayer, final float x, final float y) {
-		super(soliderLayer, x, y, IMAGE, JSON);
+	public Solider( final float x, final float y, final GroupLayer... layer) {
+		super(layer[0], x, y, IMAGE, JSON);
 		
 		this.width = 30.0f;
 		this.height = 30.0f;

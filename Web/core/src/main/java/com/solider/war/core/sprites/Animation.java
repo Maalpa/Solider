@@ -25,6 +25,7 @@ public abstract class Animation {
 	protected float imageY; 							// left top position y 
 	protected boolean moving;							// is animation moving on the map
 	protected float angle;								// angle of sprite rotation
+	protected float rotation; 
 	protected Sprite sprite;					
 	protected int spriteIndex = 0;						// index of rendering sprite
 	protected boolean hasLoaded = false; 				// set to true when resources have loaded		
@@ -34,8 +35,11 @@ public abstract class Animation {
 	protected LinkedList<PathPoint> path;				// path of single point to destination point
 	protected PathPoint destinationPoint = null;  		// Object destination point - it sets when object is selected and right mouse is pressed
 	
+	
+	
 	private int counting = 0;							// update sprite image every 4 iteration of  main loop	
 	private MousePoint mousePoint = new MousePoint();
+	
 	
 	
 	public Animation(final GroupLayer layer, final float x, final float y, final String image, final String json ) {
@@ -74,7 +78,7 @@ public abstract class Animation {
 			this.x = sprite.layer().tx();
 			this.y = sprite.layer().ty();
 			
-            this.x += - (Math.cos(this.angle) * (0.1f*delta));
+            this.x += -(Math.cos(this.angle) * (0.1f*delta));
             this.y += (Math.sin(this.angle) * (0.1f*delta));
 			sprite.layer().setTranslation(this.x, this.y);
 			
@@ -95,7 +99,7 @@ public abstract class Animation {
 	
 	public void setRotationToMouse(MousePoint mousePoint) {
 		if(selected) {
-			float rotation = (float) (-(this.findAngle(mousePoint)) + Math.PI);
+			this.rotation = (float) (-(this.findAngle(mousePoint)) + Math.PI);
 			this.angle =(float) (findAngle(mousePoint) + (Math.PI / 2.0f));
 			sprite.layer().setRotation(rotation);
 			moving = true;
@@ -147,7 +151,7 @@ public abstract class Animation {
 	
 	public void setPath(LinkedList<PathPoint> path) {
 		this.path = path;
-		this.destinationPoint = path.pollLast(); // delete first one because this is point where animation is standing 
+		destinationPoint = path.pollLast(); // delete first one because this is point where animation is standing 
 		setNextDestinationPoint();
 	}
 	
@@ -253,5 +257,37 @@ public abstract class Animation {
 
 	public PathPoint getDestinationPoint() {
 		return destinationPoint;
-	}	
+	}
+	
+	public void setDestinationPoint(PathPoint destinationPoint) {
+		this.destinationPoint = destinationPoint;
+	}
+
+	public float getImageX() {
+		return imageX;
+	}
+
+	public void setImageX(float imageX) {
+		this.imageX = imageX;
+	}
+
+	public float getImageY() {
+		return imageY;
+	}
+
+	public void setImageY(float imageY) {
+		this.imageY = imageY;
+	}
+
+	public float getRotation() {
+		return rotation;
+	}
+
+	public void setRotation(float rotation) {
+		this.rotation = rotation;
+	}
+	
+	public void setObjectRotation(float rotation) {
+		this.sprite.layer().setRotation(rotation);
+	}
 }

@@ -14,6 +14,7 @@ import com.solider.war.core.model.GameMap;
 import com.solider.war.core.model.MousePoint;
 import com.solider.war.core.path.CalcPath;
 import com.solider.war.core.sprites.Animation;
+import com.solider.war.core.sprites.model.Barrel;
 import com.solider.war.core.sprites.model.Solider;
 import com.solider.war.core.sprites.model.Tank;
 import com.solider.war.core.tools.MarkArea;
@@ -41,7 +42,8 @@ public class MainGame extends Game.Default {
  	private final int MAP_SIZE = 1021;
  	
 	private GroupLayer layer;
-	private GroupLayer animationLayer;
+	private GroupLayer animationLayer_2RD;
+	private GroupLayer animationLayer_3RD;
 	private GameMap gameMap = new GameMap(MAP_SIZE, MAP_SIZE); 
 	private List<Animation> animations = new ArrayList<Animation>();
 	CalcPath calcPath; 
@@ -62,7 +64,8 @@ public class MainGame extends Game.Default {
 		// create a group layer to hold everything
 		layer = graphics().createGroupLayer();
 		bgLayer = graphics().createImageLayer(bgImage);
-		animationLayer = graphics().createGroupLayer();
+		animationLayer_2RD = graphics().createGroupLayer();
+		animationLayer_3RD = graphics().createGroupLayer();
 		
 	    // draw a soothing flat background
 	    CanvasImage bgtile = graphics().createImage(30, 30);
@@ -75,13 +78,14 @@ public class MainGame extends Game.Default {
 	    bg.setWidth(MAP_SIZE);
 	    bg.setHeight(MAP_SIZE);
 	    
-	    
 		graphics().rootLayer().add(layer);
-//		layer.add(bgLayer);  // BACKGROUND
+		layer.add(bgLayer);  // BACKGROUND
 		
 		layer.add(bg);
 		markArea = new MarkArea(layer);
-		layer.add(animationLayer);
+		
+		layer.add(animationLayer_2RD);
+		layer.add(animationLayer_3RD);
 		
 		// Add one solider sprite  to game the game
 		addSolider(graphics().width() / 2, graphics().height() / 2);
@@ -96,6 +100,7 @@ public class MainGame extends Game.Default {
 			    	Point.setStartPoint(event.x(), event.y());
 			    	if( event.button() ==  Mouse.BUTTON_RIGHT ) {
 			    		MOUSE_RIGHT_BUTTON_DOWN = true;
+			    		System.out.println(Transform.getX() +  " ,  " +Transform.getY());
 			    	}
 			    	
 			    	if( event.button() ==  Mouse.BUTTON_LEFT ) {
@@ -118,9 +123,18 @@ public class MainGame extends Game.Default {
 			    	if(MOUSE_RIGHT_BUTTON_DOWN) {
 			    		
 			    		MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN = true;
-						Transform.setTransform(event.x() - Point.getTransformStartPoint().getX(), event.y() - Point.getTransformStartPoint().getY());
-						layer.setTranslation(Transform.getX(), Transform.getY());
-						
+						float tempTransformX = event.x() - Point.getTransformStartPoint().getX();
+						float tempTransformY = event.y() - Point.getTransformStartPoint().getY();
+			    		if(tempTransformX <= 0 &&  (tempTransformX - 700) >= (-MAP_SIZE) ) {
+			    			Transform.setX(tempTransformX);
+			    			layer.setTx(Transform.getX());
+			    		}
+			    		
+			    		if(tempTransformY <= 0 && (tempTransformY - 700) >= (-MAP_SIZE) ) {
+			    			Transform.setY(tempTransformY);
+			    			layer.setTy(tempTransformY);
+			    		}
+			    		
 			    	} else {
 			    		MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN = false;
 			    	}
@@ -205,12 +219,12 @@ public class MainGame extends Game.Default {
 	}
 	
 	private void addSolider(float x, float y) {
-		Solider solider = new Solider(animationLayer, x, y);	
+		Solider solider = new Solider(x, y, animationLayer_2RD);	
 		animations.add(solider);
 	}
 	
 	private void addTank(float x, float y) {
-		Tank tank = new Tank(animationLayer, x, y);
+		Tank tank = new Tank(x, y, animationLayer_2RD, animationLayer_3RD);
 		animations.add(tank);
 	}
 }
