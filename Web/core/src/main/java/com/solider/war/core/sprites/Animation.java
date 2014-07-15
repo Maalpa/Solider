@@ -1,5 +1,6 @@
 package com.solider.war.core.sprites;
 
+import static playn.core.PlayN.graphics;
 import static playn.core.PlayN.log;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import playn.core.util.Callback;
 
 import com.google.common.collect.Lists;
 import com.solider.war.core.model.DestinationPoint;
-import com.solider.war.core.model.MousePoint;
+import com.solider.war.core.model.GPoint;
 import com.solider.war.core.path.PathPoint;
 import com.solider.war.core.tools.MarkArea;
 import com.solider.war.core.tools.Transform;
@@ -20,7 +21,7 @@ import com.solider.war.core.tools.Transform;
 public abstract class Animation {
 	
 	protected float x;									// center position x
-	protected float y; 									// center position y
+	protected float y; 									// center position y		
 	protected float imageX; 							// left Top position x
 	protected float imageY; 							// left top position y 
 	protected boolean moving;							// is animation moving on the map
@@ -34,12 +35,15 @@ public abstract class Animation {
 	protected float height;								// width of sprite image i required for couting if object selected, working with imageY 
 	protected LinkedList<PathPoint> path;				// path of single point to destination point
 	protected PathPoint destinationPoint = null;  		// Object destination point - it sets when object is selected and right mouse is pressed
+
+	protected int counting = 0;							// update sprite image every 4 iteration of  main loop	
+	private GPoint mousePoint = new GPoint();
 	
 	
-	
-	private int counting = 0;							// update sprite image every 4 iteration of  main loop	
-	private MousePoint mousePoint = new MousePoint();
-	
+//***************************************************
+//***************** Game Variables
+//
+	protected boolean fire;
 	
 	
 	public Animation(final GroupLayer layer, final float x, final float y, final String image, final String json ) {
@@ -47,6 +51,7 @@ public abstract class Animation {
 		sprite = SpriteLoader.getSprite(image, json);
 		this.x = x;
 		this.y = y;
+		this.fire = false;
 
 		sprite.addCallback(new Callback<Sprite>() {
 			
@@ -66,7 +71,7 @@ public abstract class Animation {
 		});
 	}
 	
-	public void update(int delta, MousePoint mousePoint) {	
+	public void update(int delta, List<Animation> animations) {	
 		if (hasLoaded) {
 			if(counting == 4) {
 				spriteIndex = (spriteIndex + 1) % sprite.numSprites();
@@ -97,21 +102,22 @@ public abstract class Animation {
 		}
 	}
 	
-	public void setRotationToMouse(MousePoint mousePoint) {
-		if(selected) {
+	public void setRotationToMouse(GPoint mousePoint) {
+//		if(selected) {
 			this.rotation = (float) (-(this.findAngle(mousePoint)) + Math.PI);
 			this.angle =(float) (findAngle(mousePoint) + (Math.PI / 2.0f));
 			sprite.layer().setRotation(rotation);
 			moving = true;
-		}
+//		}
 	}
 	
+
 	public boolean select(float mouseX , float mouseY, MarkArea markArea) {
 		
 //		System.out.println("Selected mouse (" + mouseX + "," + mouseY + ")" );
 //		System.out.println("Selected tank (" + imageX + "," + imageY + ")" );
 //		System.out.println("Selected tank + delta (" + (this.x+this.width) + "," + (this.y+this.height) + ")" );
-//		System.out.println("Image size (" + (this.width) + "," + (this.height) + ")" );		
+//		System.out.println("Image size (" + (this.width) + "," + (this.height) + ")" );
 //		System.out.println("Transform (" + Transform.getX() + "," + Transform.getY() + ")" );
 		
 		imageX = (float) ((this.x+Transform.getX()) - (width/2.0f));	// calculating where image starts by transforming
@@ -130,7 +136,7 @@ public abstract class Animation {
 			System.out.println("Selected by mark area ");			
 			selected = true;
 			moving = false;
-		} 
+		}
 		
 		return selected;
 	}
@@ -140,7 +146,7 @@ public abstract class Animation {
 		this.destinationPoint.setY((destinationPoint.getY()*30)+15);
 	}
 	
-	public void setNextDestinationPoint() {
+	protected void setNextDestinationPoint() {
 		this.destinationPoint = path.pollLast();
 		if(this.destinationPoint != null ) {
 			fixDestinationPoint();
@@ -149,12 +155,30 @@ public abstract class Animation {
 		}
 	}
 	
+	protected double calcEnemyDistance(Animation enemy) {
+		double distance; 
+		distance = Math.sqrt( ((enemy.getX()-this.getX())*(enemy.getX()-this.getX())) + ((enemy.getY()-this.getY())*(enemy.getY()-this.getY())) );
+		return distance;
+	}
+	
+	
 	public void setPath(LinkedList<PathPoint> path) {
 		this.path = path;
 		destinationPoint = path.pollLast(); // delete first one because this is point where animation is standing 
 		setNextDestinationPoint();
 	}
 	
+//*********************************************************
+//******************** Abstract functions
+
+	public abstract void fire();
+	public abstract boolean isInRange(Animation enemy);	
+	
+	
+//********************************************************
+//******************* Getters and Setters
+	
+
 	public List<PathPoint> getPath() {
 		return path;
 	}
@@ -163,11 +187,11 @@ public abstract class Animation {
 		return selected;
 	}
 
-	public double angleTo(MousePoint target) {
+	public double angleTo(GPoint target) {
 		return Math.atan2(target.getX() - this.x, target.getY() -  this.y);	
 	}
 	
-	public float findAngle(MousePoint mousePoint ) {
+	public float findAngle(GPoint mousePoint ) {
 		return (float) angleTo(mousePoint);
 	}
 		
@@ -177,6 +201,7 @@ public abstract class Animation {
 
 	public void setX(float x) {
 		this.x = x;
+		this.sprite.layer().setTx(x);
 	}
 
 	public float getY() {
@@ -185,6 +210,7 @@ public abstract class Animation {
 
 	public void setY(float y) {
 		this.y = y;
+		this.sprite.layer().setTy(y);
 	}
 
 	public boolean isMoving() {
@@ -285,9 +311,25 @@ public abstract class Animation {
 
 	public void setRotation(float rotation) {
 		this.rotation = rotation;
+		this.sprite.layer().setRotation(rotation);
 	}
 	
 	public void setObjectRotation(float rotation) {
 		this.sprite.layer().setRotation(rotation);
 	}
+	
+	public void setPosition(float x, float y) {
+		this.sprite.layer().setTranslation(x,y);
+		this.x = x;
+		this.y = y;
+	}
+	
+	public boolean isFire() {
+		return fire;
+	}
+
+	public void setFire(boolean fire) {
+		this.fire = fire;
+	}
+
 }

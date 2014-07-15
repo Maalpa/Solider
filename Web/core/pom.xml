@@ -3,6 +3,7 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  
   <parent>
     <groupId>WebProjectPlayN</groupId>
     <artifactId>Web</artifactId>
@@ -14,6 +15,7 @@
   <name>MainGame Core</name>
 
   <dependencies>
+  
     <dependency>
       <groupId>com.googlecode.playn</groupId>
       <artifactId>playn-core</artifactId>
@@ -28,8 +30,7 @@
       <groupId>com.threerings</groupId>
       <artifactId>tripleplay</artifactId>
       <version>${playn.version}</version>
-    </dependency>
-    
+    </dependency>  
   	<dependency>
 		<groupId>com.google.guava</groupId>
 		<artifactId>guava</artifactId>

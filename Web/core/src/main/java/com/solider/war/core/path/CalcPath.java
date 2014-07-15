@@ -8,21 +8,22 @@ import com.solider.war.core.sprites.Animation;
 import com.solider.war.core.tools.MarkArea;
 import com.solider.war.core.tools.Point;
 
+import static com.solider.war.core.Config.PATH_MAP_SIZE;
 
-/*
+
+/**
  * @Autor Paweł Kępa
  * 
  * 
  */
 public class CalcPath {
 	
-	private final int  MAP_SIZE = (1021/30);
 	private boolean foundDestinationPoint = false;
 	private boolean foundPath = false;
 	
 	private PathPoint startPosition;
 	private PathPoint destinationPosition;
- 	private PathPoint[][]  pathMap= new PathPoint[MAP_SIZE][(MAP_SIZE)];
+ 	private PathPoint[][]  pathMap= new PathPoint[PATH_MAP_SIZE][PATH_MAP_SIZE];
  
  	private LinkedList<PathPoint> Q = new LinkedList<PathPoint>();
  	private LinkedList<PathPoint> W = new LinkedList<PathPoint>();
@@ -50,7 +51,7 @@ public class CalcPath {
 		int destX = (int) (Point.getTransformMousePoint().getX()/30);
 		int destY = (int) (Point.getTransformMousePoint().getY()/30);
 		
-		// uzupełniamy tablice wartosciami -1
+		// fill table with value equals -1
 		for(int i = 0; i< pathMap.length; i++) {
 			for(int j=0; j<pathMap[i].length; j++) {
 				pathMap[i][j] = new PathPoint(i, j);
@@ -80,9 +81,7 @@ public class CalcPath {
 	}
 	
 	public LinkedList<PathPoint> calcPath( MarkArea markArea) {
-		
-		System.out.println("=================Starting calcuation==================");
-		
+			
 		for(int i = 0; i< pathMap.length; i++) {
 			for(int j=0; j<pathMap[i].length; j++) {
 				pathMap[i][j].setValue(-1);
@@ -92,7 +91,7 @@ public class CalcPath {
 			}
 		}
 		
-		// ustawiamy punkt startowy na 0
+		// set start point in value 0
 		pathMap[startPosition.getX()][startPosition.getY()].setValue(0);
 		Q.add(pathMap[startPosition.getX()][startPosition.getY()]);
 		
@@ -239,7 +238,7 @@ public class CalcPath {
 			if(w.getX() == startPosition.getX() && w.getY() == startPosition.getY()) {
 				foundPath = true;
 				System.out.println("Found Position");
-				break;	
+				break;
 			}	
 		}
 		
@@ -289,10 +288,6 @@ public class CalcPath {
 
 	public void setQ(LinkedList<PathPoint> q) {
 		Q = q;
-	}
-
-	public int getMAP_SIZE() {
-		return MAP_SIZE;
 	}
 }
 

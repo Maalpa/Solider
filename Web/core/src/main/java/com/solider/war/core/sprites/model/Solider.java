@@ -1,25 +1,14 @@
 /**
- * Copyright 2011 The PlayN Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * @author PKepa1
+ * 
+ * 
  */
 package com.solider.war.core.sprites.model;
-
 
 import static playn.core.PlayN.log;
 
 
-import com.solider.war.core.model.MousePoint;
+import com.solider.war.core.model.GPoint;
 import com.solider.war.core.sprites.Animation;
 
 import playn.core.GroupLayer;
@@ -28,19 +17,29 @@ import org.jbox2d.collision.shapes.EdgeShape;
 
 public class Solider extends Animation {
 	
-	public static String IMAGE = "sprites/solider_mini.png";
-	public static String JSON = "sprites/solider.json";
+	private static final String IMAGE = "sprites/solider_mini.png";
+	private static final String JSON  = "json_config/solider.json";
 	
 	public Solider( final float x, final float y, final GroupLayer... layer) {
-		super(layer[0], x, y, IMAGE, JSON);
-		
+		super(layer[0], x, y, IMAGE, JSON);	
 		this.width = 30.0f;
 		this.height = 30.0f;
 	}
-	
-	public void update(int delta, MousePoint mousePoint) {
-			super.update(delta, mousePoint);
+
+	@Override
+	public void fire() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isInRange(Animation enemy) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
+
+
+
 
 

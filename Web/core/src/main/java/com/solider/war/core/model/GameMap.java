@@ -1,8 +1,9 @@
 package com.solider.war.core.model;
 
+import static com.solider.war.core.Config.FIELD_SIZE;
+
 public class GameMap {
 	
-	private final int POOL_SIZE = 30;
 	private int width; 
 	private int height; 
 	private int[][] mapGrid;
@@ -10,7 +11,7 @@ public class GameMap {
 	public GameMap(int width , int height) {		
 		this.width = width;
 		this.height = height;
-		mapGrid = new int[width/POOL_SIZE][height/POOL_SIZE];
+		mapGrid = new int[width/FIELD_SIZE][height/FIELD_SIZE];
 		System.out.println("mapGrid size = " + mapGrid.length);
 	}
 	
@@ -38,7 +39,4 @@ public class GameMap {
 		this.mapGrid = mapGrid;
 	}
 	
-	public int getPOOL_SIZE() {
-		return POOL_SIZE;
-	} 
 }

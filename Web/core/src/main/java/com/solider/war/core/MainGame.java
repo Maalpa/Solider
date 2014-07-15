@@ -11,7 +11,7 @@ import org.w3c.dom.css.RGBColor;
 
 import com.solider.war.core.model.DestinationPoint;
 import com.solider.war.core.model.GameMap;
-import com.solider.war.core.model.MousePoint;
+import com.solider.war.core.model.GPoint;
 import com.solider.war.core.path.CalcPath;
 import com.solider.war.core.sprites.Animation;
 import com.solider.war.core.sprites.model.Barrel;
@@ -33,13 +33,18 @@ import playn.core.Pointer.Event;
 import playn.core.canvas.GroupLayerCanvas;
 import static playn.core.PlayN.*;
 
+
+import static com.solider.war.core.Config.MAP_SIZE;
+import static com.solider.war.core.Config.WINDOW_HEIGHT;
+import static com.solider.war.core.Config.WINDOW_WIDTH;
+
 public class MainGame extends Game.Default {
 	
+	Tank tank;
 	private boolean MOUSE_RIGHT_BUTTON_DOWN = false;
  	private boolean MOUSE_LEFT_BUTTON_DOWN = false;
  	private boolean MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN = false;
  	private boolean KEY_CTRL_DOWN = false;
- 	private final int MAP_SIZE = 1021;
  	
 	private GroupLayer layer;
 	private GroupLayer animationLayer_2RD;
@@ -73,13 +78,13 @@ public class MainGame extends Game.Default {
 	    bgtile.canvas().setStrokeColor(0xFFFFFFFF);
 	    bgtile.canvas().strokeRect(0, 0, 30, 30);
 	    bgtile.setRepeat(true, true);
-
+	    
 	    ImageLayer bg = graphics().createImageLayer(bgtile);
 	    bg.setWidth(MAP_SIZE);
 	    bg.setHeight(MAP_SIZE);
 	    
 		graphics().rootLayer().add(layer);
-		layer.add(bgLayer);  // BACKGROUND
+//		layer.add(bgLayer);  // BACKGROUND
 		
 		layer.add(bg);
 		markArea = new MarkArea(layer);
@@ -91,8 +96,11 @@ public class MainGame extends Game.Default {
 		addSolider(graphics().width() / 2, graphics().height() / 2);
 		
 		addTank(50,50);
-		
-		// add a listener for pointer (mouse, touch) input
+
+//////////////////////////////////////////////////////////////////////////
+//***********************************************************************
+//			MOUSE
+//***********************************************************************
 		PlayN.mouse().setListener(new Mouse.Adapter() {
 			
 			    @Override
@@ -100,7 +108,6 @@ public class MainGame extends Game.Default {
 			    	Point.setStartPoint(event.x(), event.y());
 			    	if( event.button() ==  Mouse.BUTTON_RIGHT ) {
 			    		MOUSE_RIGHT_BUTTON_DOWN = true;
-			    		System.out.println(Transform.getX() +  " ,  " +Transform.getY());
 			    	}
 			    	
 			    	if( event.button() ==  Mouse.BUTTON_LEFT ) {
@@ -110,7 +117,7 @@ public class MainGame extends Game.Default {
 			    
 			    @Override
 			    public void onMouseMove(MotionEvent event) {
-			    
+			    	
 			    	if(MOUSE_LEFT_BUTTON_DOWN) {
 			    			markArea.mark(Point.getTransformStartPoint().getX(),
 			    						  Point.getTransformStartPoint().getY(),
@@ -121,25 +128,14 @@ public class MainGame extends Game.Default {
 			    	}
 			    	
 			    	if(MOUSE_RIGHT_BUTTON_DOWN) {
-			    		
 			    		MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN = true;
-						float tempTransformX = event.x() - Point.getTransformStartPoint().getX();
-						float tempTransformY = event.y() - Point.getTransformStartPoint().getY();
-			    		if(tempTransformX <= 0 &&  (tempTransformX - 700) >= (-MAP_SIZE) ) {
-			    			Transform.setX(tempTransformX);
-			    			layer.setTx(Transform.getX());
-			    		}
-			    		
-			    		if(tempTransformY <= 0 && (tempTransformY - 700) >= (-MAP_SIZE) ) {
-			    			Transform.setY(tempTransformY);
-			    			layer.setTy(tempTransformY);
-			    		}
+			    		checkMapBoundariesForCamera(event);
 			    		
 			    	} else {
 			    		MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN = false;
 			    	}
 			    	
-			    	if( MOUSE_LEFT_BUTTON_DOWN  ) {						
+			    	if( MOUSE_LEFT_BUTTON_DOWN  ) {
 						for(Animation animation : animations) {
 							animation.select(event.x(), event.y(), markArea);
 						}
@@ -148,32 +144,18 @@ public class MainGame extends Game.Default {
 			    
 			    @Override
 			    public void onMouseUp(ButtonEvent event) {
-			    	
 			    	markArea.clear();
 			    	if( event.button() ==  Mouse.BUTTON_RIGHT ) {
+			    		
 			    		MOUSE_RIGHT_BUTTON_DOWN = false;
 			    		Point.setMousePoint(event.x(), event.y());
-			    		
-			    		System.out.println("Mouse Point ("+Point.getTransformMousePoint().getX()+","+ Point.getTransformMousePoint().getY()+")");
-			    		int corX = (int) (Point.getTransformMousePoint().getX()/30);
-			    		int corY = (int) (Point.getTransformMousePoint().getY()/30);
-			    		System.out.println("Cords ("+corX +","+corY+")");
-			    		
-			    		if(KEY_CTRL_DOWN == true ) {
-			    			markArea.markPathOnClick((corX*30), (corY*30), 30, 30);
-			    			calcPath.getPathMap()[corX][corY].setOccupied(true);
-			    		}
-			    		
-			    		Point.setSoliderPoint((corX*30)+15, (corY*30)+15);   // this is important !!!! 
-			    		
-			    		System.out.println("soliderPoint ("+Point.getSoliderPoint().getX() +","+Point.getSoliderPoint().getY()+")");
 			    		
 			    		if(!MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN) {
 				    		for (Animation animation : animations) {
 								if(animation.isSelected()) {
 									calcPath.beforeCalc(animation);
 									animation.setPath(calcPath.calcPath(markArea));
-								}
+								}								
 							}
 			    		}	
 			    	}
@@ -187,15 +169,22 @@ public class MainGame extends Game.Default {
 			    }
 			    
 			    @Override
-			    public void onMouseWheelScroll(WheelEvent event) { 
-			    	
+			    public void onMouseWheelScroll(WheelEvent event) {
 			    }
 		});
+
+
+//////////////////////////////////////////////////////////////////////////		
+//***********************************************************************
+//			KEYBOARD 
+//***********************************************************************
 		
 	    PlayN.keyboard().setListener(new Keyboard.Adapter() {
 	    	@Override
 	        public void onKeyDown(Keyboard.Event event) {
 	    		KEY_CTRL_DOWN = true;
+	    		tank.getBarrel().setFire(true);
+	    		tank.getBarrel().fire();
 	        }
 
 	        @Override
@@ -204,11 +193,20 @@ public class MainGame extends Game.Default {
 	        }
 	     });
 	}
-
+	
+	
+///////////////////////////////////////////////////////////////////////////		
+//*************************************************************************
+// 			UPDATE AND FUNCTJONS
+//*************************************************************************
 	@Override
 	public void update(int delta) {
 		for (Animation animation : animations) {
-			if(animation.isMoving()) animation.update(delta, Point.getSoliderPoint());
+			if(animation.isMoving()) animation.update(delta, animations);
+			if(animation instanceof Tank) {
+				((Tank) animation ).updateBarrel(delta, animations);
+			}
+			animation.fire();
 		}
 	}
 	
@@ -224,7 +222,20 @@ public class MainGame extends Game.Default {
 	}
 	
 	private void addTank(float x, float y) {
-		Tank tank = new Tank(x, y, animationLayer_2RD, animationLayer_3RD);
+		this.tank = new Tank(x, y, animationLayer_2RD, animationLayer_3RD);
 		animations.add(tank);
+	}
+	
+	private void checkMapBoundariesForCamera(MotionEvent event ) {
+		float tempTransformX = event.x() - Point.getTransformStartPoint().getX();
+		float tempTransformY = event.y() - Point.getTransformStartPoint().getY();
+		if(tempTransformX <= 0 &&  (tempTransformX - WINDOW_WIDTH) >= (-MAP_SIZE) ) {
+			Transform.setX(tempTransformX);
+			layer.setTx(Transform.getX());
+		}
+		if(tempTransformY <= 0 && (tempTransformY - WINDOW_HEIGHT) >= (-MAP_SIZE) ) {
+			Transform.setY(tempTransformY);
+			layer.setTy(tempTransformY);
+		}
 	}
 }

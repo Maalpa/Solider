@@ -1,16 +1,16 @@
 package com.solider.war.core.tools;
 
-import com.solider.war.core.model.MousePoint;
+import com.solider.war.core.model.GPoint;
 
 public class Point {
 	
-	public static final MousePoint startPoint = new MousePoint();					// Start point when mouse button is pressed down
-	public static final MousePoint transformStartPoint = new MousePoint();			// Start point when mouse button is pressed down with map transform
-	public static final MousePoint endPoint = new MousePoint();						// End point when mouse button is pressed up
-	public static final MousePoint transformEndPoint = new MousePoint();			// End point when mouse button is pressed up with map transform
-	public static final MousePoint mousePoint = new MousePoint();					// Current cords for mouse 
-	public static final MousePoint transformMousePoint = new MousePoint();			// Current cords for mouse with map transform
-	public static final MousePoint soliderPoint = new MousePoint();
+	public static final GPoint startPoint = new GPoint();					// Start point when mouse button is pressed down
+	public static final GPoint transformStartPoint = new GPoint();			// Start point when mouse button is pressed down with map transform
+	public static final GPoint endPoint = new GPoint();						// End point when mouse button is pressed up
+	public static final GPoint transformEndPoint = new GPoint();			// End point when mouse button is pressed up with map transform
+	public static final GPoint mousePoint = new GPoint();					// Current cords for mouse 
+	public static final GPoint transformMousePoint = new GPoint();			// Current cords for mouse with map transform
+	public static final GPoint soliderPoint = new GPoint();
 	
 	
 	public static void setStartPoint(float x, float y) {
@@ -39,31 +39,31 @@ public class Point {
 		soliderPoint.setY(y);
 	}
 	
-	public static MousePoint getSoliderPoint() {
+	public static GPoint getSoliderPoint() {
 		return soliderPoint;
 	}
 
-	public static MousePoint getStartpoint() {
+	public static GPoint getStartpoint() {
 		return startPoint;
 	}
 
-	public static MousePoint getEndpoint() {
+	public static GPoint getEndpoint() {
 		return endPoint;
 	}
 
-	public static MousePoint getMousepoint() {
+	public static GPoint getMousepoint() {
 		return mousePoint;
 	}
 	
-	public static MousePoint getTransformMousePoint() {
+	public static GPoint getTransformMousePoint() {
 		return transformMousePoint;
 	}
 	
-	public static MousePoint getTransformStartPoint() {
+	public static GPoint getTransformStartPoint() {
 		return transformStartPoint;
 	}
 
-	public static MousePoint getTransformEndPoint() {
+	public static GPoint getTransformEndPoint() {
 		return transformEndPoint;
 	}
 }

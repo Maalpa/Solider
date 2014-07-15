@@ -1,16 +1,16 @@
 package com.solider.war.core.model;
 
-public class MousePoint {
+public class GPoint {
 	
 	private float x; 
 	private float y;
 	
-	public MousePoint(float x, float y) {
+	public GPoint(float x, float y) {
 		this.x = x;
 		this.y = y;
 	}
 	
-	public MousePoint() {
+	public GPoint() {
 		this.x = 0.0f;
 		this.y = 0.0f;
 	}
