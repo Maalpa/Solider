@@ -19,12 +19,13 @@ public class Barrel extends Animation {
 	private GroupLayer parentLayer;
 
 	public Barrel(float x, float y, GroupLayer... layer) {
-		super(layer[0], x, y, IMAGE, JSON);
+		super(layer[0], x+30, y-30, IMAGE, JSON);
 		this.width = 40.0f;
 		this.height = 64.0f;
 		this.parentLayer = layer[0];
 		shotLayer = graphics().createGroupLayer();
 		parentLayer.add(shotLayer);	
+		
 	}
 	
 	public void fire() {
@@ -44,10 +45,27 @@ public class Barrel extends Animation {
 			this.shotLayer.removeAll();
 		}
 	}
+	
+	public void pointRotation(float bx, float by,  float angle ) {
+		float x, y;
+		if(Math.cos(angle) != 1.0 ) {
+			x = (float) (bx + ( -(Math.cos(angle) * (10.1f))));
+			y = (float) (by + ( Math.sin(angle) * (10.1f)));
+		} else {
+			y = by-10;
+			x= bx;
+		}
+        this.setPosition(x, y);
+	}
 
 	@Override
 	public boolean isInRange(Animation enemy) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public String toString(){
+		return "Barrel";
 	}
 }

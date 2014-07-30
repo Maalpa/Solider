@@ -42,4 +42,9 @@ public class Shot  extends Animation {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	@Override
+	public String toString(){
+		return "Shot";
+	}
 }

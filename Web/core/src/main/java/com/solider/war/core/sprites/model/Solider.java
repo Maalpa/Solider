@@ -37,6 +37,11 @@ public class Solider extends Animation {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	@Override
+	public String toString(){
+		return "Solider";
+	}
 }
 
 

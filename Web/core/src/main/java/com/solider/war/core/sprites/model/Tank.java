@@ -4,7 +4,6 @@
  */
 package com.solider.war.core.sprites.model;
 	
-	
 import static playn.core.PlayN.log;
 import java.util.List;
 import com.solider.war.core.model.GPoint;
@@ -13,18 +12,20 @@ import playn.core.GroupLayer;
 import static com.solider.war.core.Config.DEFAULT_HEALTH;
 import static com.solider.war.core.Config.DEFAULT_SHIELD;
 
-	
 public class Tank extends Animation {
 	
 	private static final String IMAGE = "sprites/tank.png";
 	private static final String JSON  = "json_config/tank.json";
+	private final double ATTACK_RANGE = 200.0f;
 	private final float TANK_WIDTH =  71.0f;
 	private final float TANK_HEIGHT =  83.0f;
 	
 	private Barrel barrel;
+	private Animation enemyToShot;
+	private double enemyMinDistance = ATTACK_RANGE;
 	
 	private float attackDistance;
-	private float attackRange = 200;
+	private double attackRange = ATTACK_RANGE;
 	private int health;
 	private int shield;
 	
@@ -41,22 +42,22 @@ public class Tank extends Animation {
 //*********** Getters and Setters
 
 	public void update(int delta, List<Animation> animations) {	
-//		updateBarrel(delta, animations);
 		super.update(delta, animations);
 		this.barrel.setRotation(this.rotation);
 	}
+	
 	public void updateBarrel(int delta, List<Animation> animations) {
-//		this.barrel.setDestinationPoint(this.destinationPoint);
-		this.barrel.setPosition(this.x, this.y);
 		this.barrel.setSelected(this.isSelected());
 		for(Animation animation : animations) {
 			if(isInRange(animation)) {
-				this.barrel.setRotationToMouse(new GPoint(animation.getX(), animation.getY()));
+				this.barrel.setRotationToMouse(new GPoint(enemyToShot.getX(), enemyToShot.getY()));
 				this.barrel.setFire(true);
-				break;
-			} else {
-				this.barrel.setFire(false);
 			}
+		}
+		if(this.barrel.isFire()) {
+			this.barrel.pointRotation(this.x, this.y, this.barrel.getAngle());
+		} else {
+			this.barrel.pointRotation(this.x, this.y, this.angle);
 		}
 	}
 
@@ -67,7 +68,7 @@ public class Tank extends Animation {
 	public void setBarrel(Barrel barrel) {
 		this.barrel = barrel;
 	}
-
+	
 	@Override
 	public void fire() {
 		this.barrel.fire();
@@ -77,6 +78,14 @@ public class Tank extends Animation {
 	public boolean isInRange(Animation enemy) {
 		double enemyDistance = calcEnemyDistance(enemy);
 		if(enemy != this && enemyDistance < attackRange) {
+			// get closer stands enemy to shot
+			if(enemyMinDistance >=  enemyDistance ) {
+				enemyToShot =  enemy;	
+				enemyMinDistance = enemyDistance; 
+			} 
+			if(enemy == enemyToShot) {
+				enemyMinDistance = enemyDistance;
+			}
 			return true;
 		}
 		return false;
@@ -91,10 +100,6 @@ public class Tank extends Animation {
 
 	public void setAttackDistance(float attackDistance) {
 		this.attackDistance = attackDistance;
-	}
-
-	public float getAttackRange() {
-		return attackRange;
 	}
 
 	public void setAttackRange(float attackRange) {
@@ -116,5 +121,9 @@ public class Tank extends Animation {
 	public void setShield(int shield) {
 		this.shield = shield;
 	}
+	
+	@Override
+	public String toString(){
+		return "Tank";
+	}
 }
-

@@ -51,7 +51,6 @@ public class MainGame extends Game.Default {
 	private GroupLayer animationLayer_3RD;
 	private GameMap gameMap = new GameMap(MAP_SIZE, MAP_SIZE); 
 	private List<Animation> animations = new ArrayList<Animation>();
-	CalcPath calcPath; 
 	
 	ImageLayer bgLayer;	
 	MarkArea markArea;
@@ -64,7 +63,6 @@ public class MainGame extends Game.Default {
 	public void init() {
 		
 		Image bgImage = assets().getImage("sprites/bg.png");
-		calcPath = new CalcPath();
 		
 		// create a group layer to hold everything
 		layer = graphics().createGroupLayer();
@@ -78,8 +76,8 @@ public class MainGame extends Game.Default {
 	    bgtile.canvas().setStrokeColor(0xFFFFFFFF);
 	    bgtile.canvas().strokeRect(0, 0, 30, 30);
 	    bgtile.setRepeat(true, true);
-	    
 	    ImageLayer bg = graphics().createImageLayer(bgtile);
+	    
 	    bg.setWidth(MAP_SIZE);
 	    bg.setHeight(MAP_SIZE);
 	    
@@ -94,6 +92,8 @@ public class MainGame extends Game.Default {
 		
 		// Add one solider sprite  to game the game
 		addSolider(graphics().width() / 2, graphics().height() / 2);
+		addSolider(100, 250);
+		
 		
 		addTank(50,50);
 
@@ -136,15 +136,15 @@ public class MainGame extends Game.Default {
 			    	}
 			    	
 			    	if( MOUSE_LEFT_BUTTON_DOWN  ) {
-						for(Animation animation : animations) {
-							animation.select(event.x(), event.y(), markArea);
-						}
+			    		
 					}
 			    }
 			    
 			    @Override
 			    public void onMouseUp(ButtonEvent event) {
-			    	markArea.clear();
+			    	
+			    	markArea.intersects(animations);
+			    	markArea.clear( );
 			    	if( event.button() ==  Mouse.BUTTON_RIGHT ) {
 			    		
 			    		MOUSE_RIGHT_BUTTON_DOWN = false;
@@ -153,8 +153,7 @@ public class MainGame extends Game.Default {
 			    		if(!MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN) {
 				    		for (Animation animation : animations) {
 								if(animation.isSelected()) {
-									calcPath.beforeCalc(animation);
-									animation.setPath(calcPath.calcPath(markArea));
+									animation.setPath(animation, markArea);
 								}								
 							}
 			    		}	
@@ -193,8 +192,8 @@ public class MainGame extends Game.Default {
 	        }
 	     });
 	}
-	
-	
+
+
 ///////////////////////////////////////////////////////////////////////////		
 //*************************************************************************
 // 			UPDATE AND FUNCTJONS
@@ -226,6 +225,7 @@ public class MainGame extends Game.Default {
 		animations.add(tank);
 	}
 	
+	// checking Boundaries if camera deasn't come out off map size
 	private void checkMapBoundariesForCamera(MotionEvent event ) {
 		float tempTransformX = event.x() - Point.getTransformStartPoint().getX();
 		float tempTransformY = event.y() - Point.getTransformStartPoint().getY();

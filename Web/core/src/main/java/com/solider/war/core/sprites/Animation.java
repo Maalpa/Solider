@@ -13,6 +13,7 @@ import playn.core.util.Callback;
 import com.google.common.collect.Lists;
 import com.solider.war.core.model.DestinationPoint;
 import com.solider.war.core.model.GPoint;
+import com.solider.war.core.path.CalcPath;
 import com.solider.war.core.path.PathPoint;
 import com.solider.war.core.tools.MarkArea;
 import com.solider.war.core.tools.Transform;
@@ -34,7 +35,8 @@ public abstract class Animation {
 	protected float width;								// width of sprite image i required for couting if object selected, working with imageX 
 	protected float height;								// width of sprite image i required for couting if object selected, working with imageY 
 	protected LinkedList<PathPoint> path;				// path of single point to destination point
-	protected PathPoint destinationPoint = null;  		// Object destination point - it sets when object is selected and right mouse is pressed
+	protected PathPoint destinationPoint = null;  		// Object destination point - it sets when object is selected and right mouse is pressed	
+	protected CalcPath calcPath; 						// calculating path to destination point
 
 	protected int counting = 0;							// update sprite image every 4 iteration of  main loop	
 	private GPoint mousePoint = new GPoint();
@@ -48,10 +50,11 @@ public abstract class Animation {
 	
 	public Animation(final GroupLayer layer, final float x, final float y, final String image, final String json ) {
 
-		sprite = SpriteLoader.getSprite(image, json);
+		this.sprite = SpriteLoader.getSprite(image, json);
 		this.x = x;
 		this.y = y;
 		this.fire = false;
+		this.calcPath = new CalcPath();
 
 		sprite.addCallback(new Callback<Sprite>() {
 			
@@ -103,22 +106,14 @@ public abstract class Animation {
 	}
 	
 	public void setRotationToMouse(GPoint mousePoint) {
-//		if(selected) {
-			this.rotation = (float) (-(this.findAngle(mousePoint)) + Math.PI);
-			this.angle =(float) (findAngle(mousePoint) + (Math.PI / 2.0f));
-			sprite.layer().setRotation(rotation);
-			moving = true;
-//		}
+		this.rotation = (float) (-(this.findAngle(mousePoint)) + Math.PI);
+		this.angle =(float) (findAngle(mousePoint) + (Math.PI / 2.0f));
+		sprite.layer().setRotation(rotation);
+		moving = true;
 	}
 	
 
 	public boolean select(float mouseX , float mouseY, MarkArea markArea) {
-		
-//		System.out.println("Selected mouse (" + mouseX + "," + mouseY + ")" );
-//		System.out.println("Selected tank (" + imageX + "," + imageY + ")" );
-//		System.out.println("Selected tank + delta (" + (this.x+this.width) + "," + (this.y+this.height) + ")" );
-//		System.out.println("Image size (" + (this.width) + "," + (this.height) + ")" );
-//		System.out.println("Transform (" + Transform.getX() + "," + Transform.getY() + ")" );
 		
 		imageX = (float) ((this.x+Transform.getX()) - (width/2.0f));	// calculating where image starts by transforming
 		imageY = (float) ((this.y+Transform.getY()) - (height/2.0f));	// calculating where image starts by transforming
@@ -128,14 +123,7 @@ public abstract class Animation {
 			selected = true;
 			moving = false;
 		} else {
-			System.out.println("Not Selected by click");
 			selected = false;
-		}
-		
-		if( ((imageX >= (markArea.getX()))  && (mouseX <= (markArea.getX()+markArea.getWidth()))) && (((mouseY) >= (markArea.getY()))  && (mouseY <= (markArea.getY()+markArea.getHeight()))) ) {
-			System.out.println("Selected by mark area ");			
-			selected = true;
-			moving = false;
 		}
 		
 		return selected;
@@ -162,8 +150,9 @@ public abstract class Animation {
 	}
 	
 	
-	public void setPath(LinkedList<PathPoint> path) {
-		this.path = path;
+	public void setPath( Animation animation, MarkArea markArea) {
+		calcPath.beforeCalc(animation);
+		this.path = calcPath.calcPath(markArea); 
 		destinationPoint = path.pollLast(); // delete first one because this is point where animation is standing 
 		setNextDestinationPoint();
 	}
@@ -172,7 +161,7 @@ public abstract class Animation {
 //******************** Abstract functions
 
 	public abstract void fire();
-	public abstract boolean isInRange(Animation enemy);	
+	public abstract boolean isInRange(Animation enemy);
 	
 	
 //********************************************************

@@ -1,6 +1,11 @@
 package com.solider.war.core.tools;
 
 import static playn.core.PlayN.graphics;
+
+import java.util.List;
+
+import com.solider.war.core.sprites.Animation;
+
 import playn.core.Canvas;
 import playn.core.CanvasImage;
 import playn.core.GroupLayer;
@@ -98,6 +103,17 @@ public class MarkArea {
 		// four
 		else if ( (startX < endX) &&  (startY > endY) ) {
 			startMarking( (int) (startX), (int) (endY), (int) (endX - startX), (int) (startY - endY));
+		}
+		
+	}
+	
+	public void intersects(List<Animation> animations) {
+		for(Animation animation : animations) {
+			if(  (animation.getX()>=this.clearX && animation.getX() <= (this.clearX + this.clearWidthX))  && 
+					(animation.getY()>=this.clearY && animation.getY() <= (this.clearY + this.clearWidthY)) ) {
+				animation.setSelected(true);
+				System.out.println(animation.toString());
+			}
 		}
 	}
 	
