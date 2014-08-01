@@ -103,8 +103,7 @@ public class MarkArea {
 		// four
 		else if ( (startX < endX) &&  (startY > endY) ) {
 			startMarking( (int) (startX), (int) (endY), (int) (endX - startX), (int) (startY - endY));
-		}
-		
+		}	
 	}
 	
 	public void intersects(List<Animation> animations) {
@@ -152,5 +151,4 @@ public class MarkArea {
 	public void setHeight(int height) {
 		this.height = height;
 	}
-	
 }

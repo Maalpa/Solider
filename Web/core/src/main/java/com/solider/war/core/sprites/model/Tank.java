@@ -19,11 +19,9 @@ public class Tank extends Animation {
 	private final double ATTACK_RANGE = 200.0f;
 	private final float TANK_WIDTH =  71.0f;
 	private final float TANK_HEIGHT =  83.0f;
-	
 	private Barrel barrel;
 	private Animation enemyToShot;
 	private double enemyMinDistance = ATTACK_RANGE;
-	
 	private float attackDistance;
 	private double attackRange = ATTACK_RANGE;
 	private int health;
@@ -43,7 +41,6 @@ public class Tank extends Animation {
 
 	public void update(int delta, List<Animation> animations) {	
 		super.update(delta, animations);
-		this.barrel.setRotation(this.rotation);
 	}
 	
 	public void updateBarrel(int delta, List<Animation> animations) {
@@ -51,12 +48,14 @@ public class Tank extends Animation {
 		for(Animation animation : animations) {
 			if(isInRange(animation)) {
 				this.barrel.setRotationToMouse(new GPoint(enemyToShot.getX(), enemyToShot.getY()));
-				this.barrel.setFire(true);
+				this.barrel.setFire(true);		
 			}
 		}
+		
 		if(this.barrel.isFire()) {
 			this.barrel.pointRotation(this.x, this.y, this.barrel.getAngle());
 		} else {
+			this.barrel.setRotation(this.rotation);
 			this.barrel.pointRotation(this.x, this.y, this.angle);
 		}
 	}

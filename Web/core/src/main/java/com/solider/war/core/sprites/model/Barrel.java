@@ -19,7 +19,7 @@ public class Barrel extends Animation {
 	private GroupLayer parentLayer;
 
 	public Barrel(float x, float y, GroupLayer... layer) {
-		super(layer[0], x+30, y-30, IMAGE, JSON);
+		super(layer[0], x, y, IMAGE, JSON);
 		this.width = 40.0f;
 		this.height = 64.0f;
 		this.parentLayer = layer[0];
@@ -51,9 +51,10 @@ public class Barrel extends Animation {
 		if(Math.cos(angle) != 1.0 ) {
 			x = (float) (bx + ( -(Math.cos(angle) * (10.1f))));
 			y = (float) (by + ( Math.sin(angle) * (10.1f)));
-		} else {
+		} 
+		else {
 			y = by-10;
-			x= bx;
+			x = bx;
 		}
         this.setPosition(x, y);
 	}
@@ -68,4 +69,5 @@ public class Barrel extends Animation {
 	public String toString(){
 		return "Barrel";
 	}
+
 }
