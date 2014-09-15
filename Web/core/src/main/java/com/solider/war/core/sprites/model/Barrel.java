@@ -20,12 +20,11 @@ public class Barrel extends Animation {
 
 	public Barrel(float x, float y, GroupLayer... layer) {
 		super(layer[0], x, y, IMAGE, JSON);
-		this.width = 40.0f;
-		this.height = 64.0f;
+		this.width = 22.0f;
+		this.height = 39.0f;
 		this.parentLayer = layer[0];
 		shotLayer = graphics().createGroupLayer();
-		parentLayer.add(shotLayer);	
-		
+		parentLayer.add(shotLayer);
 	}
 	
 	public void fire() {
@@ -49,11 +48,11 @@ public class Barrel extends Animation {
 	public void pointRotation(float bx, float by,  float angle ) {
 		float x, y;
 		if(Math.cos(angle) != 1.0 ) {
-			x = (float) (bx + ( -(Math.cos(angle) * (10.1f))));
-			y = (float) (by + ( Math.sin(angle) * (10.1f)));
+			x = (float) (bx + ( -(Math.cos(angle) * (5.1f))));
+			y = (float) (by + ( Math.sin(angle) * (5.1f)));
 		} 
 		else {
-			y = by-10;
+			y = by-5;
 			x = bx;
 		}
         this.setPosition(x, y);

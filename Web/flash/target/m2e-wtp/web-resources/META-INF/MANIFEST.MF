@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Built-By: Pawel
-Build-Jdk: 1.7.0_45
+Built-By: PK_PC
+Build-Jdk: 1.8.0_20
 Created-By: Maven Integration for Eclipse
 

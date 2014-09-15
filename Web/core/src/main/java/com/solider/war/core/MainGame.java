@@ -37,10 +37,11 @@ import static playn.core.PlayN.*;
 import static com.solider.war.core.Config.MAP_SIZE;
 import static com.solider.war.core.Config.WINDOW_HEIGHT;
 import static com.solider.war.core.Config.WINDOW_WIDTH;
+import static com.solider.war.core.Config.FIELD_SIZE;;
 
 public class MainGame extends Game.Default {
 	
-	Tank tank;
+	private Tank tank;
 	private boolean MOUSE_RIGHT_BUTTON_DOWN = false;
  	private boolean MOUSE_LEFT_BUTTON_DOWN = false;
  	private boolean MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN = false;
@@ -62,7 +63,7 @@ public class MainGame extends Game.Default {
 	@Override
 	public void init() {
 		
-		Image bgImage = assets().getImage("sprites/bg.png");
+		Image bgImage = assets().getImage("sprites/map.png");
 		
 		// create a group layer to hold everything
 		layer = graphics().createGroupLayer();
@@ -71,10 +72,10 @@ public class MainGame extends Game.Default {
 		animationLayer_3RD = graphics().createGroupLayer();
 		
 	    // draw a soothing flat background
-	    CanvasImage bgtile = graphics().createImage(30, 30);
+	    CanvasImage bgtile = graphics().createImage(FIELD_SIZE, FIELD_SIZE);
 	    bgtile.canvas().setFillColor(0xFFCCCCCC);
 	    bgtile.canvas().setStrokeColor(0xFFFFFFFF);
-	    bgtile.canvas().strokeRect(0, 0, 30, 30);
+	    bgtile.canvas().strokeRect(0, 0, FIELD_SIZE, FIELD_SIZE);
 	    bgtile.setRepeat(true, true);
 	    ImageLayer bg = graphics().createImageLayer(bgtile);
 	    
@@ -82,7 +83,7 @@ public class MainGame extends Game.Default {
 	    bg.setHeight(MAP_SIZE);
 	    
 		graphics().rootLayer().add(layer);
-//		layer.add(bgLayer);  // BACKGROUND
+		layer.add(bgLayer);  // BACKGROUND
 		
 		layer.add(bg);
 		markArea = new MarkArea(layer);
@@ -138,6 +139,7 @@ public class MainGame extends Game.Default {
 			    	if( MOUSE_LEFT_BUTTON_DOWN  ) {
 			    		
 					}
+			    	
 			    }
 			    
 			    @Override
@@ -229,10 +231,12 @@ public class MainGame extends Game.Default {
 	private void checkMapBoundariesForCamera(MotionEvent event ) {
 		float tempTransformX = event.x() - Point.getTransformStartPoint().getX();
 		float tempTransformY = event.y() - Point.getTransformStartPoint().getY();
+		
 		if(tempTransformX <= 0 &&  (tempTransformX - WINDOW_WIDTH) >= (-MAP_SIZE) ) {
 			Transform.setX(tempTransformX);
 			layer.setTx(Transform.getX());
 		}
+		
 		if(tempTransformY <= 0 && (tempTransformY - WINDOW_HEIGHT) >= (-MAP_SIZE) ) {
 			Transform.setY(tempTransformY);
 			layer.setTy(tempTransformY);

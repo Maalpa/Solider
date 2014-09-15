@@ -9,6 +9,7 @@ import com.solider.war.core.tools.MarkArea;
 import com.solider.war.core.tools.Point;
 
 import static com.solider.war.core.Config.PATH_MAP_SIZE;
+import static com.solider.war.core.Config.FIELD_SIZE;
 
 
 /**
@@ -24,7 +25,7 @@ public class CalcPath {
 	private PathPoint startPosition;
 	private PathPoint destinationPosition;
  	private PathPoint[][]  pathMap= new PathPoint[PATH_MAP_SIZE][PATH_MAP_SIZE];
- 
+ 	
  	private LinkedList<PathPoint> Q = new LinkedList<PathPoint>();
  	private LinkedList<PathPoint> W = new LinkedList<PathPoint>();
  	
@@ -32,24 +33,25 @@ public class CalcPath {
 	public CalcPath(Animation animation , int mapSize) {
 		
 		// calc destination point;
-		int destX = (int) (Point.getTransformMousePoint().getX()/30);
-		int destY = (int) (Point.getTransformMousePoint().getY()/30);
+		int destX = (int) (Point.getTransformMousePoint().getX()/FIELD_SIZE);
+		int destY = (int) (Point.getTransformMousePoint().getY()/FIELD_SIZE);
 		
 		// object cords
-		int animationX = (int) (animation.getX()/30);
-		int animationY = (int) (animation.getY()/30);
+		int animationX = (int) (animation.getX()/FIELD_SIZE);
+		int animationY = (int) (animation.getY()/FIELD_SIZE);
 				
 		System.out.println("object position(" + animationX +","+ animationY +")");
 		System.out.println("destination position(" + destX +","+ destY +")");
 
 		destinationPosition = new PathPoint(destX, destY);
-		startPosition = new PathPoint(animationX, animationY);	
+		startPosition = new PathPoint(animationX, animationY);
+		
 	}
 	
 	public CalcPath() {
 		// calc destination point;
-		int destX = (int) (Point.getTransformMousePoint().getX()/30);
-		int destY = (int) (Point.getTransformMousePoint().getY()/30);
+		int destX = (int) (Point.getTransformMousePoint().getX()/FIELD_SIZE);
+		int destY = (int) (Point.getTransformMousePoint().getY()/FIELD_SIZE);
 		
 		// fill table with value equals -1
 		for(int i = 0; i< pathMap.length; i++) {
@@ -66,12 +68,12 @@ public class CalcPath {
 		this.W.clear();
 		this.foundPath = false;
 		// calc destination point;
-		int destX = (int) (Point.getTransformMousePoint().getX()/30);
-		int destY = (int) (Point.getTransformMousePoint().getY()/30);
+		int destX = (int) (Point.getTransformMousePoint().getX()/FIELD_SIZE);
+		int destY = (int) (Point.getTransformMousePoint().getY()/FIELD_SIZE);
 		
 		// object cords
-		int animationX = (int) (animation.getX()/30);
-		int animationY = (int) (animation.getY()/30);
+		int animationX = (int) (animation.getX()/FIELD_SIZE);
+		int animationY = (int) (animation.getY()/FIELD_SIZE);
 				
 		System.out.println("object position(" + animationX +","+ animationY +")");
 		System.out.println("destination position(" + destX +","+ destY +")");
@@ -242,10 +244,10 @@ public class CalcPath {
 			}	
 		}
 		
-		// drawing path 
-		for(int i=0;i<W.size();i++) {
-			markArea.markPath((W.get(i).getX()*30), (W.get(i).getY()*30), 30, 30);
-		}
+//		drawing path 
+//		for(int i=0;i<W.size();i++) {
+//			markArea.markPath((W.get(i).getX()*FIELD_SIZE), (W.get(i).getY()*FIELD_SIZE), FIELD_SIZE, FIELD_SIZE);
+//		}
 
 		return W;
 	}

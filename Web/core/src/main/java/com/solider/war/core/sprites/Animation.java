@@ -18,6 +18,8 @@ import com.solider.war.core.path.PathPoint;
 import com.solider.war.core.tools.MarkArea;
 import com.solider.war.core.tools.Transform;
 
+import static com.solider.war.core.Config.FIELD_SIZE;
+
 
 public abstract class Animation {
 	
@@ -130,12 +132,13 @@ public abstract class Animation {
 	}
 	
 	private void fixDestinationPoint() {
-		this.destinationPoint.setX((destinationPoint.getX()*30)+15);
-		this.destinationPoint.setY((destinationPoint.getY()*30)+15);
+		this.destinationPoint.setX((destinationPoint.getX()*FIELD_SIZE)+10);  //TODO change 15 to static value 
+		this.destinationPoint.setY((destinationPoint.getY()*FIELD_SIZE)+10);
 	}
 	
 	protected void setNextDestinationPoint() {
-		this.destinationPoint = path.pollLast();
+		this.destinationPoint = path.getLast();
+		path.removeLast();
 		if(this.destinationPoint != null ) {
 			fixDestinationPoint();
 			mousePoint.setPoint( destinationPoint.getX(), destinationPoint.getY());
@@ -153,7 +156,8 @@ public abstract class Animation {
 	public void setPath( Animation animation, MarkArea markArea) {
 		calcPath.beforeCalc(animation);
 		this.path = calcPath.calcPath(markArea); 
-		destinationPoint = path.pollLast(); // delete first one because this is point where animation is standing 
+		destinationPoint = path.getLast(); // delete first one because this is point where animation is standing 
+		path.removeLast();
 		setNextDestinationPoint();
 	}
 	

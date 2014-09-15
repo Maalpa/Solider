@@ -17,8 +17,8 @@ public class Tank extends Animation {
 	private static final String IMAGE = "sprites/tank.png";
 	private static final String JSON  = "json_config/tank.json";
 	private final double ATTACK_RANGE = 200.0f;
-	private final float TANK_WIDTH =  71.0f;
-	private final float TANK_HEIGHT =  83.0f;
+	private final float TANK_WIDTH =  40.0f;
+	private final float TANK_HEIGHT =  49.0f;
 	private Barrel barrel;
 	private Animation enemyToShot;
 	private double enemyMinDistance = ATTACK_RANGE;

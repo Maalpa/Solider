@@ -10,7 +10,7 @@
   </parent>
 
   <artifactId>Web-android</artifactId>
-  <packaging>apk</packaging>
+  <!-- <packaging>apk</packaging>  -->
   <name>MainGame Android</name>
 
   <properties>
@@ -74,6 +74,7 @@
           </links>
         </configuration>
       </plugin>
+      <!-- 
       <plugin>
         <groupId>com.jayway.maven.plugins.android.generation2</groupId>
         <artifactId>android-maven-plugin</artifactId>
@@ -107,6 +108,7 @@
           </execution>
         </executions>
       </plugin>
+       -->
     </plugins>
   </build>
   <!-- run 'mvn package -Pandroid -Psign -Dkeystore.password=foo' to sign and align -->
