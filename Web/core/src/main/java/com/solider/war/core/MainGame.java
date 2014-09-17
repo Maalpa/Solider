@@ -13,6 +13,7 @@ import com.solider.war.core.model.DestinationPoint;
 import com.solider.war.core.model.GameMap;
 import com.solider.war.core.model.GPoint;
 import com.solider.war.core.path.CalcPath;
+import com.solider.war.core.path.MapPoint;
 import com.solider.war.core.sprites.Animation;
 import com.solider.war.core.sprites.model.Barrel;
 import com.solider.war.core.sprites.model.Solider;
@@ -32,21 +33,23 @@ import playn.core.Mouse.WheelEvent;
 import playn.core.Pointer.Event;
 import playn.core.canvas.GroupLayerCanvas;
 import static playn.core.PlayN.*;
-
-
 import static com.solider.war.core.Config.MAP_SIZE;
 import static com.solider.war.core.Config.WINDOW_HEIGHT;
 import static com.solider.war.core.Config.WINDOW_WIDTH;
-import static com.solider.war.core.Config.FIELD_SIZE;;
+import static com.solider.war.core.Config.FIELD_SIZE;
+import static com.solider.war.core.Config.PATH_MAP_SIZE;
 
 public class MainGame extends Game.Default {
+	
+	public final  MapPoint[][] map =  new MapPoint[PATH_MAP_SIZE][PATH_MAP_SIZE];
 	
 	private Tank tank;
 	private boolean MOUSE_RIGHT_BUTTON_DOWN = false;
  	private boolean MOUSE_LEFT_BUTTON_DOWN = false;
  	private boolean MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN = false;
  	private boolean KEY_CTRL_DOWN = false;
- 	
+ 	CalcPath calcPath;
+ 
 	private GroupLayer layer;
 	private GroupLayer animationLayer_2RD;
 	private GroupLayer animationLayer_3RD;
@@ -63,6 +66,15 @@ public class MainGame extends Game.Default {
 	@Override
 	public void init() {
 		
+		// fill table with value equals -1
+		for(int i = 0; i< map.length; i++) {
+			for(int j=0; j<map[i].length; j++) {
+				map[i][j] = new MapPoint(i, j);
+				map[i][j].setValue(-1);
+				map[i][j].setVisited(false);
+			}
+		}
+		
 		Image bgImage = assets().getImage("sprites/map.png");
 		
 		// create a group layer to hold everything
@@ -78,6 +90,7 @@ public class MainGame extends Game.Default {
 	    bgtile.canvas().strokeRect(0, 0, FIELD_SIZE, FIELD_SIZE);
 	    bgtile.setRepeat(true, true);
 	    ImageLayer bg = graphics().createImageLayer(bgtile);
+	    calcPath = new CalcPath();
 	    
 	    bg.setWidth(MAP_SIZE);
 	    bg.setHeight(MAP_SIZE);
@@ -109,10 +122,19 @@ public class MainGame extends Game.Default {
 			    	Point.setStartPoint(event.x(), event.y());
 			    	if( event.button() ==  Mouse.BUTTON_RIGHT ) {
 			    		MOUSE_RIGHT_BUTTON_DOWN = true;
+			    		
+			    		
+			    		
 			    	}
 			    	
 			    	if( event.button() ==  Mouse.BUTTON_LEFT ) {
 			    		MOUSE_LEFT_BUTTON_DOWN = true;
+			    		if(KEY_CTRL_DOWN == true ) {
+			    			int corX =(int) (Point.getTransformStartPoint().getX()/FIELD_SIZE);
+			    			int corY =(int) (Point.getTransformStartPoint().getY()/FIELD_SIZE);
+			    			markArea.markPathOnClick(corX*FIELD_SIZE, corY*FIELD_SIZE, FIELD_SIZE, FIELD_SIZE);
+			    			map[corX][corY].setOccupied(true);
+			    		}
 			    	}
 			    }
 			    
@@ -139,7 +161,6 @@ public class MainGame extends Game.Default {
 			    	if( MOUSE_LEFT_BUTTON_DOWN  ) {
 			    		
 					}
-			    	
 			    }
 			    
 			    @Override
@@ -155,10 +176,10 @@ public class MainGame extends Game.Default {
 			    		if(!MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN) {
 				    		for (Animation animation : animations) {
 								if(animation.isSelected()) {
-									animation.setPath(animation, markArea);
+									animation.setPath(animation, markArea, map);
 								}								
 							}
-			    		}	
+			    		}
 			    	}
 			    	
 					if( event.button() ==  Mouse.BUTTON_LEFT  ) {
@@ -181,6 +202,7 @@ public class MainGame extends Game.Default {
 //***********************************************************************
 		
 	    PlayN.keyboard().setListener(new Keyboard.Adapter() {
+	    	
 	    	@Override
 	        public void onKeyDown(Keyboard.Event event) {
 	    		KEY_CTRL_DOWN = true;
@@ -193,13 +215,14 @@ public class MainGame extends Game.Default {
 	        	KEY_CTRL_DOWN = false;
 	        }
 	     });
+	    
 	}
-
 
 ///////////////////////////////////////////////////////////////////////////		
 //*************************************************************************
 // 			UPDATE AND FUNCTJONS
 //*************************************************************************
+	
 	@Override
 	public void update(int delta) {
 		for (Animation animation : animations) {

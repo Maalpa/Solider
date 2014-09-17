@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import playn.core.GroupLayer;
 
 import com.solider.war.core.model.GPoint;
-import com.solider.war.core.path.PathPoint;
+import com.solider.war.core.path.MapPoint;
 import com.solider.war.core.sprites.Animation;
 
 public class Barrel extends Animation {

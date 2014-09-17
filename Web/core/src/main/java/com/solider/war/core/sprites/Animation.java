@@ -1,24 +1,19 @@
 package com.solider.war.core.sprites;
 
-import static playn.core.PlayN.graphics;
+import static com.solider.war.core.Config.FIELD_SIZE;
 import static playn.core.PlayN.log;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import playn.core.GroupLayer;
 import playn.core.util.Callback;
 
-import com.google.common.collect.Lists;
-import com.solider.war.core.model.DestinationPoint;
 import com.solider.war.core.model.GPoint;
 import com.solider.war.core.path.CalcPath;
-import com.solider.war.core.path.PathPoint;
+import com.solider.war.core.path.MapPoint;
 import com.solider.war.core.tools.MarkArea;
 import com.solider.war.core.tools.Transform;
-
-import static com.solider.war.core.Config.FIELD_SIZE;
 
 
 public abstract class Animation {
@@ -36,8 +31,8 @@ public abstract class Animation {
 	protected boolean selected = false;					// is animation selected
 	protected float width;								// width of sprite image i required for couting if object selected, working with imageX 
 	protected float height;								// width of sprite image i required for couting if object selected, working with imageY 
-	protected LinkedList<PathPoint> path;				// path of single point to destination point
-	protected PathPoint destinationPoint = null;  		// Object destination point - it sets when object is selected and right mouse is pressed	
+	protected LinkedList<MapPoint> path;				// path of single point to destination point
+	protected MapPoint destinationPoint = null;  		// Object destination point - it sets when object is selected and right mouse is pressed	
 	protected CalcPath calcPath; 						// calculating path to destination point
 
 	protected int counting = 0;							// update sprite image every 4 iteration of  main loop	
@@ -153,9 +148,9 @@ public abstract class Animation {
 	}
 	
 	
-	public void setPath( Animation animation, MarkArea markArea) {
+	public void setPath( Animation animation, MarkArea markArea, MapPoint[][] map) {
 		calcPath.beforeCalc(animation);
-		this.path = calcPath.calcPath(markArea); 
+		this.path = calcPath.calcPath(markArea, map);
 		destinationPoint = path.getLast(); // delete first one because this is point where animation is standing 
 		path.removeLast();
 		setNextDestinationPoint();
@@ -172,7 +167,7 @@ public abstract class Animation {
 //******************* Getters and Setters
 	
 
-	public List<PathPoint> getPath() {
+	public List<MapPoint> getPath() {
 		return path;
 	}
 	
@@ -274,11 +269,11 @@ public abstract class Animation {
 		this.height = height;
 	}
 
-	public PathPoint getDestinationPoint() {
+	public MapPoint getDestinationPoint() {
 		return destinationPoint;
 	}
 	
-	public void setDestinationPoint(PathPoint destinationPoint) {
+	public void setDestinationPoint(MapPoint destinationPoint) {
 		this.destinationPoint = destinationPoint;
 	}
 

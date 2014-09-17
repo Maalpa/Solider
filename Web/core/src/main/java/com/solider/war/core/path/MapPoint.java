@@ -1,6 +1,6 @@
 package com.solider.war.core.path;
 
-public class PathPoint {
+public class MapPoint {
 
 	private int x;
 	private int y;
@@ -8,7 +8,7 @@ public class PathPoint {
 	private boolean occupied = false;   	// is this field is occupied
 	private int value = -1;
 	
-	public PathPoint(int x, int y) {
+	public MapPoint(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
