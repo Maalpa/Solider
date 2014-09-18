@@ -1,6 +1,9 @@
 package com.solider.war.core.sprites;
 
 import static com.solider.war.core.Config.FIELD_SIZE;
+import static com.solider.war.core.Config.CENTER_FIELD_SIZE;
+
+
 import static playn.core.PlayN.log;
 
 import java.util.LinkedList;
@@ -14,7 +17,7 @@ import com.solider.war.core.path.CalcPath;
 import com.solider.war.core.path.MapPoint;
 import com.solider.war.core.tools.MarkArea;
 import com.solider.war.core.tools.Transform;
-
+import com.solider.war.core.sprites.Sprite;
 
 public abstract class Animation {
 	
@@ -127,17 +130,19 @@ public abstract class Animation {
 	}
 	
 	private void fixDestinationPoint() {
-		this.destinationPoint.setX((destinationPoint.getX()*FIELD_SIZE)+10);  //TODO change 15 to static value 
-		this.destinationPoint.setY((destinationPoint.getY()*FIELD_SIZE)+10);
+		this.destinationPoint.setX((destinationPoint.getX()*FIELD_SIZE)+CENTER_FIELD_SIZE);  //TODO change 15 to static value 
+		this.destinationPoint.setY((destinationPoint.getY()*FIELD_SIZE)+CENTER_FIELD_SIZE);
 	}
 	
 	protected void setNextDestinationPoint() {
-		this.destinationPoint = path.getLast();
-		path.removeLast();
-		if(this.destinationPoint != null ) {
-			fixDestinationPoint();
-			mousePoint.setPoint( destinationPoint.getX(), destinationPoint.getY());
-			setRotationToMouse(mousePoint);
+		if(!path.getLast().isOccupied()) {
+			this.destinationPoint = path.getLast();
+			path.removeLast();
+			if(this.destinationPoint != null && !destinationPoint.isOccupied() ) {
+				fixDestinationPoint();
+				mousePoint.setPoint( destinationPoint.getX(), destinationPoint.getY());
+				setRotationToMouse(mousePoint);
+			}
 		}
 	}
 	

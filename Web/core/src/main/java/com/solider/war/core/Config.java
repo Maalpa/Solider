@@ -10,7 +10,8 @@ public class Config {
 	public static final int WINDOW_WIDTH = 700;
 	public static final int WINDOW_HEIGHT = 700;
 	public static final int MAP_SIZE = 1021;
-	public static final int FIELD_SIZE = 10;
+	public static final int FIELD_SIZE = 20;
+	public static final int CENTER_FIELD_SIZE = FIELD_SIZE/2;
 	public static final int PATH_MAP_SIZE = MAP_SIZE/FIELD_SIZE;
 	
 	// Animation sprites config

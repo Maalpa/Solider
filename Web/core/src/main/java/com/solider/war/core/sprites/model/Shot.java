@@ -1,7 +1,7 @@
 package com.solider.war.core.sprites.model;
 
 import static playn.core.PlayN.graphics;
-
+import com.solider.war.core.sprites.Sprite;
 import java.util.Random;
 
 import playn.core.GroupLayer;

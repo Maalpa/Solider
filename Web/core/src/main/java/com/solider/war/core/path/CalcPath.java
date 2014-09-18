@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.solider.war.core.helpers.MapHelper;
 import com.solider.war.core.sprites.Animation;
 import com.solider.war.core.tools.MarkArea;
 import com.solider.war.core.tools.Point;
+
 import static com.solider.war.core.Config.PATH_MAP_SIZE;
 import static com.solider.war.core.Config.FIELD_SIZE;
 import static com.solider.war.core.Config.DRAW_PATH;
@@ -22,15 +24,13 @@ public class CalcPath {
 	
 	private boolean foundDestinationPoint = false;
 	private boolean foundPath = false;
-	
 	private MapPoint startPosition;
 	private MapPoint destinationPosition;
  	private MapPoint[][]  pathMap= new MapPoint[PATH_MAP_SIZE][PATH_MAP_SIZE];
- 	
  	private LinkedList<MapPoint> Q = new LinkedList<MapPoint>();
  	private LinkedList<MapPoint> W = new LinkedList<MapPoint>();
+ 	private LinkedList<MapPoint> nearestPoints = new LinkedList<MapPoint>();
  	
-	
 	public CalcPath(Animation animation , int mapSize) {
 		
 		// calc destination point;
@@ -41,19 +41,14 @@ public class CalcPath {
 		int animationX = (int) (animation.getX()/FIELD_SIZE);
 		int animationY = (int) (animation.getY()/FIELD_SIZE);
 		
-				
 		System.out.println("object position(" + animationX +","+ animationY +")");
 		System.out.println("destination position(" + destX +","+ destY +")");
-
+		
 		destinationPosition = new MapPoint(destX, destY);
 		startPosition = new MapPoint(animationX, animationY);
-		
 	}
 	
 	public CalcPath() {
-		// calc destination point;
-		int destX = (int) (Point.getTransformMousePoint().getX()/FIELD_SIZE);
-		int destY = (int) (Point.getTransformMousePoint().getY()/FIELD_SIZE);
 		
 		// fill table with value equals -1
 		for(int i = 0; i< pathMap.length; i++) {
@@ -84,7 +79,28 @@ public class CalcPath {
 		startPosition = new MapPoint(animationX, animationY);
 	}
 	
+	private void addNearestDestinationPoint( MapPoint point ) {
+		
+		point.setDestinationValue(MapHelper.calcPointDistance(point, destinationPosition));
+
+		if((nearestPoints.isEmpty()) &&  !point.isOccupied()) {
+			nearestPoints.add(point);
+		} else {
+			if((nearestPoints.peekLast().getDestinationValue() > point.getDestinationValue())  &&  !point.isOccupied()) {
+				nearestPoints.clear();
+				nearestPoints.add(point);
+			} else if((nearestPoints.peekLast().getDestinationValue() == point.getDestinationValue()) &&  !point.isOccupied()) {
+				nearestPoints.add(point);
+			}
+		}
+	}
+	
 	public LinkedList<MapPoint> calcPath( MarkArea markArea, MapPoint[][] map) {
+		
+		this.Q.clear();
+		this.W.clear();
+		this.nearestPoints.clear();
+		this.foundDestinationPoint= false;
 			
 		for(int i = 0; i< pathMap.length; i++) {
 			for(int j=0; j<pathMap[i].length; j++) {
@@ -102,6 +118,8 @@ public class CalcPath {
 		MapPoint v;
 		MapPoint w = null;
 		
+		
+		
 		while(!Q.isEmpty()) {
 			w  = Q.poll();
 			for(int i=0; i<8; i++) {		
@@ -110,6 +128,7 @@ public class CalcPath {
 						pathMap[w.getX()+1][w.getY()].setVisited(true);
 						pathMap[w.getX()+1][w.getY()].setValue(w.getValue()+1);
 						Q.add(pathMap[w.getX()+1][w.getY()]);
+						addNearestDestinationPoint(pathMap[w.getX()+1][w.getY()]);
 					}
 				}
 
@@ -118,6 +137,7 @@ public class CalcPath {
 						pathMap[w.getX()][w.getY()+1].setVisited(true);
 						pathMap[w.getX()][w.getY()+1].setValue(w.getValue()+1);
 						Q.add(pathMap[w.getX()][w.getY()+1]);
+						addNearestDestinationPoint(pathMap[w.getX()][w.getY()+1]);
 					}
 				}
 				
@@ -126,6 +146,7 @@ public class CalcPath {
 						pathMap[w.getX()-1][w.getY()].setVisited(true);
 						pathMap[w.getX()-1][w.getY()].setValue(w.getValue()+1);
 						Q.add(pathMap[w.getX()-1][w.getY()]);
+						addNearestDestinationPoint(pathMap[w.getX()-1][w.getY()]);
 					}
 				}
 
@@ -134,6 +155,7 @@ public class CalcPath {
 						pathMap[w.getX()][w.getY()-1].setVisited(true);
 						pathMap[w.getX()][w.getY()-1].setValue(w.getValue()+1);
 						Q.add(pathMap[w.getX()][w.getY()-1]);
+						addNearestDestinationPoint(pathMap[w.getX()][w.getY()-1]);
 					}
 				}
 				
@@ -142,6 +164,7 @@ public class CalcPath {
 						pathMap[w.getX()-1][w.getY()+1].setVisited(true);
 						pathMap[w.getX()-1][w.getY()+1].setValue(w.getValue()+1);
 						Q.add(pathMap[w.getX()-1][w.getY()+1]);
+						addNearestDestinationPoint(pathMap[w.getX()-1][w.getY()+1]);
 					}
 				}
 				
@@ -150,6 +173,7 @@ public class CalcPath {
 						pathMap[w.getX()+1][w.getY()+1].setVisited(true);
 						pathMap[w.getX()+1][w.getY()+1].setValue(w.getValue()+1);
 						Q.add(pathMap[w.getX()+1][w.getY()+1]);
+						addNearestDestinationPoint(pathMap[w.getX()+1][w.getY()+1]);
 					}
 				}
 				
@@ -158,6 +182,7 @@ public class CalcPath {
 						pathMap[w.getX()+1][w.getY()-1].setVisited(true);
 						pathMap[w.getX()+1][w.getY()-1].setValue(w.getValue()+1);
 						Q.add(pathMap[w.getX()+1][w.getY()-1]);
+						addNearestDestinationPoint(pathMap[w.getX()+1][w.getY()-1]);
 					}
 				}
 				
@@ -166,16 +191,25 @@ public class CalcPath {
 						pathMap[w.getX()-1][w.getY()-1].setVisited(true);
 						pathMap[w.getX()-1][w.getY()-1].setValue(w.getValue()+1);
 						Q.add(pathMap[w.getX()-1][w.getY()-1]);
+						addNearestDestinationPoint(pathMap[w.getX()-1][w.getY()-1]);
 					}
 				}
 			}
 			
-			if(w.getX() == destinationPosition.getX() && w.getY() == destinationPosition.getY()) {
-				System.out.println("Found Path"  + w.getValue());
+			if((w.getX() == destinationPosition.getX() && w.getY() == destinationPosition.getY()) && !destinationPosition.isOccupied() && destinationPosition.getValue()>-1) {
+				System.out.println("Found Path"  + w.getValue() + "");
+				foundDestinationPoint = true;
+				
 				break;
 			}
 		}
 		
+		if(foundDestinationPoint) {
+			System.out.println("foundDestinationPoint !!!");
+		} else {
+			System.out.println("DestinationPoint not found  !!!!");
+			w=nearestPoints.getFirst();
+		}
 		
 		pathMap[startPosition.getX()][startPosition.getY()].setValue(0);
 		W.add(w);
@@ -252,7 +286,6 @@ public class CalcPath {
 				markArea.markPath((W.get(i).getX()*FIELD_SIZE), (W.get(i).getY()*FIELD_SIZE), FIELD_SIZE, FIELD_SIZE);
 			}
 		}
-
 		return W;
 	}
 	
