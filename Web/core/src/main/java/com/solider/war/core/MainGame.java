@@ -122,10 +122,8 @@ public class MainGame extends Game.Default {
 			    	Point.setStartPoint(event.x(), event.y());
 			    	if( event.button() ==  Mouse.BUTTON_RIGHT ) {
 			    		MOUSE_RIGHT_BUTTON_DOWN = true;
-			    		
-			    		
-			    		
 			    	}
+			    	
 			    	
 			    	if( event.button() ==  Mouse.BUTTON_LEFT ) {
 			    		MOUSE_LEFT_BUTTON_DOWN = true;
@@ -172,7 +170,6 @@ public class MainGame extends Game.Default {
 			    		
 			    		MOUSE_RIGHT_BUTTON_DOWN = false;
 			    		Point.setMousePoint(event.x(), event.y());
-			    		
 			    		if(!MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN) {
 				    		for (Animation animation : animations) {
 								if(animation.isSelected()) {

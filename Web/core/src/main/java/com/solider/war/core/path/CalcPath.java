@@ -86,10 +86,10 @@ public class CalcPath {
 		if((nearestPoints.isEmpty()) &&  !point.isOccupied()) {
 			nearestPoints.add(point);
 		} else {
-			if((nearestPoints.peekLast().getDestinationValue() > point.getDestinationValue())  &&  !point.isOccupied()) {
+			if((nearestPoints.getLast().getDestinationValue() > point.getDestinationValue())  &&  !point.isOccupied()) {
 				nearestPoints.clear();
 				nearestPoints.add(point);
-			} else if((nearestPoints.peekLast().getDestinationValue() == point.getDestinationValue()) &&  !point.isOccupied()) {
+			} else if((nearestPoints.getLast().getDestinationValue() == point.getDestinationValue()) &&  !point.isOccupied()) {
 				nearestPoints.add(point);
 			}
 		}
@@ -115,10 +115,9 @@ public class CalcPath {
 		pathMap[startPosition.getX()][startPosition.getY()].setValue(0);
 		Q.add(pathMap[startPosition.getX()][startPosition.getY()]);
 		
-		MapPoint v;
+
 		MapPoint w = null;
-		
-		
+		boolean foundFiled = false;
 		
 		while(!Q.isEmpty()) {
 			w  = Q.poll();
@@ -199,7 +198,6 @@ public class CalcPath {
 			if((w.getX() == destinationPosition.getX() && w.getY() == destinationPosition.getY()) && !destinationPosition.isOccupied() && destinationPosition.getValue()>-1) {
 				System.out.println("Found Path"  + w.getValue() + "");
 				foundDestinationPoint = true;
-				
 				break;
 			}
 		}
@@ -214,17 +212,21 @@ public class CalcPath {
 		pathMap[startPosition.getX()][startPosition.getY()].setValue(0);
 		W.add(w);
 		while(!foundPath) {
+			foundFiled = false;
+			
 			for(int i=0; i < 8; i++) {
 				if(i == 0) {
 					if(  (w.getX()+1)<pathMap.length && pathMap[w.getX()+1][w.getY()].getValue() == (w.getValue()-1) && !map[w.getX()+1][w.getY()].isOccupied() ) {
 						w=pathMap[w.getX()+1][w.getY()];
+						foundFiled = true;
 						break;
 					}
 				}
 				
 				if(i == 1) {
-					if( (w.getY()+1) <pathMap.length && pathMap[w.getX()][w.getY()+1].getValue() == (w.getValue()-1) && !map[w.getX()][w.getY()+1].isOccupied() ) {
+					if( (w.getY()+1) < pathMap.length && pathMap[w.getX()][w.getY()+1].getValue() == (w.getValue()-1) && !map[w.getX()][w.getY()+1].isOccupied() ) {
 						w=pathMap[w.getX()][w.getY()+1];
+						foundFiled = true;
 						break;
 					}
 				}
@@ -232,6 +234,7 @@ public class CalcPath {
 				if(i == 2) {
 					if( (w.getX()-1) >= 0 && pathMap[w.getX()-1][w.getY()].getValue() == (w.getValue()-1) && !map[w.getX()-1][w.getY()].isOccupied() ) {
 						w=pathMap[w.getX()-1][w.getY()];
+						foundFiled = true;
 						break;
 					}
 				}
@@ -239,6 +242,7 @@ public class CalcPath {
 				if(i == 3) {
 					if( (w.getY()-1) >= 0  && pathMap[w.getX()][w.getY()-1].getValue() == (w.getValue()-1) && !map[w.getX()][w.getY()-1].isOccupied() ) {
 						w=pathMap[w.getX()][w.getY()-1];
+						foundFiled = true;
 						break;
 					}
 				}
@@ -246,6 +250,7 @@ public class CalcPath {
 				if(i == 4) {
 					if( (w.getY()-1) >= 0 && (w.getX()+1)<pathMap.length && pathMap[w.getX()+1][w.getY()-1].getValue() == (w.getValue()-1) && !map[w.getX()+1][w.getY()-1].isOccupied() ) {
 						w=pathMap[w.getX()+1][w.getY()-1];
+						foundFiled = true;
 						break;
 					}
 				}
@@ -253,6 +258,7 @@ public class CalcPath {
 				if(i == 5) {
 					if( (w.getX()-1) >= 0 && (w.getY()+1)<pathMap.length && pathMap[w.getX()-1][w.getY()+1].getValue() == (w.getValue()-1) && !map[w.getX()-1][w.getY()+1].isOccupied() ) {
 						w=pathMap[w.getX()-1][w.getY()+1];
+						foundFiled = true;
 						break;
 					}
 				}
@@ -260,6 +266,7 @@ public class CalcPath {
 				if(i == 6) {
 					if( (w.getX()+1) < pathMap.length&& (w.getY()+1)<pathMap.length && pathMap[w.getX()+1][w.getY()+1].getValue() == (w.getValue()-1) && !map[w.getX()+1][w.getY()+1].isOccupied()) {
 						w=pathMap[w.getX()+1][w.getY()+1];
+						foundFiled = true;
 						break;
 					}
 				}
@@ -267,17 +274,25 @@ public class CalcPath {
 				if(i == 7) {
 					if( (w.getX()-1) >= 0 && (w.getY()-1)>=0 && pathMap[w.getX()-1][w.getY()-1].getValue() == (w.getValue()-1) && !map[w.getX()-1][w.getY()-1].isOccupied() ) {
 						w=pathMap[w.getX()-1][w.getY()-1];
+						foundFiled = true;
 						break;
 					}
 				}
 			}
-			W.add(w);
 			
+			if(!foundFiled) {
+				System.out.println("NIE ZNALEZIONO POLA !!!!!");
+				W.clear();
+				break;
+			}
+			
+			W.add(w);
+	
 			if(w.getX() == startPosition.getX() && w.getY() == startPosition.getY()) {
 				foundPath = true;
 				System.out.println("Found Position");
 				break;
-			}	
+			}
 		}
 		
 //		drawing path 
@@ -286,6 +301,7 @@ public class CalcPath {
 				markArea.markPath((W.get(i).getX()*FIELD_SIZE), (W.get(i).getY()*FIELD_SIZE), FIELD_SIZE, FIELD_SIZE);
 			}
 		}
+	
 		return W;
 	}
 	
@@ -328,5 +344,6 @@ public class CalcPath {
 	public void setQ(LinkedList<MapPoint> q) {
 		Q = q;
 	}
+	
 }
 

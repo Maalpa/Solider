@@ -134,8 +134,8 @@ public abstract class Animation {
 		this.destinationPoint.setY((destinationPoint.getY()*FIELD_SIZE)+CENTER_FIELD_SIZE);
 	}
 	
-	protected void setNextDestinationPoint() {
-		if(!path.getLast().isOccupied()) {
+	protected boolean setNextDestinationPoint() {
+		if( !path.getLast().isOccupied()) {
 			this.destinationPoint = path.getLast();
 			path.removeLast();
 			if(this.destinationPoint != null && !destinationPoint.isOccupied() ) {
@@ -143,6 +143,9 @@ public abstract class Animation {
 				mousePoint.setPoint( destinationPoint.getX(), destinationPoint.getY());
 				setRotationToMouse(mousePoint);
 			}
+			return true;
+		} else {
+			return false;
 		}
 	}
 	
@@ -156,9 +159,13 @@ public abstract class Animation {
 	public void setPath( Animation animation, MarkArea markArea, MapPoint[][] map) {
 		calcPath.beforeCalc(animation);
 		this.path = calcPath.calcPath(markArea, map);
-		destinationPoint = path.getLast(); // delete first one because this is point where animation is standing 
-		path.removeLast();
-		setNextDestinationPoint();
+		if(this.path.isEmpty()) {
+			return;
+		} else {
+			destinationPoint = path.getLast(); // delete first one because this is point where animation is standing 
+			path.removeLast();
+			setNextDestinationPoint();
+		}
 	}
 	
 //*********************************************************
