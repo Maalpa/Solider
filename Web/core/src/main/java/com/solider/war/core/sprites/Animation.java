@@ -5,13 +5,11 @@ import static com.solider.war.core.Config.CENTER_FIELD_SIZE;
 
 
 import static playn.core.PlayN.log;
-
 import java.util.LinkedList;
 import java.util.List;
-
 import playn.core.GroupLayer;
 import playn.core.util.Callback;
-
+import com.solider.war.core.helpers.MapHelper;
 import com.solider.war.core.model.GPoint;
 import com.solider.war.core.path.CalcPath;
 import com.solider.war.core.path.MapPoint;
@@ -37,9 +35,10 @@ public abstract class Animation {
 	protected LinkedList<MapPoint> path;				// path of single point to destination point
 	protected MapPoint destinationPoint = null;  		// Object destination point - it sets when object is selected and right mouse is pressed	
 	protected CalcPath calcPath; 						// calculating path to destination point
+	protected MapPoint prevPoint  = null;
 
 	protected int counting = 0;							// update sprite image every 4 iteration of  main loop	
-	private GPoint mousePoint = new GPoint();
+	private GPoint mousePoint = new GPoint();			
 	
 	
 //***************************************************
@@ -74,7 +73,7 @@ public abstract class Animation {
 		});
 	}
 	
-	public void update(int delta, List<Animation> animations) {	
+	public void update(int delta, List<Animation> animations,  Animation animation, MarkArea markArea, MapPoint[][] map) {	
 		if (hasLoaded) {
 			if(counting == 4) {
 				spriteIndex = (spriteIndex + 1) % sprite.numSprites();
@@ -96,8 +95,16 @@ public abstract class Animation {
 			if((posX <= (destinationPoint.getX()+2.00) && posX >= (destinationPoint.getX()-2.00)) 
 				&& (posY <= (destinationPoint.getY()+2.00) && posY >= (destinationPoint.getY()-2.00)) )
 			{	
+				MapPoint mapPoint = MapHelper.getPointOnMap(destinationPoint);
+				map[mapPoint.getX()][mapPoint.getY()].setOccupied(true);
+				if(prevPoint != null ) {
+					map[prevPoint.getX()][prevPoint.getY()].setOccupied(false);
+				}
+				
 				if(path != null && !path.isEmpty()) {
-					setNextDestinationPoint();
+					setNextDestinationPoint(map);
+					MapPoint nextPoint = MapHelper.getPointOnMap(destinationPoint);	
+					prevPoint = mapPoint;
 				} else {
 					moving = false;
 				}
@@ -130,23 +137,20 @@ public abstract class Animation {
 	}
 	
 	private void fixDestinationPoint() {
-		this.destinationPoint.setX((destinationPoint.getX()*FIELD_SIZE)+CENTER_FIELD_SIZE);  //TODO change 15 to static value 
+		this.destinationPoint.setX((destinationPoint.getX()*FIELD_SIZE)+CENTER_FIELD_SIZE); 
 		this.destinationPoint.setY((destinationPoint.getY()*FIELD_SIZE)+CENTER_FIELD_SIZE);
 	}
 	
-	protected boolean setNextDestinationPoint() {
-		if( !path.getLast().isOccupied()) {
-			this.destinationPoint = path.getLast();
-			path.removeLast();
-			if(this.destinationPoint != null && !destinationPoint.isOccupied() ) {
-				fixDestinationPoint();
-				mousePoint.setPoint( destinationPoint.getX(), destinationPoint.getY());
-				setRotationToMouse(mousePoint);
-			}
-			return true;
-		} else {
-			return false;
+	protected void setNextDestinationPoint(MapPoint[][] map) {
+		this.destinationPoint = path.getLast();
+		path.removeLast();
+		if(!path.isEmpty()) {
+			MapPoint nextOne = path.getLast();
+			map[nextOne.getX()][nextOne.getY()].setOccupied(true);
 		}
+		fixDestinationPoint();
+		mousePoint.setPoint( destinationPoint.getX(), destinationPoint.getY());
+		setRotationToMouse(mousePoint);
 	}
 	
 	protected double calcEnemyDistance(Animation enemy) {
@@ -155,18 +159,29 @@ public abstract class Animation {
 		return distance;
 	}
 	
-	
 	public void setPath( Animation animation, MarkArea markArea, MapPoint[][] map) {
-		calcPath.beforeCalc(animation);
+		calcPath.beforeCalc(animation, map);
 		this.path = calcPath.calcPath(markArea, map);
+		
+		if(!path.isEmpty()) {
+			MapPoint mapPoint = path.getFirst();
+			map[mapPoint.getX()][mapPoint.getY()].setOccupied(true);
+		}
 		if(this.path.isEmpty()) {
 			return;
 		} else {
-			destinationPoint = path.getLast(); // delete first one because this is point where animation is standing 
+			if(prevPoint != null ) {
+				map[destinationPoint.getX()][destinationPoint.getY()].setOccupied(false);
+			}
+			destinationPoint = path.getLast(); // delete first one because this is point where animation is standing
 			path.removeLast();
-			setNextDestinationPoint();
+			setNextDestinationPoint(map);
 		}
 	}
+	
+	
+	
+	
 	
 //*********************************************************
 //******************** Abstract functions
@@ -178,7 +193,6 @@ public abstract class Animation {
 //********************************************************
 //******************* Getters and Setters
 	
-
 	public List<MapPoint> getPath() {
 		return path;
 	}
@@ -331,5 +345,4 @@ public abstract class Animation {
 	public void setFire(boolean fire) {
 		this.fire = fire;
 	}
-
 }

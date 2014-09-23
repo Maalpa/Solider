@@ -98,7 +98,7 @@ public class MainGame extends Game.Default {
 		graphics().rootLayer().add(layer);
 		layer.add(bgLayer);  // BACKGROUND
 		
-		layer.add(bg);
+//		layer.add(bg);
 		markArea = new MarkArea(layer);
 		
 		layer.add(animationLayer_2RD);
@@ -107,6 +107,15 @@ public class MainGame extends Game.Default {
 		// Add one solider sprite  to game the game
 		addSolider(graphics().width() / 2, graphics().height() / 2);
 		addSolider(100, 250);
+		
+		
+		int a = 0;
+		int b = 0;
+		for(int i = 0; i < 100; i++) {
+			a=a+10;
+			b=b+10;
+			addSolider(a,b);
+		}
 		
 		
 		addTank(50,50);
@@ -149,7 +158,7 @@ public class MainGame extends Game.Default {
 			    	}
 			    	
 			    	if(MOUSE_RIGHT_BUTTON_DOWN) {
-			    		MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN = true;
+			    		//MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN = true;
 			    		checkMapBoundariesForCamera(event);
 			    		
 			    	} else {
@@ -192,7 +201,6 @@ public class MainGame extends Game.Default {
 			    }
 		});
 
-
 //////////////////////////////////////////////////////////////////////////		
 //***********************************************************************
 //			KEYBOARD 
@@ -223,7 +231,7 @@ public class MainGame extends Game.Default {
 	@Override
 	public void update(int delta) {
 		for (Animation animation : animations) {
-			if(animation.isMoving()) animation.update(delta, animations);
+			if(animation.isMoving()) animation.update(delta, animations, animation, markArea, map);
 			if(animation instanceof Tank) {
 				((Tank) animation ).updateBarrel(delta, animations);
 			}
@@ -249,6 +257,7 @@ public class MainGame extends Game.Default {
 	
 	// checking Boundaries if camera deasn't come out off map size
 	private void checkMapBoundariesForCamera(MotionEvent event ) {
+		
 		float tempTransformX = event.x() - Point.getTransformStartPoint().getX();
 		float tempTransformY = event.y() - Point.getTransformStartPoint().getY();
 		

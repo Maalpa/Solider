@@ -60,7 +60,14 @@ public class CalcPath {
 		}
 	}
 	
-	public void beforeCalc(Animation animation ) {	
+	public void beforeCalc(Animation animation , MapPoint [][] map) {
+		
+		if(this.W != null) {
+			for(MapPoint mapPoint : this.W) {
+				map[mapPoint.getX()][mapPoint.getY()].setOccupied(false);
+			}
+		}
+		
 		this.Q.clear();
 		this.W.clear();
 		this.foundPath = false;
@@ -71,12 +78,16 @@ public class CalcPath {
 		// object cords
 		int animationX = (int) (animation.getX()/FIELD_SIZE);
 		int animationY = (int) (animation.getY()/FIELD_SIZE);
-				
+		
+		map[animationX][animationY].setOccupied(false);		
+	
 		System.out.println("object position(" + animationX +","+ animationY +")");
 		System.out.println("destination position(" + destX +","+ destY +")");
-
-		destinationPosition = new MapPoint(destX, destY);
-		startPosition = new MapPoint(animationX, animationY);
+		
+		destinationPosition = map[destX][destY];
+		startPosition =  map[animationX][animationY];
+		
+		
 	}
 	
 	private void addNearestDestinationPoint( MapPoint point ) {
@@ -123,7 +134,7 @@ public class CalcPath {
 			w  = Q.poll();
 			for(int i=0; i<8; i++) {		
 				if(i == 0) {
-					if( (w.getX()+1) < pathMap.length && !pathMap[w.getX()+1][w.getY()].isVisited() && !map[w.getX()+1][w.getY()].isOccupied()) {
+					if( (w.getX()+1) < pathMap.length && !pathMap[w.getX()+1][w.getY()].isVisited() && (!map[w.getX()+1][w.getY()].isOccupied() || destinationPosition== startPosition) ) {
 						pathMap[w.getX()+1][w.getY()].setVisited(true);
 						pathMap[w.getX()+1][w.getY()].setValue(w.getValue()+1);
 						Q.add(pathMap[w.getX()+1][w.getY()]);
@@ -132,7 +143,7 @@ public class CalcPath {
 				}
 
 				if(i == 1) {
-					if((w.getY()+1) < pathMap.length && !pathMap[w.getX()][w.getY()+1].isVisited() && !map[w.getX()][w.getY()+1].isOccupied()) {
+					if((w.getY()+1) < pathMap.length && !pathMap[w.getX()][w.getY()+1].isVisited() &&  (!map[w.getX()][w.getY()+1].isOccupied() || destinationPosition== startPosition) ) {
 						pathMap[w.getX()][w.getY()+1].setVisited(true);
 						pathMap[w.getX()][w.getY()+1].setValue(w.getValue()+1);
 						Q.add(pathMap[w.getX()][w.getY()+1]);
@@ -141,7 +152,7 @@ public class CalcPath {
 				}
 				
 				if(i == 2) {
-					if((w.getX()-1) >= 0 && !pathMap[w.getX()-1][w.getY()].isVisited() && !map[w.getX()-1][w.getY()].isOccupied()) {
+					if((w.getX()-1) >= 0 && !pathMap[w.getX()-1][w.getY()].isVisited() &&  (!map[w.getX()-1][w.getY()].isOccupied() || destinationPosition== startPosition) ) {
 						pathMap[w.getX()-1][w.getY()].setVisited(true);
 						pathMap[w.getX()-1][w.getY()].setValue(w.getValue()+1);
 						Q.add(pathMap[w.getX()-1][w.getY()]);
@@ -150,7 +161,7 @@ public class CalcPath {
 				}
 
 				if(i == 3) {
-					if((w.getY()-1) >= 0 && !pathMap[w.getX()][w.getY()-1].isVisited() && !map[w.getX()][w.getY()-1].isOccupied() ) {
+					if((w.getY()-1) >= 0 && !pathMap[w.getX()][w.getY()-1].isVisited() &&  (!map[w.getX()][w.getY()-1].isOccupied()  || destinationPosition== startPosition) ) {
 						pathMap[w.getX()][w.getY()-1].setVisited(true);
 						pathMap[w.getX()][w.getY()-1].setValue(w.getValue()+1);
 						Q.add(pathMap[w.getX()][w.getY()-1]);
@@ -159,7 +170,7 @@ public class CalcPath {
 				}
 				
 				if(i == 4) {
-					if( (w.getX()-1) >= 0 && (w.getY()+1) < pathMap.length && !pathMap[w.getX()-1][w.getY()+1].isVisited() && !map[w.getX()-1][w.getY()+1].isOccupied()) {
+					if( (w.getX()-1) >= 0 && (w.getY()+1) < pathMap.length && !pathMap[w.getX()-1][w.getY()+1].isVisited() &&  (!map[w.getX()-1][w.getY()+1].isOccupied() || destinationPosition== startPosition) ) {
 						pathMap[w.getX()-1][w.getY()+1].setVisited(true);
 						pathMap[w.getX()-1][w.getY()+1].setValue(w.getValue()+1);
 						Q.add(pathMap[w.getX()-1][w.getY()+1]);
@@ -168,7 +179,7 @@ public class CalcPath {
 				}
 				
 				if(i == 5) {
-					if( (w.getX()+1) < pathMap.length && (w.getY()+1) < pathMap.length && !pathMap[w.getX()+1][w.getY()+1].isVisited() && !map[w.getX()+1][w.getY()+1].isOccupied() ) {
+					if( (w.getX()+1) < pathMap.length && (w.getY()+1) < pathMap.length && !pathMap[w.getX()+1][w.getY()+1].isVisited() &&  (!map[w.getX()+1][w.getY()+1].isOccupied()  || destinationPosition== startPosition) ) {
 						pathMap[w.getX()+1][w.getY()+1].setVisited(true);
 						pathMap[w.getX()+1][w.getY()+1].setValue(w.getValue()+1);
 						Q.add(pathMap[w.getX()+1][w.getY()+1]);
@@ -177,7 +188,7 @@ public class CalcPath {
 				}
 				
 				if(i == 6) {
-					if((w.getX()+1) < pathMap.length && (w.getY()-1) >= 0 && !pathMap[w.getX()+1][w.getY()-1].isVisited() && !map[w.getX()+1][w.getY()-1].isOccupied() ) {
+					if((w.getX()+1) < pathMap.length && (w.getY()-1) >= 0 && !pathMap[w.getX()+1][w.getY()-1].isVisited() &&  (!map[w.getX()+1][w.getY()-1].isOccupied() || destinationPosition== startPosition)  ) {
 						pathMap[w.getX()+1][w.getY()-1].setVisited(true);
 						pathMap[w.getX()+1][w.getY()-1].setValue(w.getValue()+1);
 						Q.add(pathMap[w.getX()+1][w.getY()-1]);
@@ -186,7 +197,7 @@ public class CalcPath {
 				}
 				
 				if(i == 7) {
-					if((w.getX()-1) >= 0 && (w.getY()-1) > 0 && !pathMap[w.getX()-1][w.getY()-1].isVisited() && !map[w.getX()-1][w.getY()-1].isOccupied()) {
+					if((w.getX()-1) >= 0 && (w.getY()-1) > 0 && !pathMap[w.getX()-1][w.getY()-1].isVisited() && (!map[w.getX()-1][w.getY()-1].isOccupied() || destinationPosition== startPosition)  ) {
 						pathMap[w.getX()-1][w.getY()-1].setVisited(true);
 						pathMap[w.getX()-1][w.getY()-1].setValue(w.getValue()+1);
 						Q.add(pathMap[w.getX()-1][w.getY()-1]);
@@ -195,7 +206,7 @@ public class CalcPath {
 				}
 			}
 			
-			if((w.getX() == destinationPosition.getX() && w.getY() == destinationPosition.getY()) && !destinationPosition.isOccupied() && destinationPosition.getValue()>-1) {
+			if((w.getX() == destinationPosition.getX() && w.getY() == destinationPosition.getY()) && !destinationPosition.isOccupied() ) {
 				System.out.println("Found Path"  + w.getValue() + "");
 				foundDestinationPoint = true;
 				break;
@@ -206,7 +217,7 @@ public class CalcPath {
 			System.out.println("foundDestinationPoint !!!");
 		} else {
 			System.out.println("DestinationPoint not found  !!!!");
-			w=nearestPoints.getFirst();
+			if(nearestPoints != null && !nearestPoints.isEmpty()) w=nearestPoints.getFirst();
 		}
 		
 		pathMap[startPosition.getX()][startPosition.getY()].setValue(0);
@@ -216,7 +227,7 @@ public class CalcPath {
 			
 			for(int i=0; i < 8; i++) {
 				if(i == 0) {
-					if(  (w.getX()+1)<pathMap.length && pathMap[w.getX()+1][w.getY()].getValue() == (w.getValue()-1) && !map[w.getX()+1][w.getY()].isOccupied() ) {
+					if(  (w.getX()+1)<pathMap.length && pathMap[w.getX()+1][w.getY()].getValue() == (w.getValue()-1) ) {
 						w=pathMap[w.getX()+1][w.getY()];
 						foundFiled = true;
 						break;
@@ -224,7 +235,7 @@ public class CalcPath {
 				}
 				
 				if(i == 1) {
-					if( (w.getY()+1) < pathMap.length && pathMap[w.getX()][w.getY()+1].getValue() == (w.getValue()-1) && !map[w.getX()][w.getY()+1].isOccupied() ) {
+					if( (w.getY()+1) < pathMap.length && pathMap[w.getX()][w.getY()+1].getValue() == (w.getValue()-1) ) {
 						w=pathMap[w.getX()][w.getY()+1];
 						foundFiled = true;
 						break;
@@ -232,7 +243,7 @@ public class CalcPath {
 				}
 				
 				if(i == 2) {
-					if( (w.getX()-1) >= 0 && pathMap[w.getX()-1][w.getY()].getValue() == (w.getValue()-1) && !map[w.getX()-1][w.getY()].isOccupied() ) {
+					if( (w.getX()-1) >= 0 && pathMap[w.getX()-1][w.getY()].getValue() == (w.getValue()-1) ) {
 						w=pathMap[w.getX()-1][w.getY()];
 						foundFiled = true;
 						break;
@@ -240,7 +251,7 @@ public class CalcPath {
 				}
 	
 				if(i == 3) {
-					if( (w.getY()-1) >= 0  && pathMap[w.getX()][w.getY()-1].getValue() == (w.getValue()-1) && !map[w.getX()][w.getY()-1].isOccupied() ) {
+					if( (w.getY()-1) >= 0  && pathMap[w.getX()][w.getY()-1].getValue() == (w.getValue()-1) ) {
 						w=pathMap[w.getX()][w.getY()-1];
 						foundFiled = true;
 						break;
@@ -248,7 +259,7 @@ public class CalcPath {
 				}
 				
 				if(i == 4) {
-					if( (w.getY()-1) >= 0 && (w.getX()+1)<pathMap.length && pathMap[w.getX()+1][w.getY()-1].getValue() == (w.getValue()-1) && !map[w.getX()+1][w.getY()-1].isOccupied() ) {
+					if( (w.getY()-1) >= 0 && (w.getX()+1)<pathMap.length && pathMap[w.getX()+1][w.getY()-1].getValue() == (w.getValue()-1)) {
 						w=pathMap[w.getX()+1][w.getY()-1];
 						foundFiled = true;
 						break;
@@ -256,7 +267,7 @@ public class CalcPath {
 				}
 				
 				if(i == 5) {
-					if( (w.getX()-1) >= 0 && (w.getY()+1)<pathMap.length && pathMap[w.getX()-1][w.getY()+1].getValue() == (w.getValue()-1) && !map[w.getX()-1][w.getY()+1].isOccupied() ) {
+					if( (w.getX()-1) >= 0 && (w.getY()+1)<pathMap.length && pathMap[w.getX()-1][w.getY()+1].getValue() == (w.getValue()-1) ) {
 						w=pathMap[w.getX()-1][w.getY()+1];
 						foundFiled = true;
 						break;
@@ -264,7 +275,7 @@ public class CalcPath {
 				}
 				
 				if(i == 6) {
-					if( (w.getX()+1) < pathMap.length&& (w.getY()+1)<pathMap.length && pathMap[w.getX()+1][w.getY()+1].getValue() == (w.getValue()-1) && !map[w.getX()+1][w.getY()+1].isOccupied()) {
+					if( (w.getX()+1) < pathMap.length&& (w.getY()+1)<pathMap.length && pathMap[w.getX()+1][w.getY()+1].getValue() == (w.getValue()-1) ) {
 						w=pathMap[w.getX()+1][w.getY()+1];
 						foundFiled = true;
 						break;
@@ -272,7 +283,7 @@ public class CalcPath {
 				}
 				
 				if(i == 7) {
-					if( (w.getX()-1) >= 0 && (w.getY()-1)>=0 && pathMap[w.getX()-1][w.getY()-1].getValue() == (w.getValue()-1) && !map[w.getX()-1][w.getY()-1].isOccupied() ) {
+					if( (w.getX()-1) >= 0 && (w.getY()-1)>=0 && pathMap[w.getX()-1][w.getY()-1].getValue() == (w.getValue()-1) ) {
 						w=pathMap[w.getX()-1][w.getY()-1];
 						foundFiled = true;
 						break;

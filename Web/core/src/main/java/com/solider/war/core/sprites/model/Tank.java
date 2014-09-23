@@ -5,9 +5,14 @@
 package com.solider.war.core.sprites.model;
 	
 import static playn.core.PlayN.log;
+
 import java.util.List;
+
 import com.solider.war.core.model.GPoint;
+import com.solider.war.core.path.MapPoint;
 import com.solider.war.core.sprites.Animation;
+import com.solider.war.core.tools.MarkArea;
+
 import playn.core.GroupLayer;
 import static com.solider.war.core.Config.DEFAULT_HEALTH;
 import static com.solider.war.core.Config.DEFAULT_SHIELD;
@@ -39,8 +44,8 @@ public class Tank extends Animation {
 //****************************************************************
 //*********** Getters and Setters
 
-	public void update(int delta, List<Animation> animations) {	
-		super.update(delta, animations);
+	public void update(int delta, List<Animation> animations, Animation animation, MarkArea markArea, MapPoint[][] map) {	
+		super.update(delta, animations, animation, markArea, map );
 	}
 	
 	public void updateBarrel(int delta, List<Animation> animations) {
