@@ -77,9 +77,7 @@ public class CalcPath {
 		
 		// object cords
 		int animationX = (int) (animation.getX()/FIELD_SIZE);
-		int animationY = (int) (animation.getY()/FIELD_SIZE);
-		
-		map[animationX][animationY].setOccupied(false);		
+		int animationY = (int) (animation.getY()/FIELD_SIZE);	
 	
 		System.out.println("object position(" + animationX +","+ animationY +")");
 		System.out.println("destination position(" + destX +","+ destY +")");
@@ -126,7 +124,6 @@ public class CalcPath {
 		pathMap[startPosition.getX()][startPosition.getY()].setValue(0);
 		Q.add(pathMap[startPosition.getX()][startPosition.getY()]);
 		
-
 		MapPoint w = null;
 		boolean foundFiled = false;
 		
@@ -134,7 +131,7 @@ public class CalcPath {
 			w  = Q.poll();
 			for(int i=0; i<8; i++) {		
 				if(i == 0) {
-					if( (w.getX()+1) < pathMap.length && !pathMap[w.getX()+1][w.getY()].isVisited() && (!map[w.getX()+1][w.getY()].isOccupied() || destinationPosition== startPosition) ) {
+					if( (w.getX()+1) < pathMap.length && !pathMap[w.getX()+1][w.getY()].isVisited() && !map[w.getX()+1][w.getY()].isOccupied() ) {
 						pathMap[w.getX()+1][w.getY()].setVisited(true);
 						pathMap[w.getX()+1][w.getY()].setValue(w.getValue()+1);
 						Q.add(pathMap[w.getX()+1][w.getY()]);
@@ -143,7 +140,7 @@ public class CalcPath {
 				}
 
 				if(i == 1) {
-					if((w.getY()+1) < pathMap.length && !pathMap[w.getX()][w.getY()+1].isVisited() &&  (!map[w.getX()][w.getY()+1].isOccupied() || destinationPosition== startPosition) ) {
+					if((w.getY()+1) < pathMap.length && !pathMap[w.getX()][w.getY()+1].isVisited() && !map[w.getX()][w.getY()+1].isOccupied() ) {
 						pathMap[w.getX()][w.getY()+1].setVisited(true);
 						pathMap[w.getX()][w.getY()+1].setValue(w.getValue()+1);
 						Q.add(pathMap[w.getX()][w.getY()+1]);
@@ -152,7 +149,7 @@ public class CalcPath {
 				}
 				
 				if(i == 2) {
-					if((w.getX()-1) >= 0 && !pathMap[w.getX()-1][w.getY()].isVisited() &&  (!map[w.getX()-1][w.getY()].isOccupied() || destinationPosition== startPosition) ) {
+					if((w.getX()-1) >= 0 && !pathMap[w.getX()-1][w.getY()].isVisited() &&  !map[w.getX()-1][w.getY()].isOccupied() ) {
 						pathMap[w.getX()-1][w.getY()].setVisited(true);
 						pathMap[w.getX()-1][w.getY()].setValue(w.getValue()+1);
 						Q.add(pathMap[w.getX()-1][w.getY()]);
@@ -161,7 +158,7 @@ public class CalcPath {
 				}
 
 				if(i == 3) {
-					if((w.getY()-1) >= 0 && !pathMap[w.getX()][w.getY()-1].isVisited() &&  (!map[w.getX()][w.getY()-1].isOccupied()  || destinationPosition== startPosition) ) {
+					if((w.getY()-1) >= 0 && !pathMap[w.getX()][w.getY()-1].isVisited() &&  !map[w.getX()][w.getY()-1].isOccupied()) {
 						pathMap[w.getX()][w.getY()-1].setVisited(true);
 						pathMap[w.getX()][w.getY()-1].setValue(w.getValue()+1);
 						Q.add(pathMap[w.getX()][w.getY()-1]);
@@ -170,7 +167,7 @@ public class CalcPath {
 				}
 				
 				if(i == 4) {
-					if( (w.getX()-1) >= 0 && (w.getY()+1) < pathMap.length && !pathMap[w.getX()-1][w.getY()+1].isVisited() &&  (!map[w.getX()-1][w.getY()+1].isOccupied() || destinationPosition== startPosition) ) {
+					if( (w.getX()-1) >= 0 && (w.getY()+1) < pathMap.length && !pathMap[w.getX()-1][w.getY()+1].isVisited() && !map[w.getX()-1][w.getY()+1].isOccupied() ) {
 						pathMap[w.getX()-1][w.getY()+1].setVisited(true);
 						pathMap[w.getX()-1][w.getY()+1].setValue(w.getValue()+1);
 						Q.add(pathMap[w.getX()-1][w.getY()+1]);
@@ -179,7 +176,7 @@ public class CalcPath {
 				}
 				
 				if(i == 5) {
-					if( (w.getX()+1) < pathMap.length && (w.getY()+1) < pathMap.length && !pathMap[w.getX()+1][w.getY()+1].isVisited() &&  (!map[w.getX()+1][w.getY()+1].isOccupied()  || destinationPosition== startPosition) ) {
+					if( (w.getX()+1) < pathMap.length && (w.getY()+1) < pathMap.length && !pathMap[w.getX()+1][w.getY()+1].isVisited() && !map[w.getX()+1][w.getY()+1].isOccupied() ) {
 						pathMap[w.getX()+1][w.getY()+1].setVisited(true);
 						pathMap[w.getX()+1][w.getY()+1].setValue(w.getValue()+1);
 						Q.add(pathMap[w.getX()+1][w.getY()+1]);
@@ -188,7 +185,7 @@ public class CalcPath {
 				}
 				
 				if(i == 6) {
-					if((w.getX()+1) < pathMap.length && (w.getY()-1) >= 0 && !pathMap[w.getX()+1][w.getY()-1].isVisited() &&  (!map[w.getX()+1][w.getY()-1].isOccupied() || destinationPosition== startPosition)  ) {
+					if((w.getX()+1) < pathMap.length && (w.getY()-1) >= 0 && !pathMap[w.getX()+1][w.getY()-1].isVisited() && !map[w.getX()+1][w.getY()-1].isOccupied() ) {
 						pathMap[w.getX()+1][w.getY()-1].setVisited(true);
 						pathMap[w.getX()+1][w.getY()-1].setValue(w.getValue()+1);
 						Q.add(pathMap[w.getX()+1][w.getY()-1]);
@@ -197,7 +194,7 @@ public class CalcPath {
 				}
 				
 				if(i == 7) {
-					if((w.getX()-1) >= 0 && (w.getY()-1) > 0 && !pathMap[w.getX()-1][w.getY()-1].isVisited() && (!map[w.getX()-1][w.getY()-1].isOccupied() || destinationPosition== startPosition)  ) {
+					if((w.getX()-1) >= 0 && (w.getY()-1) > 0 && !pathMap[w.getX()-1][w.getY()-1].isVisited() && !map[w.getX()-1][w.getY()-1].isOccupied()  ) {
 						pathMap[w.getX()-1][w.getY()-1].setVisited(true);
 						pathMap[w.getX()-1][w.getY()-1].setValue(w.getValue()+1);
 						Q.add(pathMap[w.getX()-1][w.getY()-1]);

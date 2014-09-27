@@ -35,7 +35,7 @@ public abstract class Animation {
 	protected LinkedList<MapPoint> path;				// path of single point to destination point
 	protected MapPoint destinationPoint = null;  		// Object destination point - it sets when object is selected and right mouse is pressed	
 	protected CalcPath calcPath; 						// calculating path to destination point
-	protected MapPoint prevPoint  = null;
+	protected MapPoint prevPoint  = null; 
 
 	protected int counting = 0;							// update sprite image every 4 iteration of  main loop	
 	private GPoint mousePoint = new GPoint();			
@@ -96,7 +96,7 @@ public abstract class Animation {
 				&& (posY <= (destinationPoint.getY()+2.00) && posY >= (destinationPoint.getY()-2.00)) )
 			{	
 				MapPoint mapPoint = MapHelper.getPointOnMap(destinationPoint);
-				map[mapPoint.getX()][mapPoint.getY()].setOccupied(true);
+				//map[mapPoint.getX()][mapPoint.getY()].setOccupied(true);
 				if(prevPoint != null ) {
 					map[prevPoint.getX()][prevPoint.getY()].setOccupied(false);
 				}
@@ -106,6 +106,7 @@ public abstract class Animation {
 					MapPoint nextPoint = MapHelper.getPointOnMap(destinationPoint);	
 					prevPoint = mapPoint;
 				} else {
+					map[mapPoint.getX()][mapPoint.getY()].setOccupied(true);
 					moving = false;
 				}
 			}
@@ -167,6 +168,7 @@ public abstract class Animation {
 			MapPoint mapPoint = path.getFirst();
 			map[mapPoint.getX()][mapPoint.getY()].setOccupied(true);
 		}
+		
 		if(this.path.isEmpty()) {
 			return;
 		} else {
@@ -178,10 +180,6 @@ public abstract class Animation {
 			setNextDestinationPoint(map);
 		}
 	}
-	
-	
-	
-	
 	
 //*********************************************************
 //******************** Abstract functions

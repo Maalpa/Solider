@@ -9,6 +9,7 @@ import javax.security.auth.kerberos.KerberosKey;
 
 import org.w3c.dom.css.RGBColor;
 
+import com.solider.war.core.helpers.MapHelper;
 import com.solider.war.core.model.DestinationPoint;
 import com.solider.war.core.model.GameMap;
 import com.solider.war.core.model.GPoint;
@@ -105,16 +106,23 @@ public class MainGame extends Game.Default {
 		layer.add(animationLayer_3RD);
 		
 		// Add one solider sprite  to game the game
-		addSolider(graphics().width() / 2, graphics().height() / 2);
-		addSolider(100, 250);
 		
+		addSolider(100, 250, GameStatics.RED_SOLIDER);
 		
 		int a = 0;
 		int b = 0;
-		for(int i = 0; i < 100; i++) {
+		for(int i = 0; i < 50; i++) {
 			a=a+10;
-			b=b+10;
-			addSolider(a,b);
+			b=100;
+			addSolider(a,b, GameStatics.GREEN_SOLIDER);
+		}
+		
+		
+		
+		for(int i = 0; i < 50; i++) {
+			a=a+10;
+			b=200;
+			addSolider(a,b, GameStatics.RED_SOLIDER);
 		}
 		
 		
@@ -180,6 +188,15 @@ public class MainGame extends Game.Default {
 			    		MOUSE_RIGHT_BUTTON_DOWN = false;
 			    		Point.setMousePoint(event.x(), event.y());
 			    		if(!MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN) {
+			    			
+			    			for (Animation animation : animations) {
+								if(animation.isSelected()) {
+									MapPoint mapPoint = MapHelper.getPointOnMap(new MapPoint( (int) animation.getX(), (int) animation.getY()));
+									System.out.println("Deselect map point (" + mapPoint.getX() + " , " + mapPoint.getY() + ")");
+									map[mapPoint.getX()][mapPoint.getY()].setOccupied(false);	
+								}								
+							}
+			    		
 				    		for (Animation animation : animations) {
 								if(animation.isSelected()) {
 									animation.setPath(animation, markArea, map);
@@ -245,8 +262,8 @@ public class MainGame extends Game.Default {
 		// here!
 	}
 	
-	private void addSolider(float x, float y) {
-		Solider solider = new Solider(x, y, animationLayer_2RD);	
+	private void addSolider(float x, float y, String imagePath) {
+		Solider solider = new Solider(x, y,imagePath, animationLayer_2RD);	
 		animations.add(solider);
 	}
 	
