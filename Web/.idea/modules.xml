@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Web.iml" filepath="$PROJECT_DIR$/Web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/Web-android.iml" filepath="$PROJECT_DIR$/android/Web-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/assets/Web-assets.iml" filepath="$PROJECT_DIR$/assets/Web-assets.iml" />
+      <module fileurl="file://$PROJECT_DIR$/core/Web-core.iml" filepath="$PROJECT_DIR$/core/Web-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/flash/Web-flash.iml" filepath="$PROJECT_DIR$/flash/Web-flash.iml" />
+      <module fileurl="file://$PROJECT_DIR$/html/Web-html.iml" filepath="$PROJECT_DIR$/html/Web-html.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ios/Web-ios.iml" filepath="$PROJECT_DIR$/ios/Web-ios.iml" />
+      <module fileurl="file://$PROJECT_DIR$/java/Web-java.iml" filepath="$PROJECT_DIR$/java/Web-java.iml" />
+    </modules>
+  </component>
+</project>
+

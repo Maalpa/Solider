@@ -1,14 +1,11 @@
 package com.solider.war.core.sprites.model;
 
-import static playn.core.PlayN.graphics;
-import com.solider.war.core.sprites.Sprite;
-import java.util.Random;
 
+import java.io.Serializable;
 import playn.core.GroupLayer;
-
 import com.solider.war.core.sprites.Animation;
 
-public class Shot  extends Animation {
+public class Shot  extends Animation implements Serializable {
 	
 	private static final String IMAGE = "sprites/shot.png";
 	private static final String JSON  = "json_config/shot.json";
@@ -22,17 +19,15 @@ public class Shot  extends Animation {
 	
 	public void pointRotation(float bx, float by,  float angle ) {
 		float x, y;
-		x = (float) (bx + ( -(Math.cos(angle) * (45.1f))));
-        y = (float) (by + ( Math.sin(angle) * (45.1f)));     
+		x = (float) (bx + ( -(Math.cos(angle) * (40.1f))));
+        y = (float) (by + ( Math.sin(angle) * (40.1f)));
         this.setPosition(x, y);
 	}
 
 	@Override
 	public void fire() {
 		if (hasLoaded) {
-			Random generator = new Random(); 
-			int i = generator.nextInt(2);
-			sprite.setSprite(i);
+			sprite.setSprite(counting);
 			counting ++;
 		}
 	}

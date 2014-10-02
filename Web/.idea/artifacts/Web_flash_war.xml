@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Web-flash:war">
+    <output-path>$PROJECT_DIR$/flash/target</output-path>
+    <root id="archive" name="Web-flash-0.1.war">
+      <element id="artifact" artifact-name="Web-flash:war exploded" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,49 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="Web-flash:war exploded">
+    <output-path>$PROJECT_DIR$/flash/target/Web-flash-0.1</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="Web-flash/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="Web-flash" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="archive" name="Web-core-0.1.jar">
+            <element id="module-output" name="Web-core" />
+          </element>
+          <element id="library" level="project" name="Maven: com.googlecode.playn:playn-core:1.8" />
+          <element id="library" level="project" name="Maven: com.samskivert:pythagoras:1.3.2" />
+          <element id="library" level="project" name="Maven: com.googlecode.playn:playn-jbox2d:1.8" />
+          <element id="library" level="project" name="Maven: org.jbox2d:jbox2d-library:2.2.1.1" />
+          <element id="library" level="project" name="Maven: com.threerings:tripleplay:1.8" />
+          <element id="library" level="project" name="Maven: com.threerings:react:1.4.1" />
+          <element id="library" level="project" name="Maven: com.google.guava:guava:17.0" />
+          <element id="library" level="project" name="Maven: com.typesafe.akka:akka-actor_2.10:2.3.6" />
+          <element id="library" level="project" name="Maven: org.scala-lang:scala-library:2.10.4" />
+          <element id="library" level="project" name="Maven: com.typesafe:config:1.2.1" />
+          <element id="library" level="project" name="Maven: com.typesafe.akka:akka-actor_2.11:2.3.6" />
+          <element id="library" level="project" name="Maven: com.typesafe.akka:akka-testkit_2.10:2.3.6" />
+          <element id="archive" name="Web-core-0.1-sources.jar">
+            <element id="module-output" name="Web-core" />
+          </element>
+          <element id="archive" name="Web-assets-0.1.jar">
+            <element id="module-output" name="Web-assets" />
+          </element>
+          <element id="library" level="project" name="Maven: com.googlecode.playn:playn-flash:1.8" />
+          <element id="library" level="project" name="Maven: com.googlecode.gwt-flash:gwt-flash:1.2" />
+          <element id="library" level="project" name="Maven: com.googlecode.playn:playn-html:1.8" />
+          <element id="library" level="project" name="Maven: com.googlecode.playn:playn-core:sources:1.8" />
+          <element id="library" level="project" name="Maven: com.googlecode.playn:playn-webgl:1.8" />
+          <element id="library" level="project" name="Maven: com.google.gwt:gwt-user:2.5.0" />
+          <element id="library" level="project" name="Maven: javax.validation:validation-api:1.0.0.GA" />
+          <element id="library" level="project" name="Maven: javax.validation:validation-api:sources:1.0.0.GA" />
+          <element id="library" level="project" name="Maven: org.json:json:20090211" />
+          <element id="library" level="project" name="Maven: com.googlecode.playn:playn-webgl:sources:1.8" />
+          <element id="library" level="project" name="Maven: com.allen-sauer.gwt.voices:gwt-voices:3.2.0" />
+          <element id="library" level="project" name="Maven: com.google.gwt:gwt-servlet:2.5.0" />
+        </element>
+      </element>
+      <element id="gwt-compiler-output" facet="Web-flash/gwt/GWT" />
+    </root>
+  </artifact>
+</component>

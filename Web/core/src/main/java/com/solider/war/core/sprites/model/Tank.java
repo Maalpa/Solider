@@ -4,10 +4,9 @@
  */
 package com.solider.war.core.sprites.model;
 	
-import static playn.core.PlayN.log;
+
 
 import java.util.List;
-
 import com.solider.war.core.model.GPoint;
 import com.solider.war.core.path.MapPoint;
 import com.solider.war.core.sprites.Animation;
@@ -29,8 +28,8 @@ public class Tank extends Animation {
 	private double enemyMinDistance = ATTACK_RANGE;
 	private float attackDistance;
 	private double attackRange = ATTACK_RANGE;
-	private int health;
-	private int shield;
+	private int health = 100;
+	private int shield = 100;
 	
 	public Tank( final float x, final float y, final GroupLayer... layer) {
 		super(layer[0], x, y, IMAGE, JSON);
@@ -53,7 +52,7 @@ public class Tank extends Animation {
 		for(Animation animation : animations) {
 			if(isInRange(animation)) {
 				this.barrel.setRotationToMouse(new GPoint(enemyToShot.getX(), enemyToShot.getY()));
-				this.barrel.setFire(true);		
+				this.barrel.setFire(true);
 			}
 		}
 		

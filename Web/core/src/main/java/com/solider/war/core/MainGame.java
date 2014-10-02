@@ -1,39 +1,21 @@
 package com.solider.war.core;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
-import javax.security.auth.kerberos.KerberosKey;
-
-import org.w3c.dom.css.RGBColor;
-
 import com.solider.war.core.helpers.MapHelper;
-import com.solider.war.core.model.DestinationPoint;
-import com.solider.war.core.model.GameMap;
-import com.solider.war.core.model.GPoint;
-import com.solider.war.core.path.CalcPath;
 import com.solider.war.core.path.MapPoint;
 import com.solider.war.core.sprites.Animation;
-import com.solider.war.core.sprites.model.Barrel;
 import com.solider.war.core.sprites.model.Solider;
 import com.solider.war.core.sprites.model.Tank;
 import com.solider.war.core.tools.MarkArea;
 import com.solider.war.core.tools.Point;
 import com.solider.war.core.tools.Transform;
-
 import static playn.core.PlayN.assets;
 import static playn.core.PlayN.graphics;
-import static playn.core.PlayN.pointer;
 import playn.core.*;
-import playn.core.Keyboard.TypedEvent;
 import playn.core.Mouse.ButtonEvent;
 import playn.core.Mouse.MotionEvent;
 import playn.core.Mouse.WheelEvent;
-import playn.core.Pointer.Event;
-import playn.core.canvas.GroupLayerCanvas;
-import static playn.core.PlayN.*;
 import static com.solider.war.core.Config.MAP_SIZE;
 import static com.solider.war.core.Config.WINDOW_HEIGHT;
 import static com.solider.war.core.Config.WINDOW_WIDTH;
@@ -43,30 +25,31 @@ import static com.solider.war.core.Config.PATH_MAP_SIZE;
 public class MainGame extends Game.Default {
 	
 	public final  MapPoint[][] map =  new MapPoint[PATH_MAP_SIZE][PATH_MAP_SIZE];
-	
-	private Tank tank;
 	private boolean MOUSE_RIGHT_BUTTON_DOWN = false;
  	private boolean MOUSE_LEFT_BUTTON_DOWN = false;
  	private boolean MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN = false;
  	private boolean KEY_CTRL_DOWN = false;
- 	CalcPath calcPath;
- 
-	private GroupLayer layer;
 	private GroupLayer animationLayer_2RD;
 	private GroupLayer animationLayer_3RD;
-	private GameMap gameMap = new GameMap(MAP_SIZE, MAP_SIZE); 
 	private List<Animation> animations = new ArrayList<Animation>();
-	
-	ImageLayer bgLayer;	
-	MarkArea markArea;
-	
+	private ImageLayer bgLayer;
+	private MarkArea markArea;
+	private Tank tank;
+	private GroupLayer layer;
+
+	private  long lastLoopTime;
+	private int lastFpsTime = 0;
+	private int fps= 0;
+
 	public MainGame() {
-		super(25); // call update every 33ms (30 times per second)
+		super(16); // call update every 33ms (30 times per second)
 	}
 
 	@Override
 	public void init() {
-		
+
+		lastLoopTime = System.nanoTime();
+
 		// fill table with value equals -1
 		for(int i = 0; i< map.length; i++) {
 			for(int j=0; j<map[i].length; j++) {
@@ -75,15 +58,15 @@ public class MainGame extends Game.Default {
 				map[i][j].setVisited(false);
 			}
 		}
-		
+
 		Image bgImage = assets().getImage("sprites/map.png");
-		
+
 		// create a group layer to hold everything
 		layer = graphics().createGroupLayer();
 		bgLayer = graphics().createImageLayer(bgImage);
 		animationLayer_2RD = graphics().createGroupLayer();
 		animationLayer_3RD = graphics().createGroupLayer();
-		
+
 	    // draw a soothing flat background
 	    CanvasImage bgtile = graphics().createImage(FIELD_SIZE, FIELD_SIZE);
 	    bgtile.canvas().setFillColor(0xFFCCCCCC);
@@ -91,41 +74,34 @@ public class MainGame extends Game.Default {
 	    bgtile.canvas().strokeRect(0, 0, FIELD_SIZE, FIELD_SIZE);
 	    bgtile.setRepeat(true, true);
 	    ImageLayer bg = graphics().createImageLayer(bgtile);
-	    calcPath = new CalcPath();
-	    
+
 	    bg.setWidth(MAP_SIZE);
 	    bg.setHeight(MAP_SIZE);
-	    
+
 		graphics().rootLayer().add(layer);
 		layer.add(bgLayer);  // BACKGROUND
-		
+
 //		layer.add(bg);
 		markArea = new MarkArea(layer);
-		
 		layer.add(animationLayer_2RD);
 		layer.add(animationLayer_3RD);
-		
+
 		// Add one solider sprite  to game the game
-		
 		addSolider(100, 250, GameStatics.RED_SOLIDER);
-		
 		int a = 0;
-		int b = 0;
+		int b;
 		for(int i = 0; i < 50; i++) {
 			a=a+10;
 			b=100;
 			addSolider(a,b, GameStatics.GREEN_SOLIDER);
 		}
-		
-		
-		
+
 		for(int i = 0; i < 50; i++) {
 			a=a+10;
 			b=200;
 			addSolider(a,b, GameStatics.RED_SOLIDER);
 		}
-		
-		
+
 		addTank(50,50);
 
 //////////////////////////////////////////////////////////////////////////
@@ -133,15 +109,14 @@ public class MainGame extends Game.Default {
 //			MOUSE
 //***********************************************************************
 		PlayN.mouse().setListener(new Mouse.Adapter() {
-			
+
 			    @Override
 			    public void onMouseDown(ButtonEvent event) {
 			    	Point.setStartPoint(event.x(), event.y());
 			    	if( event.button() ==  Mouse.BUTTON_RIGHT ) {
 			    		MOUSE_RIGHT_BUTTON_DOWN = true;
 			    	}
-			    	
-			    	
+
 			    	if( event.button() ==  Mouse.BUTTON_LEFT ) {
 			    		MOUSE_LEFT_BUTTON_DOWN = true;
 			    		if(KEY_CTRL_DOWN == true ) {
@@ -152,84 +127,79 @@ public class MainGame extends Game.Default {
 			    		}
 			    	}
 			    }
-			    
+
 			    @Override
 			    public void onMouseMove(MotionEvent event) {
-			    	
+
 			    	if(MOUSE_LEFT_BUTTON_DOWN) {
 			    			markArea.mark(Point.getTransformStartPoint().getX(),
 			    						  Point.getTransformStartPoint().getY(),
-			    						  event.x()+(-Transform.getX()), 
+			    						  event.x()+(-Transform.getX()),
 			    						  event.y()+(-Transform.getY()) );
-			    			
+
 			    			Point.setEndPoint(event.x(), event.y());
 			    	}
-			    	
+
 			    	if(MOUSE_RIGHT_BUTTON_DOWN) {
-			    		//MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN = true;
+			    		MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN = true;
 			    		checkMapBoundariesForCamera(event);
-			    		
 			    	} else {
 			    		MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN = false;
 			    	}
-			    	
 			    	if( MOUSE_LEFT_BUTTON_DOWN  ) {
-			    		
 					}
 			    }
-			    
+
 			    @Override
 			    public void onMouseUp(ButtonEvent event) {
-			    	
+
 			    	markArea.intersects(animations);
 			    	markArea.clear( );
 			    	if( event.button() ==  Mouse.BUTTON_RIGHT ) {
-			    		
+
 			    		MOUSE_RIGHT_BUTTON_DOWN = false;
 			    		Point.setMousePoint(event.x(), event.y());
 			    		if(!MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN) {
-			    			
+
 			    			for (Animation animation : animations) {
 								if(animation.isSelected()) {
 									MapPoint mapPoint = MapHelper.getPointOnMap(new MapPoint( (int) animation.getX(), (int) animation.getY()));
 									System.out.println("Deselect map point (" + mapPoint.getX() + " , " + mapPoint.getY() + ")");
-									map[mapPoint.getX()][mapPoint.getY()].setOccupied(false);	
-								}								
+									map[mapPoint.getX()][mapPoint.getY()].setOccupied(false);
+								}
 							}
-			    		
+
 				    		for (Animation animation : animations) {
 								if(animation.isSelected()) {
 									animation.setPath(animation, markArea, map);
-								}								
+								}
 							}
 			    		}
 			    	}
-			    	
+
 					if( event.button() ==  Mouse.BUTTON_LEFT  ) {
 						MOUSE_LEFT_BUTTON_DOWN = false;
 						for(Animation animation : animations) {
-							animation.select(event.x(), event.y(), markArea);
+							animation.select(event.x(), event.y());
 						}
 					}
 			    }
-			    
+
 			    @Override
 			    public void onMouseWheelScroll(WheelEvent event) {
 			    }
 		});
 
-//////////////////////////////////////////////////////////////////////////		
+//////////////////////////////////////////////////////////////////////////
 //***********************************************************************
-//			KEYBOARD 
+//			KEYBOARD
 //***********************************************************************
-		
+
 	    PlayN.keyboard().setListener(new Keyboard.Adapter() {
-	    	
+
 	    	@Override
 	        public void onKeyDown(Keyboard.Event event) {
 	    		KEY_CTRL_DOWN = true;
-	    		tank.getBarrel().setFire(true);
-	    		tank.getBarrel().fire();
 	        }
 
 	        @Override
@@ -237,22 +207,29 @@ public class MainGame extends Game.Default {
 	        	KEY_CTRL_DOWN = false;
 	        }
 	     });
-	    
+
 	}
 
-///////////////////////////////////////////////////////////////////////////		
+///////////////////////////////////////////////////////////////////////////
 //*************************************************************************
-// 			UPDATE AND FUNCTJONS
+// 			UPDATE AND  FUNCTIONS
 //*************************************************************************
-	
+
+
 	@Override
 	public void update(int delta) {
+
+		fps++;
+
 		for (Animation animation : animations) {
-			if(animation.isMoving()) animation.update(delta, animations, animation, markArea, map);
-			if(animation instanceof Tank) {
-				((Tank) animation ).updateBarrel(delta, animations);
+
+			if (animation.isMoving()) animation.update(delta, animations, animation, markArea, map);
+			if (animation instanceof Tank) {
+				((Tank) animation).updateBarrel(delta, animations);
 			}
+
 			animation.fire();
+
 		}
 	}
 	
@@ -272,7 +249,7 @@ public class MainGame extends Game.Default {
 		animations.add(tank);
 	}
 	
-	// checking Boundaries if camera deasn't come out off map size
+	// checking Boundaries if camera doesn't come out off map size
 	private void checkMapBoundariesForCamera(MotionEvent event ) {
 		
 		float tempTransformX = event.x() - Point.getTransformStartPoint().getX();

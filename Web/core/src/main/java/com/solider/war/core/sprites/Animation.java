@@ -3,7 +3,6 @@ package com.solider.war.core.sprites;
 import static com.solider.war.core.Config.FIELD_SIZE;
 import static com.solider.war.core.Config.CENTER_FIELD_SIZE;
 
-
 import static playn.core.PlayN.log;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,7 +14,6 @@ import com.solider.war.core.path.CalcPath;
 import com.solider.war.core.path.MapPoint;
 import com.solider.war.core.tools.MarkArea;
 import com.solider.war.core.tools.Transform;
-import com.solider.war.core.sprites.Sprite;
 
 public abstract class Animation {
 	
@@ -25,13 +23,13 @@ public abstract class Animation {
 	protected float imageY; 							// left top position y 
 	protected boolean moving;							// is animation moving on the map
 	protected float angle;								// angle of sprite rotation
-	protected float rotation; 
-	protected Sprite sprite;					
+	protected float rotation;                           // rotation for sprite
+	protected Sprite sprite;					        // sprite for images loaded from repo
 	protected int spriteIndex = 0;						// index of rendering sprite
 	protected boolean hasLoaded = false; 				// set to true when resources have loaded		
 	protected boolean selected = false;					// is animation selected
-	protected float width;								// width of sprite image i required for couting if object selected, working with imageX 
-	protected float height;								// width of sprite image i required for couting if object selected, working with imageY 
+	protected float width;								// width of sprite image i required for counting if object selected, working with imageX
+	protected float height; 							// width of sprite image i required for counting if object selected, working with imageY
 	protected LinkedList<MapPoint> path;				// path of single point to destination point
 	protected MapPoint destinationPoint = null;  		// Object destination point - it sets when object is selected and right mouse is pressed	
 	protected CalcPath calcPath; 						// calculating path to destination point
@@ -75,13 +73,15 @@ public abstract class Animation {
 	
 	public void update(int delta, List<Animation> animations,  Animation animation, MarkArea markArea, MapPoint[][] map) {	
 		if (hasLoaded) {
+
+			//TODO remove counting and do this by some kind of time
 			if(counting == 4) {
 				spriteIndex = (spriteIndex + 1) % sprite.numSprites();
 				sprite.setSprite(spriteIndex);
 				counting = 0;
 			}
 			counting ++;
-			
+
 			this.x = sprite.layer().tx();
 			this.y = sprite.layer().ty();
 			
@@ -94,16 +94,15 @@ public abstract class Animation {
 		    
 			if((posX <= (destinationPoint.getX()+2.00) && posX >= (destinationPoint.getX()-2.00)) 
 				&& (posY <= (destinationPoint.getY()+2.00) && posY >= (destinationPoint.getY()-2.00)) )
-			{	
+			{
+
 				MapPoint mapPoint = MapHelper.getPointOnMap(destinationPoint);
-				//map[mapPoint.getX()][mapPoint.getY()].setOccupied(true);
 				if(prevPoint != null ) {
 					map[prevPoint.getX()][prevPoint.getY()].setOccupied(false);
 				}
 				
 				if(path != null && !path.isEmpty()) {
-					setNextDestinationPoint(map);
-					MapPoint nextPoint = MapHelper.getPointOnMap(destinationPoint);	
+					setNextDestinationPoint();
 					prevPoint = mapPoint;
 				} else {
 					map[mapPoint.getX()][mapPoint.getY()].setOccupied(true);
@@ -121,10 +120,10 @@ public abstract class Animation {
 	}
 	
 
-	public boolean select(float mouseX , float mouseY, MarkArea markArea) {
+	public boolean select(float mouseX , float mouseY) {
 		
-		imageX = (float) ((this.x+Transform.getX()) - (width/2.0f));	// calculating where image starts by transforming
-		imageY = (float) ((this.y+Transform.getY()) - (height/2.0f));	// calculating where image starts by transforming
+		imageX =  ((this.x+Transform.getX()) - (width/2.0f));	// calculating where image starts by transforming
+		imageY =  ((this.y+Transform.getY()) - (height/2.0f));	// calculating where image starts by transforming
 		
 		if( ((mouseX >= (imageX))  && (mouseX <= (imageX+this.width))) && (((mouseY) >= (imageY))  && (mouseY <= (imageY+this.height))) ) {
 			System.out.println("Selected by click");
@@ -133,7 +132,6 @@ public abstract class Animation {
 		} else {
 			selected = false;
 		}
-		
 		return selected;
 	}
 	
@@ -142,13 +140,9 @@ public abstract class Animation {
 		this.destinationPoint.setY((destinationPoint.getY()*FIELD_SIZE)+CENTER_FIELD_SIZE);
 	}
 	
-	protected void setNextDestinationPoint(MapPoint[][] map) {
+	protected void setNextDestinationPoint() {
 		this.destinationPoint = path.getLast();
-		path.removeLast();
-		if(!path.isEmpty()) {
-			MapPoint nextOne = path.getLast();
-			map[nextOne.getX()][nextOne.getY()].setOccupied(true);
-		}
+		this.path.removeLast();
 		fixDestinationPoint();
 		mousePoint.setPoint( destinationPoint.getX(), destinationPoint.getY());
 		setRotationToMouse(mousePoint);
@@ -161,8 +155,8 @@ public abstract class Animation {
 	}
 	
 	public void setPath( Animation animation, MarkArea markArea, MapPoint[][] map) {
-		calcPath.beforeCalc(animation, map);
-		this.path = calcPath.calcPath(markArea, map);
+
+		this.path = this.calcPath.calcPath(animation, markArea, map);
 		
 		if(!path.isEmpty()) {
 			MapPoint mapPoint = path.getFirst();
@@ -177,7 +171,7 @@ public abstract class Animation {
 			}
 			destinationPoint = path.getLast(); // delete first one because this is point where animation is standing
 			path.removeLast();
-			setNextDestinationPoint(map);
+			setNextDestinationPoint();
 		}
 	}
 	

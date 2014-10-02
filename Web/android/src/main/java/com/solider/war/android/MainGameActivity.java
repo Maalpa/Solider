@@ -11,5 +11,4 @@ public class MainGameActivity extends GameActivity {
   public void main() {
     PlayN.run(new MainGame());
   }
-  
 }
