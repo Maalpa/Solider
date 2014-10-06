@@ -8,6 +8,7 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
+import com.solider.war.core.actors.ShotActor;
 import playn.core.GroupLayer;
 import com.solider.war.core.sprites.Animation;
 
@@ -18,62 +19,48 @@ public class Barrel extends Animation implements Serializable {
 	private Shot shot;
 	private GroupLayer shotLayer;
 	private GroupLayer parentLayer;
+	private ActorRef shotRef = null;
 	ActorSystem system = ActorSystem.create();
 
-	public class ShooterActor extends UntypedActor {
-		public void onReceive(Object message) throws Exception {
-			if (message instanceof Shot) {
-				System.out.println("Is fire  " + ((Shot) message).isFire());
-			}
-		}
-	}
 
-	public class GreetingActor extends UntypedActor {
-
-		public GreetingActor(Object[] param) {
-			System.out.println("Constructor");
-		}
-
-		public void onReceive(Object message) throws Exception {
-			if (message instanceof String)
-				System.out.println("Hello ");
-		}
-	}
 
 	public Barrel(float x, float y, GroupLayer... layer) {
-
 
 		super(layer[0], x, y, IMAGE, JSON);
 		this.width = 22.0f;
 		this.height = 39.0f;
 		this.parentLayer = layer[0];
-		shotLayer = graphics().createGroupLayer();
-		parentLayer.add(shotLayer);
+		this.shotLayer = graphics().createGroupLayer();
+		this.parentLayer.add(shotLayer);
+		this.shotRef = system.actorOf(Props.create(ShotActor.class, this));
 
 	}
-	
+
 	public void fire() {
 		if(this.fire) {
+
 			if( this.shot == null) {
-				ActorRef someRef = system.actorOf(Props.create(GreetingActor.class, "aa"));
 				this.shot = new Shot(x, y, this.shotLayer );
-				someRef.tell(this.shot, null);
 			}
-			this.shot.fire();
+			this.shotLayer.setVisible(true);
+
+			if(this.shot.isHasLoaded() && !this.shot.isPlaying()) {
+				System.out.println("start !!! ");
+				this.shot.setPlaying(true);
+				shotRef.tell(this.shot, ActorRef.noSender());
+			}
+
 			this.shot.pointRotation( this.x , this.y, this.angle);
-			shot.setRotation(this.rotation);
-			if( this.shot.getCounting() == 2 ) {
-				this.shotLayer.removeAll();
-				this.shot = null;
-				this.fire = false;
-			}
+			this.shot.setRotation(this.rotation);
 		} else {
-			this.shotLayer.removeAll();
+			this.shotLayer.setVisible(false);
+			this.shot.setPlaying(false);
+			shotRef.tell("FINISH", ActorRef.noSender() );
 		}
 	}
 
 
-	
+
 	public void pointRotation(float bx, float by,  float angle ) {
 		float x, y;
 		if(Math.cos(angle) != 1.0 ) {

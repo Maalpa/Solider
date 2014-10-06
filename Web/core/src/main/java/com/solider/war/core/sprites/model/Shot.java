@@ -9,12 +9,14 @@ public class Shot  extends Animation implements Serializable {
 	
 	private static final String IMAGE = "sprites/shot.png";
 	private static final String JSON  = "json_config/shot.json";
+	private boolean playing;
 	
 	public Shot( float x, float y,  GroupLayer... layer) {
 		super(layer[0], x, y, IMAGE, JSON);
 		this.width = 10.0f;
 		this.height = 9.0f;
 		this.counting = 0;
+		this.playing = false;
 	}
 	
 	public void pointRotation(float bx, float by,  float angle ) {
@@ -41,5 +43,13 @@ public class Shot  extends Animation implements Serializable {
 	@Override
 	public String toString(){
 		return "Shot";
+	}
+
+	public boolean isPlaying() {
+		return playing;
+	}
+
+	public void setPlaying(boolean playing) {
+		this.playing = playing;
 	}
 }
