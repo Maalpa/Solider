@@ -20,24 +20,21 @@ public class ShotActor extends UntypedActor {
 		this.barrel = barrel;
 	}
 
-
 	@Override
 	public void onReceive(Object o) throws Exception {
-
-		Thread.sleep(2000);
 		if(o instanceof  Shot) {
 			Shot shot = (Shot) o;
-			for(int i = 0 ; i<3; i++) {
-				System.out.println("LOOP");
-//				shot.getSprite().s  etSprite(i);
-				Thread.sleep(200);
+			for(int i = 0 ; i<shot.getSprite().numSprites(); i++) {
+				try {
+					shot.getSprite().setSprite(i);
+				} catch (Exception e) {
+					System.out.println("OpenGL Exception with getting shot  sprite");
+				}
+				Thread.sleep(50);
 			}
 			this.barrel.setFire(false);
-			Thread.sleep(1000);
-			System.out.println("Test message from Shot Actor !!! " + Thread.currentThread().getId());
-		} else {
-			System.out.println(" Sends from not ");
+			Thread.sleep(500);
+			shot.setPlaying(false);
 		}
-
 	}
 }

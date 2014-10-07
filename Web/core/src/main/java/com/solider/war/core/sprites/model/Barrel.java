@@ -20,9 +20,7 @@ public class Barrel extends Animation implements Serializable {
 	private GroupLayer shotLayer;
 	private GroupLayer parentLayer;
 	private ActorRef shotRef = null;
-	ActorSystem system = ActorSystem.create();
-
-
+	private ActorSystem system = ActorSystem.create();
 
 	public Barrel(float x, float y, GroupLayer... layer) {
 
@@ -33,33 +31,25 @@ public class Barrel extends Animation implements Serializable {
 		this.shotLayer = graphics().createGroupLayer();
 		this.parentLayer.add(shotLayer);
 		this.shotRef = system.actorOf(Props.create(ShotActor.class, this));
-
 	}
 
 	public void fire() {
 		if(this.fire) {
-
 			if( this.shot == null) {
 				this.shot = new Shot(x, y, this.shotLayer );
 			}
 			this.shotLayer.setVisible(true);
-
 			if(this.shot.isHasLoaded() && !this.shot.isPlaying()) {
-				System.out.println("start !!! ");
 				this.shot.setPlaying(true);
 				shotRef.tell(this.shot, ActorRef.noSender());
 			}
-
 			this.shot.pointRotation( this.x , this.y, this.angle);
 			this.shot.setRotation(this.rotation);
 		} else {
 			this.shotLayer.setVisible(false);
 			this.shot.setPlaying(false);
-			shotRef.tell("FINISH", ActorRef.noSender() );
 		}
 	}
-
-
 
 	public void pointRotation(float bx, float by,  float angle ) {
 		float x, y;
@@ -84,5 +74,4 @@ public class Barrel extends Animation implements Serializable {
 	public String toString(){
 		return "Barrel";
 	}
-
 }

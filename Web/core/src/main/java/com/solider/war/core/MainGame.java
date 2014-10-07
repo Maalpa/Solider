@@ -102,8 +102,9 @@ public class MainGame extends Game.Default {
 			addSolider(a,b, GameStatics.RED_SOLIDER);
 		}
 
-
-		addTank(50,50);
+		for(int i = 0; i<10 ; i++) {
+			addTank(50+i*10,50);
+		}
 
 
 
