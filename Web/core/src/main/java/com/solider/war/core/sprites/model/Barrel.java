@@ -1,16 +1,10 @@
 package com.solider.war.core.sprites.model;
-
-import static playn.core.PlayN.graphics;
+import com.solider.war.core.sprites.Animation;
+import playn.core.GroupLayer;
 
 import java.io.Serializable;
 
-import akka.actor.ActorRef;
-import akka.actor.ActorSystem;
-import akka.actor.Props;
-import akka.actor.UntypedActor;
-import com.solider.war.core.actors.ShotActor;
-import playn.core.GroupLayer;
-import com.solider.war.core.sprites.Animation;
+import static playn.core.PlayN.graphics;
 
 public class Barrel extends Animation implements Serializable {
 	
@@ -19,18 +13,14 @@ public class Barrel extends Animation implements Serializable {
 	private Shot shot;
 	private GroupLayer shotLayer;
 	private GroupLayer parentLayer;
-	private ActorRef shotRef = null;
-	private ActorSystem system = ActorSystem.create();
 
 	public Barrel(float x, float y, GroupLayer... layer) {
-
 		super(layer[0], x, y, IMAGE, JSON);
 		this.width = 22.0f;
 		this.height = 39.0f;
 		this.parentLayer = layer[0];
 		this.shotLayer = graphics().createGroupLayer();
 		this.parentLayer.add(shotLayer);
-		this.shotRef = system.actorOf(Props.create(ShotActor.class, this));
 	}
 
 	public void fire() {
@@ -39,13 +29,14 @@ public class Barrel extends Animation implements Serializable {
 				this.shot = new Shot(x, y, this.shotLayer );
 			}
 			this.shotLayer.setVisible(true);
-			if(this.shot.isHasLoaded() && !this.shot.isPlaying()) {
+			if((this.shot.isHasLoaded() && !this.shot.isPlaying()) ) {
 				this.shot.setPlaying(true);
-				shotRef.tell(this.shot, ActorRef.noSender());
 			}
+
 			this.shot.pointRotation( this.x , this.y, this.angle);
 			this.shot.setRotation(this.rotation);
 		} else {
+			this.shot = null;
 			this.shotLayer.setVisible(false);
 			this.shot.setPlaying(false);
 		}

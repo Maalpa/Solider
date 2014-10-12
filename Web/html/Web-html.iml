@@ -16,6 +16,9 @@
     </facet>
     <facet type="gwt" name="GWT">
       <configuration>
+        <setting name="additionalCompilerParameters" value="-Xmx256m" />
+        <setting name="compilerParameters" value="-XdisableCastChecking -XdisableClassMetadata" />
+        <setting name="gwtScriptOutputStyle" value="OBF" />
         <setting name="gwtSdkUrl" value="file://$MAVEN_REPOSITORY$/com/google/gwt/gwt-dev/2.5.0/" />
         <setting name="gwtSdkType" value="maven" />
         <setting name="webFacet" value="Web" />
@@ -45,6 +48,7 @@
     <orderEntry type="library" name="Maven: com.typesafe.akka:akka-actor_2.11:2.3.6" level="project" />
     <orderEntry type="library" name="Maven: com.typesafe.akka:akka-testkit_2.10:2.3.6" level="project" />
     <orderEntry type="module" module-name="Web-core" />
+    <orderEntry type="library" name="Maven: WebProjectPlayN:Web-core:sources:0.1" level="project" />
     <orderEntry type="module" module-name="Web-assets" />
     <orderEntry type="library" name="Maven: com.googlecode.playn:playn-html:1.8" level="project" />
     <orderEntry type="library" name="Maven: com.googlecode.playn:playn-core:sources:1.8" level="project" />

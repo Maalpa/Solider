@@ -15,15 +15,13 @@
  */
 package com.solider.war.core.sprites;
 
-import static playn.core.PlayN.assets;
-import static playn.core.PlayN.graphics;
-import static playn.core.PlayN.json;
-
 import playn.core.Asserts;
 import playn.core.AssetWatcher;
 import playn.core.Image;
 import playn.core.Json;
 import playn.core.util.Callback;
+
+import static playn.core.PlayN.*;
 
 /**
  * Class for loading and parsing sprite sheets.

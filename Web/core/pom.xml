@@ -21,41 +21,53 @@
             <artifactId>playn-core</artifactId>
             <version>${playn.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.googlecode.playn</groupId>
             <artifactId>playn-jbox2d</artifactId>
             <version>${playn.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.threerings</groupId>
             <artifactId>tripleplay</artifactId>
             <version>${playn.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>17.0</version>
         </dependency>
+
         <dependency>
-            <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-actor_2.10</artifactId>
-            <version>2.3.6</version>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-user</artifactId>
+            <version>2.6.1</version>
         </dependency>
+
         <dependency>
-            <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-actor_2.11</artifactId>
-            <version>2.3.6</version>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-dev</artifactId>
+            <version>2.5.0</version>
         </dependency>
+        
         <dependency>
-            <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-testkit_2.10</artifactId>
-            <version>2.3.6</version>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-servlet</artifactId>
+            <version>2.5.0</version>
         </dependency>
 
 
     </dependencies>
 
     <build>
+            <!--  Include SOURCE in output artifact for GWT (GWT libraries must include source) -->
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+             </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

@@ -1,8 +1,8 @@
 package com.solider.war.core.helpers;
 
-import static com.solider.war.core.Config.FIELD_SIZE;
-
 import com.solider.war.core.path.MapPoint;
+
+import static com.solider.war.core.Config.FIELD_SIZE;
 
 public class MapHelper {
 

@@ -1,9 +1,10 @@
 package com.solider.war.core.sprites.model;
 
 
-import java.io.Serializable;
-import playn.core.GroupLayer;
 import com.solider.war.core.sprites.Animation;
+import playn.core.GroupLayer;
+
+import java.io.Serializable;
 
 public class Shot  extends Animation implements Serializable {
 	

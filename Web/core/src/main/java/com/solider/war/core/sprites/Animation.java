@@ -1,19 +1,20 @@
 package com.solider.war.core.sprites;
 
-import static com.solider.war.core.Config.FIELD_SIZE;
-import static com.solider.war.core.Config.CENTER_FIELD_SIZE;
-
-import static playn.core.PlayN.log;
-import java.util.LinkedList;
-import java.util.List;
-import playn.core.GroupLayer;
-import playn.core.util.Callback;
 import com.solider.war.core.helpers.MapHelper;
 import com.solider.war.core.model.GPoint;
 import com.solider.war.core.path.CalcPath;
 import com.solider.war.core.path.MapPoint;
 import com.solider.war.core.tools.MarkArea;
 import com.solider.war.core.tools.Transform;
+import playn.core.GroupLayer;
+import playn.core.util.Callback;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import static com.solider.war.core.Config.CENTER_FIELD_SIZE;
+import static com.solider.war.core.Config.FIELD_SIZE;
+import static playn.core.PlayN.log;
 
 public abstract class Animation {
 	

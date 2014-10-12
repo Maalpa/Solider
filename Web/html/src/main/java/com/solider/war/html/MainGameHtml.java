@@ -1,10 +1,9 @@
 package com.solider.war.html;
 
+import com.solider.war.core.MainGame;
 import playn.core.PlayN;
 import playn.html.HtmlGame;
 import playn.html.HtmlPlatform;
-
-import com.solider.war.core.MainGame;
 
 public class MainGameHtml extends HtmlGame {
 

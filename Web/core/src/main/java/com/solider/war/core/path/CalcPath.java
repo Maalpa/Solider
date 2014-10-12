@@ -1,14 +1,13 @@
 package com.solider.war.core.path;
 
-import java.util.LinkedList;
 import com.solider.war.core.helpers.MapHelper;
 import com.solider.war.core.sprites.Animation;
 import com.solider.war.core.tools.MarkArea;
 import com.solider.war.core.tools.Point;
 
-import static com.solider.war.core.Config.PATH_MAP_SIZE;
-import static com.solider.war.core.Config.FIELD_SIZE;
-import static com.solider.war.core.Config.DRAW_PATH;
+import java.util.LinkedList;
+
+import static com.solider.war.core.Config.*;
 
 
 

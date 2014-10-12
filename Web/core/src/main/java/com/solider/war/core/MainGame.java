@@ -1,7 +1,5 @@
 package com.solider.war.core;
 
-import java.util.ArrayList;
-import java.util.List;
 import com.solider.war.core.helpers.MapHelper;
 import com.solider.war.core.path.MapPoint;
 import com.solider.war.core.sprites.Animation;
@@ -10,24 +8,24 @@ import com.solider.war.core.sprites.model.Tank;
 import com.solider.war.core.tools.MarkArea;
 import com.solider.war.core.tools.Point;
 import com.solider.war.core.tools.Transform;
-import static playn.core.PlayN.assets;
-import static playn.core.PlayN.graphics;
 import playn.core.*;
 import playn.core.Mouse.ButtonEvent;
 import playn.core.Mouse.MotionEvent;
 import playn.core.Mouse.WheelEvent;
-import static com.solider.war.core.Config.MAP_SIZE;
-import static com.solider.war.core.Config.WINDOW_HEIGHT;
-import static com.solider.war.core.Config.WINDOW_WIDTH;
-import static com.solider.war.core.Config.FIELD_SIZE;
-import static com.solider.war.core.Config.PATH_MAP_SIZE;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.solider.war.core.Config.*;
+import static playn.core.PlayN.assets;
+import static playn.core.PlayN.graphics;
 
 public class MainGame extends Game.Default {
 	
 	public final  MapPoint[][] map =  new MapPoint[PATH_MAP_SIZE][PATH_MAP_SIZE];
 	private boolean MOUSE_RIGHT_BUTTON_DOWN = false;
  	private boolean MOUSE_LEFT_BUTTON_DOWN = false;
- 	private boolean MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN = false;
+	private boolean MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN = false;
  	private boolean KEY_CTRL_DOWN = false;
 	private GroupLayer animationLayer_2RD;
 	private GroupLayer animationLayer_3RD;
@@ -37,18 +35,12 @@ public class MainGame extends Game.Default {
 	private Tank tank;
 	private GroupLayer layer;
 
-	private  long lastLoopTime;
-	private int lastFpsTime = 0;
-	private int fps= 0;
-
 	public MainGame() {
 		super(16); // call update every 33ms (30 times per second)
 	}
 
 	@Override
 	public void init() {
-
-		lastLoopTime = System.nanoTime();
 
 		// fill table with value equals -1
 		for(int i = 0; i< map.length; i++) {
@@ -102,11 +94,7 @@ public class MainGame extends Game.Default {
 			addSolider(a,b, GameStatics.RED_SOLIDER);
 		}
 
-		for(int i = 0; i<10 ; i++) {
-			addTank(50+i*10,50);
-		}
-
-
+		addTank(50,50);
 
 //////////////////////////////////////////////////////////////////////////
 //***********************************************************************
@@ -151,6 +139,7 @@ public class MainGame extends Game.Default {
 			    		MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN = false;
 			    	}
 			    	if( MOUSE_LEFT_BUTTON_DOWN  ) {
+
 					}
 			    }
 
@@ -214,16 +203,13 @@ public class MainGame extends Game.Default {
 
 	}
 
+
 ///////////////////////////////////////////////////////////////////////////
 //*************************************************************************
 // 			UPDATE AND  FUNCTIONS
 //*************************************************************************
-
-
 	@Override
 	public void update(int delta) {
-
-		fps++;
 
 		for (Animation animation : animations) {
 
@@ -231,9 +217,7 @@ public class MainGame extends Game.Default {
 			if (animation instanceof Tank) {
 				((Tank) animation).updateBarrel(delta, animations);
 			}
-
 			animation.fire();
-
 		}
 	}
 	

@@ -1,9 +1,9 @@
 package com.solider.war.java;
-	
-import playn.core.PlayN;
-import playn.java.JavaPlatform;
 
 import com.solider.war.core.MainGame;
+import playn.core.PlayN;
+import playn.java.JavaPlatform;
+import com.google.gwt.core.shared.GWTBridge;
 
 public class MainGameJava {
 

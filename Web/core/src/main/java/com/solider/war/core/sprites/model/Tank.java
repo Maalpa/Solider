@@ -3,16 +3,16 @@
  * 
  */
 package com.solider.war.core.sprites.model;
-	
 
 
-import java.util.List;
 import com.solider.war.core.model.GPoint;
 import com.solider.war.core.path.MapPoint;
 import com.solider.war.core.sprites.Animation;
 import com.solider.war.core.tools.MarkArea;
-
 import playn.core.GroupLayer;
+
+import java.util.List;
+
 import static com.solider.war.core.Config.DEFAULT_HEALTH;
 import static com.solider.war.core.Config.DEFAULT_SHIELD;
 

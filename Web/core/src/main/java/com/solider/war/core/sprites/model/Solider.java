@@ -4,8 +4,8 @@
  * 
  */
 package com.solider.war.core.sprites.model;
-import com.solider.war.core.sprites.Animation;
 
+import com.solider.war.core.sprites.Animation;
 import playn.core.GroupLayer;
 
 public class Solider extends Animation {

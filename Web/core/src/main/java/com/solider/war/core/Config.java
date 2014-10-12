@@ -1,9 +1,5 @@
 package com.solider.war.core;
 
-import static com.solider.war.core.Config.PATH_MAP_SIZE;
-
-import com.solider.war.core.path.MapPoint;
-
 public class Config {
 	
 	// Main config statics
@@ -17,6 +13,5 @@ public class Config {
 	// Animation sprites config
 	public static final int DEFAULT_HEALTH = 100;
 	public static final int DEFAULT_SHIELD = 100;
-	public static final boolean DRAW_PATH = true;
-
+	public static final boolean DRAW_PATH = false;
 }
