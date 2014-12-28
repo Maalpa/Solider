@@ -1,8 +1,12 @@
 package com.solider.war.core;
 
 import com.solider.war.core.helpers.MapHelper;
+import com.solider.war.core.model.GPoint;
 import com.solider.war.core.path.MapPoint;
 import com.solider.war.core.sprites.Animation;
+import com.solider.war.core.sprites.StaticObject;
+import com.solider.war.core.sprites.StaticObjectsModel.Bags;
+import com.solider.war.core.sprites.model.Blow;
 import com.solider.war.core.sprites.model.Solider;
 import com.solider.war.core.sprites.model.Tank;
 import com.solider.war.core.tools.MarkArea;
@@ -30,10 +34,12 @@ public class MainGame extends Game.Default {
 	private GroupLayer animationLayer_2RD;
 	private GroupLayer animationLayer_3RD;
 	private List<Animation> animations = new ArrayList<Animation>();
+	private List<StaticObject> staticObjects = new ArrayList<StaticObject>();
 	private ImageLayer bgLayer;
 	private MarkArea markArea;
 	private Tank tank;
 	private GroupLayer layer;
+	private Blow blow;
 
 	public MainGame() {
 		super(16); // call update every 33ms (30 times per second)
@@ -41,7 +47,6 @@ public class MainGame extends Game.Default {
 
 	@Override
 	public void init() {
-
 		// fill table with value equals -1
 		for(int i = 0; i< map.length; i++) {
 			for(int j=0; j<map[i].length; j++) {
@@ -72,41 +77,51 @@ public class MainGame extends Game.Default {
 
 		graphics().rootLayer().add(layer);
 		layer.add(bgLayer);  // BACKGROUND
-
-//		layer.add(bg);
-		markArea = new MarkArea(layer);
 		layer.add(animationLayer_2RD);
 		layer.add(animationLayer_3RD);
+
 
 		// Add one solider sprite  to game the game
 		addSolider(100, 250, GameStatics.RED_SOLIDER);
 		int a = 0;
 		int b;
-		for(int i = 0; i < 50; i++) {
+		for(int i = 0; i < 20; i++) {
 			a=a+10;
 			b=100;
 			addSolider(a,b, GameStatics.GREEN_SOLIDER);
 		}
 
-		for(int i = 0; i < 50; i++) {
+		a=0;
+		for(int i = 0; i < 20; i++) {
 			a=a+10;
 			b=200;
 			addSolider(a,b, GameStatics.RED_SOLIDER);
 		}
 
+		// Adding grid !!!
+		if( DRAW_GRID ) {
+			layer.add(bg);
+		}
+
+		markArea = new MarkArea(layer);
 		addTank(50,50);
+		addBags(190,195, markArea);
+
+//		addBlow(300, 300);
+
 
 //////////////////////////////////////////////////////////////////////////
 //***********************************************************************
 //			MOUSE
 //***********************************************************************
 		PlayN.mouse().setListener(new Mouse.Adapter() {
-
 			    @Override
 			    public void onMouseDown(ButtonEvent event) {
 			    	Point.setStartPoint(event.x(), event.y());
 			    	if( event.button() ==  Mouse.BUTTON_RIGHT ) {
 			    		MOUSE_RIGHT_BUTTON_DOWN = true;
+//					    GPoint gamePoint = Point.transformPoint(event.x(),event.y());
+//					    addBlow(gamePoint.getX(), gamePoint.getY());
 			    	}
 
 			    	if( event.button() ==  Mouse.BUTTON_LEFT ) {
@@ -157,7 +172,6 @@ public class MainGame extends Game.Default {
 			    			for (Animation animation : animations) {
 								if(animation.isSelected()) {
 									MapPoint mapPoint = MapHelper.getPointOnMap(new MapPoint( (int) animation.getX(), (int) animation.getY()));
-									System.out.println("Deselect map point (" + mapPoint.getX() + " , " + mapPoint.getY() + ")");
 									map[mapPoint.getX()][mapPoint.getY()].setOccupied(false);
 								}
 							}
@@ -172,6 +186,9 @@ public class MainGame extends Game.Default {
 
 					if( event.button() ==  Mouse.BUTTON_LEFT  ) {
 						MOUSE_LEFT_BUTTON_DOWN = false;
+						for(Animation animation : animations) {
+							animation.setSelected(false);
+						}
 						for(Animation animation : animations) {
 							animation.select(event.x(), event.y());
 						}
@@ -189,12 +206,10 @@ public class MainGame extends Game.Default {
 //***********************************************************************
 
 	    PlayN.keyboard().setListener(new Keyboard.Adapter() {
-
 	    	@Override
 	        public void onKeyDown(Keyboard.Event event) {
 	    		KEY_CTRL_DOWN = true;
 	        }
-
 	        @Override
 	        public void onKeyUp(Keyboard.Event event) {
 	        	KEY_CTRL_DOWN = false;
@@ -203,24 +218,33 @@ public class MainGame extends Game.Default {
 
 	}
 
-
 ///////////////////////////////////////////////////////////////////////////
 //*************************************************************************
 // 			UPDATE AND  FUNCTIONS
 //*************************************************************************
 	@Override
 	public void update(int delta) {
-
 		for (Animation animation : animations) {
-
-			if (animation.isMoving()) animation.update(delta, animations, animation, markArea, map);
+ 			if (animation.isMoving()) animation.update(delta, animations, animation, markArea, map);
 			if (animation instanceof Tank) {
 				((Tank) animation).updateBarrel(delta, animations);
 			}
 			animation.fire();
+			if(animation instanceof Blow) {
+			 	if(animation.isFire()) {
+					animation.update(delta, animations, animation, markArea, map);
+				} else {
+					try {
+						animationLayer_2RD.remove(animation.getSprite().layer());
+						animations.remove(animation);
+					} catch (UnsupportedOperationException ex ) {
+						System.out.println("Blad w trakcie usuwania " + ex.getMessage());
+					}
+				}
+			}
 		}
 	}
-	
+
 	@Override
 	public void paint(float alpha) {
 		// the background automatically paints itself, so no need to do anything
@@ -228,13 +252,24 @@ public class MainGame extends Game.Default {
 	}
 	
 	private void addSolider(float x, float y, String imagePath) {
-		Solider solider = new Solider(x, y,imagePath, animationLayer_2RD);	
+		Solider solider = new Solider(x, y, imagePath, animationLayer_2RD);
 		animations.add(solider);
 	}
 	
 	private void addTank(float x, float y) {
 		this.tank = new Tank(x, y, animationLayer_2RD, animationLayer_3RD);
 		animations.add(tank);
+	}
+
+	private void addBlow(float x, float y) {
+		blow = new Blow(x, y, animationLayer_2RD);
+		animations.add(blow);
+		blow.setMoving(true);
+		blow.setFire(true);
+	}
+
+	private void addBags(float x, float y, MarkArea markArea) {
+		staticObjects.add(new Bags(x, y, map, markArea, animationLayer_2RD));
 	}
 	
 	// checking Boundaries if camera doesn't come out off map size

@@ -57,8 +57,8 @@ public class CalcPath {
 		int animationX = (int) (animation.getX()/FIELD_SIZE);
 		int animationY = (int) (animation.getY()/FIELD_SIZE);	
 	
-		System.out.println("object position(" + animationX +","+ animationY +")");
-		System.out.println("destination position(" + destX +","+ destY +")");
+		//System.out.println("object position(" + animationX +","+ animationY +")");
+		//System.out.println("destination position(" + destX +","+ destY +")");
 		
 		destinationPosition = map[destX][destY];
 		startPosition =  map[animationX][animationY];
@@ -167,16 +167,16 @@ public class CalcPath {
 			}
 			
 			if((w.getX() == destinationPosition.getX() && w.getY() == destinationPosition.getY()) && !destinationPosition.isOccupied() ) {
-				System.out.println("Found Path"  + w.getValue() + "");
+				//System.out.println("Found Path"  + w.getValue() + "");
 				foundDestinationPoint = true;
 				break;
 			}
 		}
 		
 		if(foundDestinationPoint) {
-			System.out.println(" Destination has been found ");
+			//System.out.println(" Destination has been found ");
 		} else {
-			System.out.println(" DestinationPoint has not been found  !!!! ");
+			//System.out.println(" DestinationPoint has not been found  !!!! ");
 			if(nearestPoints != null && !nearestPoints.isEmpty()) w=nearestPoints.getFirst();
 		}
 		
@@ -252,7 +252,7 @@ public class CalcPath {
 			}
 			
 			if(!foundFiled) {
-				System.out.println("Path has not been found !!!");
+				//System.out.println("Path has not been found !!!");
 				W.clear();
 				break;
 			}
@@ -261,7 +261,7 @@ public class CalcPath {
 	
 			if(w.getX() == startPosition.getX() && w.getY() == startPosition.getY()) {
 				foundPath = true;
-				System.out.println("Found Position");
+				//System.out.println("Found Position");
 				break;
 			}
 		}

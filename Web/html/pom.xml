@@ -87,17 +87,6 @@
 			<version>17.0</version>
 		</dependency>
 
-        <dependency>
-            <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-actor_2.10</artifactId>
-            <version>2.3.6</version>
-        </dependency>
-        <dependency>
-            <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-testkit_2.10</artifactId>
-            <version>2.3.6</version>
-        </dependency>
-
 	</dependencies>
 
 
@@ -117,11 +106,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
-                <configuration>
-                    <compileSourcesArtifacts>
-                        <compileSourcesArtifact>com.typesafe.akka:akka-actor_2.10</compileSourcesArtifact>
-                    </compileSourcesArtifacts>
-                </configuration>
 				<executions>
 					<execution>
 						<phase>prepare-package</phase>

@@ -110,7 +110,6 @@ public class MarkArea {
 			if(  (animation.getX()>=this.clearX && animation.getX() <= (this.clearX + this.clearWidthX))  && 
 					(animation.getY()>=this.clearY && animation.getY() <= (this.clearY + this.clearWidthY)) ) {
 				animation.setSelected(true);
-				System.out.println(animation.toString());
 			}
 		}
 	}

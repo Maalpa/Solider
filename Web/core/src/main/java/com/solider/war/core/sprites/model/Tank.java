@@ -5,6 +5,7 @@
 package com.solider.war.core.sprites.model;
 
 
+import com.google.gwt.core.client.Scheduler;
 import com.solider.war.core.model.GPoint;
 import com.solider.war.core.path.MapPoint;
 import com.solider.war.core.sprites.Animation;

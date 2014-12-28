@@ -1,5 +1,4 @@
 package com.solider.war.core.tools;
-
 import com.solider.war.core.model.GPoint;
 
 public class Point {
@@ -33,7 +32,11 @@ public class Point {
 		transformMousePoint.setX(x+(-Transform.getX()));
 		transformMousePoint.setY(y+(-Transform.getY()));
 	}
-	
+
+	public static GPoint transformPoint(float x, float y) {
+		return new GPoint((x+(-Transform.getX())), (y+(-Transform.getY())));
+	}
+
 	public static  void setSoliderPoint(float x , float y) {
 		soliderPoint.setX(x);
 		soliderPoint.setY(y);

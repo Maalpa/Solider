@@ -1,5 +1,6 @@
 package com.solider.war.core.actors;
 
+import com.google.gwt.user.client.Timer;
 import com.solider.war.core.sprites.model.Barrel;
 import com.solider.war.core.sprites.model.Shot;
 
@@ -9,7 +10,7 @@ import com.solider.war.core.sprites.model.Shot;
  * Time: 14:28
  * To change this template use File | Settings | File Templates.
  */
-public class ShotThread  {
+public class ShotThread extends Timer {
 
 	private Barrel barrel;
 	private Shot shot;
@@ -18,8 +19,6 @@ public class ShotThread  {
 		this.barrel = barrel;
 		this.shot = shot;
 	}
-
-
 
 //	@Override
 	public void run() {
@@ -30,19 +29,9 @@ public class ShotThread  {
 			} catch (Exception e) {
 				System.out.println("OpenGL Exception with getting shot sprite");
 			}
-			try {
-				Thread.sleep(50);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 		}
 
-//		this.barrel.setFire(false);
-//		try {
-//			Thread.sleep(500);
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-//		}
+		this.barrel.setFire(false);
 		this.shot.setPlaying(false);
 	}
 

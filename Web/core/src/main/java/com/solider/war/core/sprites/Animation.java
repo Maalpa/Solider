@@ -8,10 +8,8 @@ import com.solider.war.core.tools.MarkArea;
 import com.solider.war.core.tools.Transform;
 import playn.core.GroupLayer;
 import playn.core.util.Callback;
-
 import java.util.LinkedList;
 import java.util.List;
-
 import static com.solider.war.core.Config.CENTER_FIELD_SIZE;
 import static com.solider.war.core.Config.FIELD_SIZE;
 import static playn.core.PlayN.log;
@@ -122,17 +120,16 @@ public abstract class Animation {
 	
 
 	public boolean select(float mouseX , float mouseY) {
-		
+
+		selected = false;
 		imageX =  ((this.x+Transform.getX()) - (width/2.0f));	// calculating where image starts by transforming
 		imageY =  ((this.y+Transform.getY()) - (height/2.0f));	// calculating where image starts by transforming
-		
+
 		if( ((mouseX >= (imageX))  && (mouseX <= (imageX+this.width))) && (((mouseY) >= (imageY))  && (mouseY <= (imageY+this.height))) ) {
-			System.out.println("Selected by click");
 			selected = true;
 			moving = false;
-		} else {
-			selected = false;
 		}
+
 		return selected;
 	}
 	

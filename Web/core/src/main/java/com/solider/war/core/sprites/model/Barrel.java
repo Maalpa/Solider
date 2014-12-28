@@ -1,4 +1,9 @@
 package com.solider.war.core.sprites.model;
+
+
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.user.client.Timer;
+import com.solider.war.core.actors.ShotThread;
 import com.solider.war.core.sprites.Animation;
 import playn.core.GroupLayer;
 
@@ -13,6 +18,7 @@ public class Barrel extends Animation implements Serializable {
 	private Shot shot;
 	private GroupLayer shotLayer;
 	private GroupLayer parentLayer;
+
 
 	public Barrel(float x, float y, GroupLayer... layer) {
 		super(layer[0], x, y, IMAGE, JSON);
@@ -31,6 +37,13 @@ public class Barrel extends Animation implements Serializable {
 			this.shotLayer.setVisible(true);
 			if((this.shot.isHasLoaded() && !this.shot.isPlaying()) ) {
 				this.shot.setPlaying(true);
+
+//				Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+//					public void execute() {
+//						System.out.println("NEW GWT THREAD is created !!!");
+//					}
+//				});
+
 			}
 
 			this.shot.pointRotation( this.x , this.y, this.angle);
@@ -47,7 +60,7 @@ public class Barrel extends Animation implements Serializable {
 		if(Math.cos(angle) != 1.0 ) {
 			x = (float) (bx + ( -(Math.cos(angle) * (5.1f))));
 			y = (float) (by + ( Math.sin(angle) * (5.1f)));
-		} 
+		}
 		else {
 			y = by-5;
 			x = bx;

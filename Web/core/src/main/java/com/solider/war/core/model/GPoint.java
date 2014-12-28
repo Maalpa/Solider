@@ -1,5 +1,13 @@
 package com.solider.war.core.model;
 
+
+/**
+ * Point on the screen transformed by the camera !!!
+ * This is NOT point on the map grid !!!!!!
+ *
+ *
+ */
+
 public class GPoint {
 	
 	private float x; 
