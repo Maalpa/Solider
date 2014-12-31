@@ -9,8 +9,8 @@ public class MainGameJava {
   public static void main(String[] args) {
 
 	 JavaPlatform.Config config = new JavaPlatform.Config();
-	 config.width = 1200;
-	 config.height = 800;
+	 config.width = 200;
+	 config.height = 200;
 
 	 JavaPlatform.register(config);
 	 PlayN.run(new MainGame());

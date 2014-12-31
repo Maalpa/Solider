@@ -6,11 +6,13 @@ package com.solider.war.core.sprites.model;
 
 
 import com.google.gwt.core.client.Scheduler;
+import com.solider.war.core.Config;
 import com.solider.war.core.model.GPoint;
 import com.solider.war.core.path.MapPoint;
 import com.solider.war.core.sprites.Animation;
 import com.solider.war.core.tools.MarkArea;
 import playn.core.GroupLayer;
+import playn.core.util.Clock;
 
 import java.util.List;
 
@@ -31,7 +33,8 @@ public class Tank extends Animation {
 	private double attackRange = ATTACK_RANGE;
 	private int health = 100;
 	private int shield = 100;
-	
+	private long shotTime;
+
 	public Tank( final float x, final float y, final GroupLayer... layer) {
 		super(layer[0], x, y, IMAGE, JSON);
 		this.width = TANK_WIDTH;
@@ -49,15 +52,21 @@ public class Tank extends Animation {
 	}
 	
 	public void updateBarrel(int delta, List<Animation> animations) {
+		shotTime +=  delta;
+		boolean isInRange = false;
 		this.barrel.setSelected(this.isSelected());
 		for(Animation animation : animations) {
 			if(isInRange(animation)) {
 				this.barrel.setRotationToMouse(new GPoint(enemyToShot.getX(), enemyToShot.getY()));
-				this.barrel.setFire(true);
+				isInRange = true;
+				if(shotTime >= 500) {
+					this.barrel.setFire(true);
+					shotTime = 0;
+				}
 			}
 		}
-		
-		if(this.barrel.isFire()) {
+
+		if(isInRange) {
 			this.barrel.pointRotation(this.x, this.y, this.barrel.getAngle());
 		} else {
 			this.barrel.setRotation(this.rotation);
@@ -74,8 +83,8 @@ public class Tank extends Animation {
 	}
 	
 	@Override
-	public void fire() {
-		this.barrel.fire();
+	public void fire(int delta) {
+		this.barrel.fire(delta);
 	}
 
 	@Override
@@ -93,6 +102,36 @@ public class Tank extends Animation {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public void setPointMapOccupied(MapPoint[][] map, boolean isOccupide, MapPoint point) {
+
+		map[point.getX()][point.getY()].setOccupied(isOccupide);
+
+		if( (point.getX()+1) <= Config.PATH_MAP_SIZE && (point.getY()+1) <=  Config.PATH_MAP_SIZE )
+			map[point.getX()+1][point.getY()+1].setOccupied(isOccupide);
+
+		if( (point.getX()-1) >= 0 && (point.getY()-1) >=  0 )
+			map[point.getX()-1][point.getY()-1].setOccupied(isOccupide);
+
+		if( (point.getX()+1) <= Config.PATH_MAP_SIZE && (point.getY()-1) >=  0 )
+			map[point.getX()+1][point.getY()-1].setOccupied(isOccupide);
+
+		if( (point.getX()-1) >= 0 && (point.getY()+1) <=  Config.PATH_MAP_SIZE )
+			map[point.getX()-1][point.getY()+1].setOccupied(isOccupide);
+
+		if( (point.getX()+1) <= Config.PATH_MAP_SIZE )
+			map[point.getX()+1][point.getY()].setOccupied(isOccupide);
+
+		if( (point.getX()-1) >= 0 )
+			map[point.getX()-1][point.getY()].setOccupied(isOccupide);
+
+		if(  (point.getY()+1) <=  Config.PATH_MAP_SIZE )
+			map[point.getX()][point.getY()+1].setOccupied(isOccupide);
+
+		if((point.getY()-1) >= 0 )
+			map[point.getX()][point.getY()-1].setOccupied(isOccupide);
 	}
 
 //****************************************************************

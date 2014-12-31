@@ -43,12 +43,17 @@ public class Blow  extends Animation implements Serializable {
 	}
 
 	@Override
-	public void fire() {
+	public void fire(int delta) {
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override
 	public boolean isInRange(Animation enemy) {
 		return false;  //To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void setPointMapOccupied(MapPoint[][] map, boolean isOccupide, MapPoint point) {
+		//To change body of implemented methods use File | Settings | File Templates.
 	}
 }

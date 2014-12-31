@@ -78,5 +78,4 @@ public class Bags extends StaticObject {
 
 		return new MPoint(corX,corY);
 	}
-
 }

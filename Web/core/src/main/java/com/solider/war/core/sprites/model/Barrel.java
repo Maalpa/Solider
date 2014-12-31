@@ -1,9 +1,6 @@
 package com.solider.war.core.sprites.model;
 
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.user.client.Timer;
-import com.solider.war.core.actors.ShotThread;
+import com.solider.war.core.path.MapPoint;
 import com.solider.war.core.sprites.Animation;
 import playn.core.GroupLayer;
 
@@ -12,12 +9,14 @@ import java.io.Serializable;
 import static playn.core.PlayN.graphics;
 
 public class Barrel extends Animation implements Serializable {
+
 	
 	public static String IMAGE = "sprites/barrel.png";
 	public static String JSON  = "json_config/barrel.json";
 	private Shot shot;
 	private GroupLayer shotLayer;
 	private GroupLayer parentLayer;
+	private int fireTime = 0;
 
 
 	public Barrel(float x, float y, GroupLayer... layer) {
@@ -29,29 +28,27 @@ public class Barrel extends Animation implements Serializable {
 		this.parentLayer.add(shotLayer);
 	}
 
-	public void fire() {
+	public void fire(int delta) {
 		if(this.fire) {
 			if( this.shot == null) {
-				this.shot = new Shot(x, y, this.shotLayer );
+				this.shot = new Shot(x, y, this.angle ,  this.shotLayer );
 			}
 			this.shotLayer.setVisible(true);
 			if((this.shot.isHasLoaded() && !this.shot.isPlaying()) ) {
 				this.shot.setPlaying(true);
-
-//				Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-//					public void execute() {
-//						System.out.println("NEW GWT THREAD is created !!!");
-//					}
-//				});
-
 			}
-
 			this.shot.pointRotation( this.x , this.y, this.angle);
 			this.shot.setRotation(this.rotation);
+
+			fireTime += delta;
+			if(fireTime > 100) {
+				this.setFire(false);
+				fireTime= 0;
+			}
 		} else {
 			this.shot = null;
 			this.shotLayer.setVisible(false);
-			this.shot.setPlaying(false);
+			this.shotLayer.removeAll();
 		}
 	}
 
@@ -72,6 +69,11 @@ public class Barrel extends Animation implements Serializable {
 	public boolean isInRange(Animation enemy) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void setPointMapOccupied(MapPoint[][] map, boolean isOccupide, MapPoint point) {
+		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override

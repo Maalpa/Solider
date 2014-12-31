@@ -1,7 +1,6 @@
 package com.solider.war.core;
 
 import com.solider.war.core.helpers.MapHelper;
-import com.solider.war.core.model.GPoint;
 import com.solider.war.core.path.MapPoint;
 import com.solider.war.core.sprites.Animation;
 import com.solider.war.core.sprites.StaticObject;
@@ -16,7 +15,6 @@ import playn.core.*;
 import playn.core.Mouse.ButtonEvent;
 import playn.core.Mouse.MotionEvent;
 import playn.core.Mouse.WheelEvent;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +40,7 @@ public class MainGame extends Game.Default {
 	private Blow blow;
 
 	public MainGame() {
-		super(16); // call update every 33ms (30 times per second)
+		super(30); // call update every 33ms (30 times per second)
 	}
 
 	@Override
@@ -73,7 +71,7 @@ public class MainGame extends Game.Default {
 	    ImageLayer bg = graphics().createImageLayer(bgtile);
 
 	    bg.setWidth(MAP_SIZE);
-	    bg.setHeight(MAP_SIZE);
+		bg.setHeight(MAP_SIZE);
 
 		graphics().rootLayer().add(layer);
 		layer.add(bgLayer);  // BACKGROUND
@@ -130,7 +128,7 @@ public class MainGame extends Game.Default {
 			    			int corX =(int) (Point.getTransformStartPoint().getX()/FIELD_SIZE);
 			    			int corY =(int) (Point.getTransformStartPoint().getY()/FIELD_SIZE);
 			    			markArea.markPathOnClick(corX*FIELD_SIZE, corY*FIELD_SIZE, FIELD_SIZE, FIELD_SIZE);
-			    			map[corX][corY].setOccupied(true);
+//			    			map[corX][corY].setOccupied(true);
 			    		}
 			    	}
 			    }
@@ -162,7 +160,7 @@ public class MainGame extends Game.Default {
 			    public void onMouseUp(ButtonEvent event) {
 
 			    	markArea.intersects(animations);
-			    	markArea.clear( );
+			    	markArea.clear();
 			    	if( event.button() ==  Mouse.BUTTON_RIGHT ) {
 
 			    		MOUSE_RIGHT_BUTTON_DOWN = false;
@@ -172,7 +170,7 @@ public class MainGame extends Game.Default {
 			    			for (Animation animation : animations) {
 								if(animation.isSelected()) {
 									MapPoint mapPoint = MapHelper.getPointOnMap(new MapPoint( (int) animation.getX(), (int) animation.getY()));
-									map[mapPoint.getX()][mapPoint.getY()].setOccupied(false);
+									animation.setPointMapOccupied(map, false, mapPoint);
 								}
 							}
 
@@ -183,7 +181,6 @@ public class MainGame extends Game.Default {
 							}
 			    		}
 			    	}
-
 					if( event.button() ==  Mouse.BUTTON_LEFT  ) {
 						MOUSE_LEFT_BUTTON_DOWN = false;
 						for(Animation animation : animations) {
@@ -228,9 +225,9 @@ public class MainGame extends Game.Default {
  			if (animation.isMoving()) animation.update(delta, animations, animation, markArea, map);
 			if (animation instanceof Tank) {
 				((Tank) animation).updateBarrel(delta, animations);
+				((Tank) animation).fire(delta);
 			}
-			animation.fire();
-			if(animation instanceof Blow) {
+			if( animation instanceof Blow ) {
 			 	if(animation.isFire()) {
 					animation.update(delta, animations, animation, markArea, map);
 				} else {
@@ -238,8 +235,21 @@ public class MainGame extends Game.Default {
 						animationLayer_2RD.remove(animation.getSprite().layer());
 						animations.remove(animation);
 					} catch (UnsupportedOperationException ex ) {
-						System.out.println("Blad w trakcie usuwania " + ex.getMessage());
+						System.out.println("Bląd w trakcie usuwania " + ex.getMessage());
 					}
+				}
+			}
+		}
+
+//		drawOccupideFields();
+	}
+
+	// helper methot to show if field is occupied
+	private void drawOccupideFields(){
+		for(int i=0; i< map.length; i++) {
+			for(int j=0;j<map.length;j++) {
+				if(map[i][j].isOccupied()) {
+					markArea.markPathOnClick(i*FIELD_SIZE, j*FIELD_SIZE, FIELD_SIZE, FIELD_SIZE);
 				}
 			}
 		}
@@ -277,12 +287,11 @@ public class MainGame extends Game.Default {
 		
 		float tempTransformX = event.x() - Point.getTransformStartPoint().getX();
 		float tempTransformY = event.y() - Point.getTransformStartPoint().getY();
-		
-		if(tempTransformX <= 0 &&  (tempTransformX - WINDOW_WIDTH) >= (-MAP_SIZE) ) {
+
+			if(tempTransformX <= 0 &&  (tempTransformX - WINDOW_WIDTH) >= (-MAP_SIZE) ) {
 			Transform.setX(tempTransformX);
 			layer.setTx(Transform.getX());
 		}
-		
 		if(tempTransformY <= 0 && (tempTransformY - WINDOW_HEIGHT) >= (-MAP_SIZE) ) {
 			Transform.setY(tempTransformY);
 			layer.setTy(tempTransformY);

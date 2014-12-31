@@ -5,6 +5,7 @@
  */
 package com.solider.war.core.sprites.model;
 
+import com.solider.war.core.path.MapPoint;
 import com.solider.war.core.sprites.Animation;
 import playn.core.GroupLayer;
 
@@ -19,7 +20,7 @@ public class Solider extends Animation {
 	}
 
 	@Override
-	public void fire() {
+	public void fire(int delta) {
 			// TODO Auto-generated method stub
 		
 	}
@@ -29,7 +30,12 @@ public class Solider extends Animation {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
+	@Override
+	public void setPointMapOccupied(MapPoint[][] map, boolean isOccupide, MapPoint point) {
+		map[point.getX()][point.getY()].setOccupied(isOccupide);
+	}
+
 	@Override
 	public String toString(){
 		return "Solider";

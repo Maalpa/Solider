@@ -3,8 +3,8 @@ package com.solider.war.core;
 public class Config {
 
 	// Main config statics
-	public static final int WINDOW_WIDTH  = 1200;
-	public static final int WINDOW_HEIGHT = 800;
+	public static final int WINDOW_WIDTH  = 200;
+	public static final int WINDOW_HEIGHT = 200;
 	public static final int MAP_SIZE = 1021;
 	public static final int FIELD_SIZE = 20;
 	public static final int CENTER_FIELD_SIZE = FIELD_SIZE/2;

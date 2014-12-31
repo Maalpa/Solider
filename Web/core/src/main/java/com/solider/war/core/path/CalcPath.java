@@ -40,11 +40,11 @@ public class CalcPath {
 	
 	public void beforeCalc(Animation animation , MapPoint [][] map) {
 		
-		if(this.W != null) {
-			for(MapPoint mapPoint : this.W) {
-				map[mapPoint.getX()][mapPoint.getY()].setOccupied(false);
-			}
-		}
+//		if(this.W != null) {
+//			for(MapPoint mapPoint : this.W) {
+//				map[mapPoint.getX()][mapPoint.getY()].setOccupied(false);
+//			}
+//		}
 		
 		this.Q.clear();
 		this.W.clear();
