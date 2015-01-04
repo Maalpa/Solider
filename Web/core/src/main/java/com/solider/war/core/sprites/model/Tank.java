@@ -65,7 +65,6 @@ public class Tank extends Animation {
 				}
 			}
 		}
-
 		if(isInRange) {
 			this.barrel.pointRotation(this.x, this.y, this.barrel.getAngle());
 		} else {

@@ -73,7 +73,6 @@ public class Bags extends StaticObject {
 					markArea.markPath(drawX*FIELD_SIZE, drawY*FIELD_SIZE, FIELD_SIZE, FIELD_SIZE);
 				}
 			}
-
 		}
 
 		return new MPoint(corX,corY);

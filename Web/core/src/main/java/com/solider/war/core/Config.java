@@ -14,5 +14,5 @@ public class Config {
 	public static final int DEFAULT_HEALTH = 100;
 	public static final int DEFAULT_SHIELD = 100;
 	public static final boolean DRAW_PATH = false;
-	public static final boolean DRAW_GRID = true;
+	public static final boolean DRAW_GRID = false;
 }

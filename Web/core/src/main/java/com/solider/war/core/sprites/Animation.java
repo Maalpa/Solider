@@ -5,6 +5,7 @@ import com.solider.war.core.model.GPoint;
 import com.solider.war.core.path.CalcPath;
 import com.solider.war.core.path.MapPoint;
 import com.solider.war.core.tools.MarkArea;
+import com.solider.war.core.tools.Point;
 import com.solider.war.core.tools.Transform;
 import playn.core.GroupLayer;
 import playn.core.util.Callback;
@@ -30,19 +31,18 @@ public abstract class Animation {
 	protected float width;								// width of sprite image i required for counting if object selected, working with imageX
 	protected float height; 							// width of sprite image i required for counting if object selected, working with imageY
 	protected LinkedList<MapPoint> path;				// path of single point to destination point
-	protected MapPoint destinationPoint = null;  		// Object destination point - it sets when object is selected and right mouse is pressed	
+	protected MapPoint destinationPoint = null;  		// Object destination point - it sets when object is selected and right mouse is pressed
 	protected CalcPath calcPath; 						// calculating path to destination point
 	protected MapPoint prevPoint  = null;
 	protected int counting = 0;							// update sprite image every 4 iteration of  main loop	
 	private GPoint mousePoint = new GPoint();			
-	
-	
+	private MapPoint beforeSelectedDestinationPoint= null;
+
 //***************************************************
 //***************** Game Variables
 //
 	protected boolean fire;
-	
-	
+
 	public Animation(final GroupLayer layer, final float x, final float y, final String image, final String json ) {
 
 		this.sprite = SpriteLoader.getSprite(image, json);
@@ -52,7 +52,6 @@ public abstract class Animation {
 		this.calcPath = new CalcPath();
 
 		sprite.addCallback(new Callback<Sprite>() {
-
 			@Override
 			public void onSuccess(Sprite sprite) {
 				sprite.setSprite(spriteIndex);
@@ -66,7 +65,6 @@ public abstract class Animation {
 			public void onFailure(Throwable err) {
 				log().error("Error loading image!", err);
 			}
-
 		});
 	}
 
@@ -93,7 +91,6 @@ public abstract class Animation {
 				layer.add(sprite.layer());
 				hasLoaded = true;
 			}
-
 			@Override
 			public void onFailure(Throwable err) {
 				log().error("Error loading image!", err);
@@ -128,7 +125,6 @@ public abstract class Animation {
 			{
 				MapPoint mapPoint = MapHelper.getPointOnMap(destinationPoint);
 				if(prevPoint != null ) {
-//					map[prevPoint.getX()][prevPoint.getY()].setOccupied(false);
 					setPointMapOccupied(map, false, prevPoint);
 				}
 				
@@ -136,7 +132,6 @@ public abstract class Animation {
 					setNextDestinationPoint();
 					prevPoint = mapPoint;
 				} else {
-//					map[mapPoint.getX()][mapPoint.getY()].setOccupied(true);
 					setPointMapOccupied(map, true, mapPoint);
 					moving = false;
 				}
@@ -150,7 +145,6 @@ public abstract class Animation {
 		sprite.layer().setRotation(rotation);
 		moving = true;
 	}
-	
 
 	public boolean select(float mouseX , float mouseY) {
 
@@ -186,18 +180,17 @@ public abstract class Animation {
 	
 	public void setPath( Animation animation, MarkArea markArea, MapPoint[][] map) {
 
+		clearBeforeSelectedDestinationPoint(map);
 		this.path = this.calcPath.calcPath(animation, markArea, map);
 
 		if(!path.isEmpty()) {
 			MapPoint mapPoint = path.getFirst();
 			setPointMapOccupied(map, true, mapPoint);
-//			map[mapPoint.getX()][mapPoint.getY()].setOccupied(true);
 		}
 		if(this.path.isEmpty()) {
 			return;
 		} else {
 			if(prevPoint != null ) {
-//				map[destinationPoint.getX()][destinationPoint.getY()].setOccupied(false);
 				setPointMapOccupied(map, false, destinationPoint);
 			}
 			destinationPoint = path.getLast(); // delete first one because this is point where animation is standing
@@ -205,12 +198,19 @@ public abstract class Animation {
 			setNextDestinationPoint();
 		}
 	}
+
+
+
+	private void clearBeforeSelectedDestinationPoint(MapPoint[][] map){
+		if(path != null && !path.isEmpty())
+			setPointMapOccupied(map, false, path.getFirst());
+	}
 	
 //*********************************************************
 //******************** Abstract functions
 
-	public abstract void fire( int delta);
-	public abstract boolean isInRange(Animation enemy);
+	public abstract void fire( int delta );
+	public abstract boolean isInRange( Animation enemy );
 	public abstract void setPointMapOccupied(MapPoint [][] map, boolean isOccupide, MapPoint point);
 	
 	

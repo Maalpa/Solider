@@ -13,11 +13,7 @@ import static com.solider.war.core.Config.FIELD_SIZE;
 import static playn.core.PlayN.log;
 
 /**
- * Created with IntelliJ IDEA.
  * User: PK_PC
- * Date: 13.10.14
- * Time: 20:50
- * To change this template use File | Settings | File Templates.
  */
 public abstract class StaticObject {
 
@@ -28,7 +24,6 @@ public abstract class StaticObject {
 	protected boolean hasLoaded = false; 				// set to true when resources have loaded
 	protected  float width;								// width of sprite image i required for counting if object selected, working with imageX
 	protected  float height; 							// width of sprite image i required for counting if object selected, working with imageY
-
 
 	public StaticObject(final GroupLayer layer, final float x, final float y, final String image, final String json ) {
 
@@ -43,20 +38,6 @@ public abstract class StaticObject {
 				sprite.layer().setOrigin(sprite.width() / 2f, sprite.height() / 2f);
 				sprite.layer().setTranslation(x, y);
 				layer.add(sprite.layer());
-
-
-//				//System.out.println("++++++++++++++++++++++++++++++++++++");
-//
-//				int width = ((int) sprite.width()) / Config.FIELD_SIZE;
-//				int height = ((int) sprite.height()) / Config.FIELD_SIZE;
-//				////System.out.println( "sprite.width() = " + sprite.width() );
-//				//System.out.println( "sprite.height(); = " + sprite.height() );
-//
-//				//System.out.println(width);
-//				//System.out.println(height);
-//
-//				//System.out.println("++++++++++++++++++++++++++++++++++++");
-
 				hasLoaded = true;
 			}
 

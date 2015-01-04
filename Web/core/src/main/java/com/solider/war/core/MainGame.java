@@ -39,6 +39,7 @@ public class MainGame extends Game.Default {
 	private GroupLayer layer;
 	private Blow blow;
 
+
 	public MainGame() {
 		super(30); // call update every 33ms (30 times per second)
 	}

@@ -7,10 +7,9 @@ import playn.java.JavaPlatform;
 public class MainGameJava {
 
   public static void main(String[] args) {
-
 	 JavaPlatform.Config config = new JavaPlatform.Config();
-	 config.width = 200;
-	 config.height = 200;
+	 config.width = 800;
+	 config.height = 600;
 
 	 JavaPlatform.register(config);
 	 PlayN.run(new MainGame());
