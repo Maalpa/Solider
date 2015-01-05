@@ -5,6 +5,8 @@ import com.solider.war.core.path.MapPoint;
 import com.solider.war.core.sprites.Animation;
 import com.solider.war.core.sprites.StaticObject;
 import com.solider.war.core.sprites.StaticObjectsModel.Bags;
+import com.solider.war.core.sprites.StaticObjectsModel.Baricade;
+import com.solider.war.core.sprites.StaticObjectsModel.Barrack;
 import com.solider.war.core.sprites.model.Blow;
 import com.solider.war.core.sprites.model.Solider;
 import com.solider.war.core.sprites.model.Tank;
@@ -104,7 +106,10 @@ public class MainGame extends Game.Default {
 
 		markArea = new MarkArea(layer);
 		addTank(50,50);
-		addBags(190,195, markArea);
+//		addBags(190,195, markArea);
+		addBarrack(300, 300, markArea);
+		addBaricade(400, 400, markArea);
+
 
 //		addBlow(300, 300);
 
@@ -126,10 +131,15 @@ public class MainGame extends Game.Default {
 			    	if( event.button() ==  Mouse.BUTTON_LEFT ) {
 			    		MOUSE_LEFT_BUTTON_DOWN = true;
 			    		if(KEY_CTRL_DOWN == true ) {
+
 			    			int corX =(int) (Point.getTransformStartPoint().getX()/FIELD_SIZE);
 			    			int corY =(int) (Point.getTransformStartPoint().getY()/FIELD_SIZE);
-			    			markArea.markPathOnClick(corX*FIELD_SIZE, corY*FIELD_SIZE, FIELD_SIZE, FIELD_SIZE);
+//			    			markArea.markPathOnClick(corX*FIELD_SIZE, corY*FIELD_SIZE, FIELD_SIZE, FIELD_SIZE);
 //			    			map[corX][corY].setOccupied(true);
+
+						    for(StaticObject staticObject : staticObjects) {
+							    staticObject.select(Point.getTransformStartPoint().getX(), Point.getTransformStartPoint().getY());
+						    }
 			    		}
 			    	}
 			    }
@@ -138,12 +148,22 @@ public class MainGame extends Game.Default {
 			    public void onMouseMove(MotionEvent event) {
 
 			    	if(MOUSE_LEFT_BUTTON_DOWN) {
+					    if( !KEY_CTRL_DOWN ) {
 			    			markArea.mark(Point.getTransformStartPoint().getX(),
 			    						  Point.getTransformStartPoint().getY(),
 			    						  event.x()+(-Transform.getX()),
 			    						  event.y()+(-Transform.getY()) );
 
 			    			Point.setEndPoint(event.x(), event.y());
+					    }
+
+					    if(KEY_CTRL_DOWN) {
+						    for(StaticObject staticObject : staticObjects) {
+							    if(staticObject.isSelected()) {
+								    staticObject.moveObject(event.x()+(-Transform.getX()), event.y()+(-Transform.getY()));
+							    }
+						    }
+					    }
 			    	}
 
 			    	if(MOUSE_RIGHT_BUTTON_DOWN) {
@@ -159,6 +179,10 @@ public class MainGame extends Game.Default {
 
 			    @Override
 			    public void onMouseUp(ButtonEvent event) {
+
+				    for(StaticObject staticObject : staticObjects) {
+					    staticObject.setSelected(false);
+				    }
 
 			    	markArea.intersects(animations);
 			    	markArea.clear();
@@ -282,7 +306,15 @@ public class MainGame extends Game.Default {
 	private void addBags(float x, float y, MarkArea markArea) {
 		staticObjects.add(new Bags(x, y, map, markArea, animationLayer_2RD));
 	}
-	
+
+	private void addBarrack(float x, float y, MarkArea markArea) {
+		staticObjects.add( new Barrack( x, y, map, markArea, animationLayer_2RD) );
+	}
+
+	private void addBaricade(float x, float y, MarkArea markArea) {
+		staticObjects.add( new Baricade( x, y, map, markArea, animationLayer_2RD) );
+	}
+
 	// checking Boundaries if camera doesn't come out off map size
 	private void checkMapBoundariesForCamera(MotionEvent event ) {
 		

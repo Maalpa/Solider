@@ -6,6 +6,7 @@ import com.solider.war.core.model.MPoint;
 import com.solider.war.core.path.MapPoint;
 import com.solider.war.core.tools.MarkArea;
 import com.solider.war.core.tools.Point;
+import com.solider.war.core.tools.Transform;
 import playn.core.GroupLayer;
 import playn.core.util.Callback;
 
@@ -20,10 +21,13 @@ public abstract class StaticObject {
 	protected Sprite sprite;					        // sprite for images loaded from repo
 	protected float x;									// center position x
 	protected float y; 									// center position y
+	protected float imageX; 							// left Top position x
+	protected float imageY; 							// left top position y
 	protected int spriteIndex = 0;						// index of rendering sprite
 	protected boolean hasLoaded = false; 				// set to true when resources have loaded
 	protected  float width;								// width of sprite image i required for counting if object selected, working with imageX
 	protected  float height; 							// width of sprite image i required for counting if object selected, working with imageY
+	protected boolean selected = false;
 
 	public StaticObject(final GroupLayer layer, final float x, final float y, final String image, final String json ) {
 
@@ -51,6 +55,23 @@ public abstract class StaticObject {
 	public abstract int[][] getColisionFields();
 	public abstract void setColisionFields(int[][] colisionFields);
 	public abstract MPoint calcColision( MapPoint[][] map , MarkArea markArea);
+
+	public void moveObject(float mouseX , float mouseY) {
+		sprite.layer().setTranslation(mouseX,mouseY);
+		this.x = mouseX;
+		this.y = mouseY;
+	}
+
+	public boolean select(float mouseX , float mouseY) {
+		selected = false;
+		imageX =  ((this.x+ Transform.getX()) - (width/2.0f));	// calculating where image starts by transforming
+		imageY =  ((this.y+Transform.getY()) - (height/2.0f));	// calculating where image starts by transforming
+
+		if( ((mouseX >= (imageX))  && (mouseX <= (imageX+this.width))) && (((mouseY) >= (imageY))  && (mouseY <= (imageY+this.height))) ) {
+			selected = true;
+		}
+		return selected;
+	}
 
 	public Sprite getSprite() {
 		return sprite;
@@ -106,5 +127,29 @@ public abstract class StaticObject {
 
 	public void setHeight(float height) {
 		this.height = height;
+	}
+
+	public boolean isSelected() {
+		return selected;
+	}
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
+
+	public float getImageY() {
+		return imageY;
+	}
+
+	public void setImageY(float imageY) {
+		this.imageY = imageY;
+	}
+
+	public float getImageX() {
+		return imageX;
+	}
+
+	public void setImageX(float imageX) {
+		this.imageX = imageX;
 	}
 }
