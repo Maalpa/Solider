@@ -1,5 +1,6 @@
 package com.solider.war.core.sprites.StaticObjectsModel;
 
+import com.solider.war.core.SpriteAssets;
 import com.solider.war.core.helpers.PositionType;
 import com.solider.war.core.model.MPoint;
 import com.solider.war.core.path.MapPoint;
@@ -16,15 +17,14 @@ public class Baricade  extends StaticObject {
 
 
 
-	public Baricade(float x, float y, MapPoint[][] map, MarkArea markArea, String image, String json,  GroupLayer... layer ) {
+	public Baricade(float x, float y, MapPoint[][] map, MarkArea markArea, SpriteAssets assets,  GroupLayer... layer ) {
 
-		super(layer[0], x, y, image, json);
+		super(layer[0], x, y, assets.getImage(), assets.getJson());
 
+		this.width = assets.getWidth();
+		this.height = assets.getHeight();
 
-
-
-
-		System.out.println("this.width = " + super.width);
+		System.out.println("this.width = " + width);
 		System.out.println("this.height = " + height);
 
 		System.out.println("*********************************");

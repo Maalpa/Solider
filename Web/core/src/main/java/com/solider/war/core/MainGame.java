@@ -24,7 +24,7 @@ import java.util.List;
 import static com.solider.war.core.Config.*;
 import static playn.core.PlayN.assets;
 import static playn.core.PlayN.graphics;
-import static com.solider.war.core.GameStatics.*;
+import com.solider.war.core.SpriteAssets.*;
 
 
 public class MainGame extends Game.Default {
@@ -85,20 +85,20 @@ public class MainGame extends Game.Default {
 
 
 		// Add one solider sprite  to game the game
-		addSolider(100, 250, RED_SOLIDER);
+		addSolider(100, 250, SpriteAssets.RED_SOLIDER);
 		int a = 0;
 		int b;
 		for(int i = 0; i < 20; i++) {
 			a=a+10;
 			b=100;
-			addSolider(a,b, GREEN_SOLIDER);
+			addSolider(a,b, SpriteAssets.GREEN_SOLIDER);
 		}
 
 		a=0;
 		for(int i = 0; i < 20; i++) {
 			a=a+10;
 			b=200;
-			addSolider(a,b, RED_SOLIDER);
+			addSolider(a,b, SpriteAssets.RED_SOLIDER);
 		}
 
 		// Adding grid !!!
@@ -110,7 +110,8 @@ public class MainGame extends Game.Default {
 		addTank(50,50);
 //		addBags(190,195, markArea);
 		addBarrack(300, 300, markArea);
-		addBaricade(400, 400, BARICADE_HORIZONTAL_IMG, BARICADE_HORIZONTAL_JSON, markArea);
+		addBaricade(400, 400, SpriteAssets.BARICADE_HORIZONTAL, markArea);
+		addBaricade(450, 450, SpriteAssets.BARICADE_VERTICAL, markArea);
 
 
 //		addBlow(300, 300);
@@ -287,8 +288,8 @@ public class MainGame extends Game.Default {
 		// here!
 	}
 	
-	private void addSolider(float x, float y, String imagePath) {
-		Solider solider = new Solider(x, y, imagePath, animationLayer_2RD);
+	private void addSolider(float x, float y, SpriteAssets assets) {
+		Solider solider = new Solider(x, y, assets, animationLayer_2RD);
 		animations.add(solider);
 	}
 	
@@ -312,12 +313,12 @@ public class MainGame extends Game.Default {
 		staticObjects.add( new Barrack( x, y, map, markArea, PositionType.HORIZONTAL, animationLayer_2RD) );
 	}
 
-	private void addBaricade(float x, float y, String image, String json, MarkArea markArea) {
-		staticObjects.add( new Baricade( x, y, map, markArea, image, json, animationLayer_2RD) );
+	private void addBaricade(float x, float y, SpriteAssets assets , MarkArea markArea) {
+		staticObjects.add( new Baricade( x, y, map, markArea, assets, animationLayer_2RD) );
 	}
 
-	private void addTower(float x, float y, String image, String json , MarkArea markArea) {
-		staticObjects.add( new Baricade( x, y, map, markArea, image, json, animationLayer_2RD) );
+	private void addTower(float x, float y, SpriteAssets assets , MarkArea markArea) {
+		staticObjects.add( new Baricade( x, y, map, markArea, assets, animationLayer_2RD) );
 	}
 
 	// checking Boundaries if camera doesn't come out off map size

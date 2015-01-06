@@ -2,19 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ef36cb0-7920-479f-a539-b76e9fb19424" name="Default" comment="">
-      <change type="MOVED" beforePath="C:\Users\PK_PC\GIT_SOLIDER\Web\assets\src\main\resources\assets\json_config\baricade.json" afterPath="$PROJECT_DIR$/assets/src/main/resources/assets/json_config/baricade_horizontal.json" />
-      <change type="MOVED" beforePath="C:\Users\PK_PC\GIT_SOLIDER\Web\assets\src\main\resources\assets\sprites\baricade.png" afterPath="$PROJECT_DIR$/assets/src/main/resources/assets/sprites/baricade_horizontal.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/com/solider/war/core/sprites/StaticObjectsModel/Baricade.java" afterPath="$PROJECT_DIR$/core/src/main/java/com/solider/war/core/sprites/StaticObjectsModel/Baricade.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/com/solider/war/core/sprites/StaticObjectsModel/Barrack.java" afterPath="$PROJECT_DIR$/core/src/main/java/com/solider/war/core/sprites/StaticObjectsModel/Barrack.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/com/solider/war/core/GameStatics.java" afterPath="$PROJECT_DIR$/core/src/main/java/com/solider/war/core/GameStatics.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/com/solider/war/core/MainGame.java" afterPath="$PROJECT_DIR$/core/src/main/java/com/solider/war/core/MainGame.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/com/solider/war/core/sprites/StaticObject.java" afterPath="$PROJECT_DIR$/core/src/main/java/com/solider/war/core/sprites/StaticObject.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/com/solider/war/core/sprites/model/Solider.java" afterPath="$PROJECT_DIR$/core/src/main/java/com/solider/war/core/sprites/model/Solider.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Web.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="5ef36cb0-7920-479f-a539-b76e9fb19424" time="1420532334435" ignored="false" />
+    <file path="/Dummy.txt" changelist="5ef36cb0-7920-479f-a539-b76e9fb19424" time="1420535959777" ignored="false" />
     <file path="/fragment.java" changelist="5ef36cb0-7920-479f-a539-b76e9fb19424" time="1419940024950" ignored="false" />
     <file path="/MainGameJava.java" changelist="5ef36cb0-7920-479f-a539-b76e9fb19424" time="1411840634364" ignored="false" />
     <file path="/a.java" changelist="5ef36cb0-7920-479f-a539-b76e9fb19424" time="1411841558141" ignored="false" />
@@ -22,7 +18,7 @@
     <file path="/MapPoint.java" changelist="5ef36cb0-7920-479f-a539-b76e9fb19424" time="1411843417678" ignored="false" />
     <file path="/Config.java" changelist="5ef36cb0-7920-479f-a539-b76e9fb19424" time="1420389299572" ignored="false" />
     <file path="/a.dummy" changelist="5ef36cb0-7920-479f-a539-b76e9fb19424" time="1417290679842" ignored="false" />
-    <file path="/MainGame.java" changelist="5ef36cb0-7920-479f-a539-b76e9fb19424" time="1420533427259" ignored="false" />
+    <file path="/MainGame.java" changelist="5ef36cb0-7920-479f-a539-b76e9fb19424" time="1420539160822" ignored="false" />
     <file path="/Animation.java" changelist="5ef36cb0-7920-479f-a539-b76e9fb19424" time="1420221355372" ignored="false" />
     <file path="/CalcPath.java" changelist="5ef36cb0-7920-479f-a539-b76e9fb19424" time="1411926938668" ignored="false" />
     <file path="/Shot.java" changelist="5ef36cb0-7920-479f-a539-b76e9fb19424" time="1419948799369" ignored="false" />
@@ -46,7 +42,7 @@
     <file path="/GWTBridge.java" changelist="5ef36cb0-7920-479f-a539-b76e9fb19424" time="1419939484814" ignored="false" />
     <file path="$USER_HOME$/GIT_EA_SCI/ea_sci/ea-web/src/main/java/com/ptc/ea/web/controller/StartController.java" changelist="5ef36cb0-7920-479f-a539-b76e9fb19424" time="1419943699197" ignored="false" />
     <file path="/StartController.java" changelist="5ef36cb0-7920-479f-a539-b76e9fb19424" time="1419942099875" ignored="false" />
-    <file path="/Solider.java" changelist="5ef36cb0-7920-479f-a539-b76e9fb19424" time="1420023005749" ignored="false" />
+    <file path="/Solider.java" changelist="5ef36cb0-7920-479f-a539-b76e9fb19424" time="1420537497064" ignored="false" />
     <file path="$USER_HOME$/GIT_EA_SCI/ea_sci/ea-web/src/main/webapp/WEB-INF/config/spring-security.xml" changelist="5ef36cb0-7920-479f-a539-b76e9fb19424" time="1420026314617" ignored="false" />
     <file path="$USER_HOME$/GIT_PlayN/playn-samples/paymentsdemo/build.xml" changelist="5ef36cb0-7920-479f-a539-b76e9fb19424" time="1420452663084" ignored="false" />
     <file path="$USER_HOME$/GIT_PlayN/playn-samples/paymentsdemo/html/src/main/webapp/WEB-INF/appengine-web.xml" changelist="5ef36cb0-7920-479f-a539-b76e9fb19424" time="1420452663084" ignored="false" />
@@ -61,8 +57,9 @@
     <file path="$USER_HOME$/GIT_PlayN/playn-samples/paymentsdemo/pom.xml" changelist="5ef36cb0-7920-479f-a539-b76e9fb19424" time="1420452663085" ignored="false" />
     <file path="/Barrack.java" changelist="5ef36cb0-7920-479f-a539-b76e9fb19424" time="1420483216874" ignored="false" />
     <file path="/PositionType.java" changelist="5ef36cb0-7920-479f-a539-b76e9fb19424" time="1420483186075" ignored="false" />
-    <file path="/Baricade.java" changelist="5ef36cb0-7920-479f-a539-b76e9fb19424" time="1420534172834" ignored="false" />
+    <file path="/Baricade.java" changelist="5ef36cb0-7920-479f-a539-b76e9fb19424" time="1420537634430" ignored="false" />
     <file path="/GameStatics.java" changelist="5ef36cb0-7920-479f-a539-b76e9fb19424" time="1420532945911" ignored="false" />
+    <file path="/Assets.java" changelist="5ef36cb0-7920-479f-a539-b76e9fb19424" time="1420536734594" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,6 +115,7 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint url="jar://$MAVEN_REPOSITORY$/com/googlecode/playn/playn-core/1.8/playn-core-1.8-sources.jar!/playn/core/Game.java" line="88" class="playn.core.Game.Default" package="playn.core">
         <option name="ENABLED" value="true" />
@@ -135,7 +133,6 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </line_breakpoints>
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -145,28 +142,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="StaticObject.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/main/java/com/solider/war/core/sprites/StaticObject.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="11" selection-start="1270" selection-end="1270" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SpriteLoader.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/main/java/com/solider/war/core/sprites/SpriteLoader.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="53" column="23" selection-start="1731" selection-end="1731" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MainGame.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="MainGame.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/core/src/main/java/com/solider/war/core/MainGame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="319" column="73" selection-start="10221" selection-end="10221" vertical-scroll-proportion="0.0">
+            <state line="166" column="29" selection-start="5607" selection-end="5607" vertical-scroll-proportion="0.13157895">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -174,10 +153,55 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="baricade_vertical.json" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/src/main/resources/assets/json_config/baricade_vertical.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="4" column="1" selection-start="81" selection-end="81" vertical-scroll-proportion="-2.5">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MainGameJava.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/java/src/main/java/com/solider/war/java/MainGameJava.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="13" column="35" selection-start="335" selection-end="335" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pom.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="13" column="17" selection-start="489" selection-end="489" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="GameStatics.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/main/java/com/solider/war/core/GameStatics.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="85" selection-start="360" selection-end="370" vertical-scroll-proportion="0.0">
+            <state line="4" column="0" selection-start="72" selection-end="556" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SpriteAssets.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/src/main/java/com/solider/war/core/SpriteAssets.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="11" column="15" selection-start="334" selection-end="345" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Config.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/src/main/java/com/solider/war/core/Config.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="15" column="4" selection-start="501" selection-end="501" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -190,19 +214,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Barrack.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/main/java/com/solider/war/core/sprites/StaticObjectsModel/Barrack.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="3" selection-start="439" selection-end="439" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Baricade.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Baricade.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/main/java/com/solider/war/core/sprites/StaticObjectsModel/Baricade.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="31" selection-start="720" selection-end="720" vertical-scroll-proportion="0.50438595">
+            <state line="19" column="11" selection-start="474" selection-end="474" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -210,28 +225,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Sprite.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/main/java/com/solider/war/core/sprites/Sprite.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="125" column="15" selection-start="3483" selection-end="3483" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Solider.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/main/java/com/solider/war/core/sprites/model/Solider.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="16" selection-start="321" selection-end="321" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PositionType.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/main/java/com/solider/war/core/helpers/PositionType.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="12" selection-start="107" selection-end="107" vertical-scroll-proportion="0.0">
+            <state line="16" column="39" selection-start="476" selection-end="476" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -257,22 +254,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/core/src/main/java/com/solider/war/core/sprites/model/Solider.java" />
-        <option value="$PROJECT_DIR$/core/src/main/java/com/solider/war/core/sprites/model/Tank.java" />
-        <option value="$PROJECT_DIR$/core/src/main/java/com/solider/war/core/path/CalcPath.java" />
-        <option value="$PROJECT_DIR$/core/src/main/java/com/solider/war/core/sprites/Animation.java" />
-        <option value="$PROJECT_DIR$/java/src/main/java/com/solider/war/java/MainGameJava.java" />
-        <option value="$PROJECT_DIR$/assets/src/main/resources/assets/json_config/bag.json" />
         <option value="$PROJECT_DIR$/assets/src/main/resources/assets/json_config/barrack.json" />
         <option value="$PROJECT_DIR$/core/src/main/java/com/solider/war/core/Config.java" />
         <option value="$PROJECT_DIR$/assets/src/main/resources/assets/json_config/baricade.json" />
         <option value="$PROJECT_DIR$/core/src/main/java/com/solider/war/core/sprites/StaticObjectsModel/Bags.java" />
         <option value="$PROJECT_DIR$/core/src/main/java/com/solider/war/core/sprites/StaticObjectsModel/Barrack.java" />
         <option value="$PROJECT_DIR$/core/src/main/java/com/solider/war/core/helpers/PositionType.java" />
-        <option value="$PROJECT_DIR$/core/src/main/java/com/solider/war/core/GameStatics.java" />
-        <option value="$PROJECT_DIR$/core/src/main/java/com/solider/war/core/MainGame.java" />
         <option value="$PROJECT_DIR$/core/src/main/java/com/solider/war/core/sprites/StaticObject.java" />
+        <option value="$PROJECT_DIR$/core/src/main/java/Assets.java" />
+        <option value="$PROJECT_DIR$/core/src/main/java/com/solider/war/core/GameStatics.java" />
+        <option value="$PROJECT_DIR$/core/src/main/java/com/solider/war/core/tools/SpriteAssets.java" />
+        <option value="$PROJECT_DIR$/core/src/main/java/SpriteAssets.java" />
+        <option value="$PROJECT_DIR$/core/src/main/java/com/solider/war/core/SpriteAssets.java" />
+        <option value="$PROJECT_DIR$/core/src/main/java/com/solider/war/core/sprites/model/Solider.java" />
         <option value="$PROJECT_DIR$/core/src/main/java/com/solider/war/core/sprites/StaticObjectsModel/Baricade.java" />
+        <option value="$PROJECT_DIR$/assets/src/main/resources/assets/json_config/baricade_vertical.json" />
+        <option value="$PROJECT_DIR$/core/src/main/java/com/solider/war/core/MainGame.java" />
       </list>
     </option>
   </component>
@@ -360,6 +357,57 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Web-java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Web-html" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Web-core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Web-android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -514,117 +562,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="sprites" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sprites" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="StaticObjectsModel" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sprites" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="model" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="helpers" />
+              <option name="myItemId" value="tools" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -766,73 +704,36 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-        </subPane>
-      </pane>
-      <pane id="PackagesPane">
-        <subPane>
           <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" value="Web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Web-java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" value="Web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Web-html" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Web-core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Web-android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+              <option name="myItemId" value=".idea" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="recentsLimit" value="5" />
     <property name="MemberChooser.sorted" value="false" />
+    <property name="recentsLimit" value="5" />
     <property name="last_opened_file_path" value="$USER_HOME$/GIT_WKK" />
-    <property name="FullScreen" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
+    <property name="FullScreen" value="false" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="dynamic.classpath" value="false" />
     <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="dynamic.classpath" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -842,10 +743,10 @@
       <recent name="com.com.google.gwt.core.shared" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\PKepa1\GIT_SOLIDER\Web\assets\src\main\resources\assets\sprites" />
-      <recent name="C:\Users\PKepa1\GIT_SOLIDER\Web\assets\src\main\resources\assets\json_config" />
       <recent name="C:\Users\PK_PC\GIT_SOLIDER\Web\assets\src\main\resources\assets\sprites" />
       <recent name="C:\Users\PK_PC\GIT_SOLIDER\Web\assets\src\main\resources\assets\json_config" />
+      <recent name="C:\Users\PKepa1\GIT_SOLIDER\Web\assets\src\main\resources\assets\sprites" />
+      <recent name="C:\Users\PKepa1\GIT_SOLIDER\Web\assets\src\main\resources\assets\json_config" />
       <recent name="C:\Users\PKepa1\GIT_SOLIDER\Web\core\src\main\java" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -1294,8 +1195,8 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18676628" sideWeight="0.7678768" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32821077" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26096034" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -1374,40 +1275,9 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/assets/src/main/resources/assets/json_config/bag.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="3" selection-start="78" selection-end="78" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/com/solider/war/core/Config.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="4" selection-start="501" selection-end="501" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/com/solider/war/core/sprites/Animation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="0" selection-start="748" selection-end="858" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/com/solider/war/core/tools/Point.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="27" selection-start="1260" selection-end="1260" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/core/src/main/java/com/solider/war/core/sprites/StaticObjectsModel/Bags.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="53" column="0" selection-start="1422" selection-end="1422" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/java/src/main/java/com/solider/war/java/MainGameJava.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="35" selection-start="335" selection-end="335" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -1423,34 +1293,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="7" column="12" selection-start="107" selection-end="107" vertical-scroll-proportion="0.0">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/com/solider/war/core/sprites/model/Solider.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="16" selection-start="321" selection-end="321" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/src/main/resources/assets/sprites/baricade_horizontal.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/com/solider/war/core/GameStatics.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="85" selection-start="360" selection-end="370" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/com/solider/war/core/MainGame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="319" column="73" selection-start="10221" selection-end="10221" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1475,9 +1317,72 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/java/com/solider/war/core/Config.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="4" selection-start="501" selection-end="501" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/src/main/resources/assets/sprites/baricade_horizontal.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="17" selection-start="489" selection-end="489" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/java/com/solider/war/core/GameStatics.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="0" selection-start="72" selection-end="556" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/java/com/solider/war/core/sprites/model/Solider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="39" selection-start="476" selection-end="476" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/core/src/main/java/com/solider/war/core/sprites/StaticObjectsModel/Baricade.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="31" selection-start="720" selection-end="720" vertical-scroll-proportion="0.50438595">
+        <state line="19" column="11" selection-start="474" selection-end="474" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/java/src/main/java/com/solider/war/java/MainGameJava.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="35" selection-start="335" selection-end="335" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/src/main/resources/assets/json_config/baricade_vertical.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="1" selection-start="81" selection-end="81" vertical-scroll-proportion="-2.5">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/java/com/solider/war/core/SpriteAssets.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="15" selection-start="334" selection-end="345" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/java/com/solider/war/core/MainGame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="166" column="29" selection-start="5607" selection-end="5607" vertical-scroll-proportion="0.13157895">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
