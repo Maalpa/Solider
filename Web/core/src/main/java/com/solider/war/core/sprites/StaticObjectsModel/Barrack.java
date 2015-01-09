@@ -43,11 +43,6 @@ public class Barrack extends StaticObject {
 	}
 
 	@Override
-	public void setColisionFields(int[][] colisionFields) {
-		//To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	@Override
 	public MPoint calcColision(MapPoint[][] map, MarkArea markArea) {
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}

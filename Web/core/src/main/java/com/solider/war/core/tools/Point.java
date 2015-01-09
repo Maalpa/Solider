@@ -33,6 +33,9 @@ public class Point {
 		transformMousePoint.setY(y+(-Transform.getY()));
 	}
 
+
+
+
 	public static GPoint transformPoint(float x, float y) {
 		return new GPoint((x+(-Transform.getX())), (y+(-Transform.getY())));
 	}

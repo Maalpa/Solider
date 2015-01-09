@@ -10,6 +10,8 @@ import com.solider.war.core.tools.Transform;
 import playn.core.GroupLayer;
 import playn.core.util.Callback;
 
+import java.util.ArrayList;
+
 import static com.solider.war.core.Config.FIELD_SIZE;
 import static playn.core.PlayN.log;
 
@@ -28,6 +30,7 @@ public abstract class StaticObject {
 	protected float width;								// width of sprite image i required for counting if object selected, working with imageX
 	protected float height; 							// width of sprite image i required for counting if object selected, working with imageY
 	protected boolean selected = false;
+	protected ArrayList<MPoint> occupideFields = new ArrayList<MPoint>();
 
 	public StaticObject(final GroupLayer layer, final float x, final float y, final String image, final String json ) {
 
@@ -55,23 +58,31 @@ public abstract class StaticObject {
 	}
 
 	public abstract int[][] getColisionFields();
-	public abstract void setColisionFields(int[][] colisionFields);
 	public abstract MPoint calcColision( MapPoint[][] map , MarkArea markArea);
+
+	public void clearOccupideMapFields( MapPoint[][] map ){
+		if(occupideFields != null && !occupideFields.isEmpty()) {
+			for(MPoint field : occupideFields) {
+				map[field.getX()][field.getY()].setOccupied(false);
+			}
+			occupideFields.clear();
+		}
+	}
 
 	public void moveObject(float mouseX , float mouseY) {
 		sprite.layer().setTranslation(mouseX,mouseY);
-		this.x = mouseX;
-		this.y = mouseY;
+		x = mouseX;
+		y = mouseY;
 	}
 
 	public boolean select(float mouseX , float mouseY) {
-		selected = false;
 		imageX =  ((this.x+ Transform.getX()) - (width/2.0f));	// calculating where image starts by transforming
-		imageY =  ((this.y+Transform.getY()) - (height/2.0f));	// calculating where image starts by transforming
+		imageY =  ((this.y+ Transform.getY()) - (height/2.0f));	// calculating where image starts by transforming
 
 		if( ((mouseX >= (imageX))  && (mouseX <= (imageX+this.width))) && (((mouseY) >= (imageY))  && (mouseY <= (imageY+this.height))) ) {
-			selected = true;
+			this.selected = true;
 		}
+
 		return selected;
 	}
 

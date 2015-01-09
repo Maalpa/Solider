@@ -29,20 +29,23 @@ import com.solider.war.core.SpriteAssets.*;
 
 public class MainGame extends Game.Default {
 	
-	public final  MapPoint[][] map =  new MapPoint[PATH_MAP_SIZE][PATH_MAP_SIZE];
-	private boolean MOUSE_RIGHT_BUTTON_DOWN = false;
- 	private boolean MOUSE_LEFT_BUTTON_DOWN = false;
-	private boolean MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN = false;
- 	private boolean KEY_CTRL_DOWN = false;
-	private GroupLayer animationLayer_2RD;
-	private GroupLayer animationLayer_3RD;
-	private List<Animation> animations = new ArrayList<Animation>();
-	private List<StaticObject> staticObjects = new ArrayList<StaticObject>();
-	private ImageLayer bgLayer;
-	private MarkArea markArea;
-	private Tank tank;
-	private GroupLayer layer;
-	private Blow blow;
+	public final  MapPoint[][] map =  new MapPoint[PATH_MAP_SIZE][PATH_MAP_SIZE];   // game map:  1 - occupide field, 0 - free field
+	private boolean MOUSE_RIGHT_BUTTON_DOWN = false;                                // flag for mouse right button
+ 	private boolean MOUSE_LEFT_BUTTON_DOWN = false;                                 // flag form mose left button
+	private boolean MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN = false;               // mose moving with right button - is using for marking places and selecting animations
+ 	private boolean KEY_CTRL_DOWN = false;                                          // TODO change this in ALT !!!
+	private GroupLayer animationLayer_2RD;                                          // layer for static object e.g. Buildings
+	private GroupLayer animationLayer_3RD;                                          // for animations
+	private GroupLayer animationLayer_4RD;                                          // for parts placed in an animation e.g. Barrel
+	private GroupLayer animationLayer_5RD;
+
+	private List<Animation> animations = new ArrayList<Animation>();                        // list of animations
+	private List<StaticObject> staticObjects = new ArrayList<StaticObject>();                  // static objects
+	private ImageLayer bgLayer;                                                     // background image layer
+	private MarkArea markArea;                                                      // class using to selecting animations for current  player
+	private Tank tank;                                                              // will be removed
+	private GroupLayer layer;                                                       // Main layer in the game !!!
+	private Blow blow;                                                              // will be removed
 
 	public MainGame() {
 		super(30); // call update every 33ms (30 times per second)
@@ -60,12 +63,13 @@ public class MainGame extends Game.Default {
 		}
 
 		Image bgImage = assets().getImage("sprites/map.png");
-
 		// create a group layer to hold everything
 		layer = graphics().createGroupLayer();
 		bgLayer = graphics().createImageLayer(bgImage);
 		animationLayer_2RD = graphics().createGroupLayer();
 		animationLayer_3RD = graphics().createGroupLayer();
+		animationLayer_4RD = graphics().createGroupLayer();
+		animationLayer_5RD = graphics().createGroupLayer();
 
 	    // draw a soothing flat background
 	    CanvasImage bgtile = graphics().createImage(FIELD_SIZE, FIELD_SIZE);
@@ -82,7 +86,15 @@ public class MainGame extends Game.Default {
 		layer.add(bgLayer);  // BACKGROUND
 		layer.add(animationLayer_2RD);
 		layer.add(animationLayer_3RD);
+		layer.add(animationLayer_4RD);
+		layer.add(animationLayer_5RD);
 
+
+		// Static Objects !!!!
+		markArea = new MarkArea(layer);
+		addBarrack(300, 300, markArea);
+		addBaricade(400, 400, SpriteAssets.BARICADE_HORIZONTAL, markArea);
+		addBaricade(450, 450, SpriteAssets.BARICADE_VERTICAL, markArea);
 
 		// Add one solider sprite  to game the game
 		addSolider(100, 250, SpriteAssets.RED_SOLIDER);
@@ -106,12 +118,8 @@ public class MainGame extends Game.Default {
 			layer.add(bg);
 		}
 
-		markArea = new MarkArea(layer);
 		addTank(50,50);
 //		addBags(190,195, markArea);
-		addBarrack(300, 300, markArea);
-		addBaricade(400, 400, SpriteAssets.BARICADE_HORIZONTAL, markArea);
-		addBaricade(450, 450, SpriteAssets.BARICADE_VERTICAL, markArea);
 
 
 //		addBlow(300, 300);
@@ -135,13 +143,18 @@ public class MainGame extends Game.Default {
 			    		MOUSE_LEFT_BUTTON_DOWN = true;
 			    		if(KEY_CTRL_DOWN == true ) {
 
-			    			int corX =(int) (Point.getTransformStartPoint().getX()/FIELD_SIZE);
-			    			int corY =(int) (Point.getTransformStartPoint().getY()/FIELD_SIZE);
-//			    			markArea.markPathOnClick(corX*FIELD_SIZE, corY*FIELD_SIZE, FIELD_SIZE, FIELD_SIZE);
+			    			int corX = (int) (Point.getTransformStartPoint().getX()/FIELD_SIZE);
+			    			int corY = (int) (Point.getTransformStartPoint().getY()/FIELD_SIZE);
+
+							// TODO improve blow
+//                          markArea.markPathOnClick(corX*FIELD_SIZE, corY*FIELD_SIZE, FIELD_SIZE, FIELD_SIZE);
 //			    			map[corX][corY].setOccupied(true);
 
-						    for(StaticObject staticObject : staticObjects) {
+						     for(StaticObject staticObject : staticObjects) {
 							    staticObject.select(Point.getTransformStartPoint().getX(), Point.getTransformStartPoint().getY());
+							    if(staticObject.isSelected()) {
+							        staticObject.clearOccupideMapFields(map);
+							    }
 						    }
 			    		}
 			    	}
@@ -149,7 +162,7 @@ public class MainGame extends Game.Default {
 
 			    @Override
 			    public void onMouseMove(MotionEvent event) {
-
+				    Point.setMousePoint(event.x(), event.y());
 			    	if(MOUSE_LEFT_BUTTON_DOWN) {
 					    if( !KEY_CTRL_DOWN ) {
 			    			markArea.mark(Point.getTransformStartPoint().getX(),
@@ -167,7 +180,6 @@ public class MainGame extends Game.Default {
 						    }
 					    }
 			    	}
-
 			    	if(MOUSE_RIGHT_BUTTON_DOWN) {
 			    		MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN = true;
 			    		checkMapBoundariesForCamera(event);
@@ -182,26 +194,23 @@ public class MainGame extends Game.Default {
 
 			    @Override
 			    public void onMouseUp(ButtonEvent event) {
-
+				    // calc colisions for static objects...
 				    for(StaticObject staticObject : staticObjects) {
+					    staticObject.calcColision(map, markArea);
 					    staticObject.setSelected(false);
 				    }
-
 			    	markArea.intersects(animations);
 			    	markArea.clear();
 			    	if( event.button() ==  Mouse.BUTTON_RIGHT ) {
-
 			    		MOUSE_RIGHT_BUTTON_DOWN = false;
 			    		Point.setMousePoint(event.x(), event.y());
 			    		if(!MOUSE_HAVE_MOVING_WITH_RIGHT_BITTON_DOWN) {
-
 			    			for (Animation animation : animations) {
 								if(animation.isSelected()) {
 									MapPoint mapPoint = MapHelper.getPointOnMap(new MapPoint( (int) animation.getX(), (int) animation.getY()));
 									animation.setPointMapOccupied(map, false, mapPoint);
 								}
 							}
-
 				    		for (Animation animation : animations) {
 								if(animation.isSelected()) {
 									animation.setPath(animation, markArea, map);
@@ -218,9 +227,11 @@ public class MainGame extends Game.Default {
 							animation.select(event.x(), event.y());
 						}
 					}
+				    drawOccupideFields();
 			    }
 			    @Override
 			    public void onMouseWheelScroll(WheelEvent event) {
+
 			    }
 		});
 
@@ -232,14 +243,31 @@ public class MainGame extends Game.Default {
 	    PlayN.keyboard().setListener(new Keyboard.Adapter() {
 	    	@Override
 	        public void onKeyDown(Keyboard.Event event) {
-	    		KEY_CTRL_DOWN = true;
+			    switch (event.key()) {
+				    case ALT: {
+					    KEY_CTRL_DOWN = true;
+					   break;
+				    }
+				    case SPACE: {
+					    addBaricade(Point.getTransformMousePoint().getX(), Point.getTransformMousePoint().getY(), SpriteAssets.BARICADE_HORIZONTAL, markArea);
+					    break;
+				    }
+				    case A: {
+					    addBaricade(Point.getTransformMousePoint().getX(), Point.getTransformMousePoint().getY(), SpriteAssets.BARICADE_VERTICAL, markArea);
+				        break;
+				    }
+			    }
 	        }
 	        @Override
 	        public void onKeyUp(Keyboard.Event event) {
-	        	KEY_CTRL_DOWN = false;
+		        switch (event.key()) {
+			        case ALT: {
+				        KEY_CTRL_DOWN = false;
+				        break;
+			        }
+		        }
 	        }
-	     });
-
+	    });
 	}
 
 ///////////////////////////////////////////////////////////////////////////
@@ -267,12 +295,11 @@ public class MainGame extends Game.Default {
 				}
 			}
 		}
-
-//		drawOccupideFields();
 	}
 
 	// helper methot to show if field is occupied
 	private void drawOccupideFields(){
+		markArea.clear();
 		for(int i=0; i< map.length; i++) {
 			for(int j=0;j<map.length;j++) {
 				if(map[i][j].isOccupied()) {
@@ -289,17 +316,17 @@ public class MainGame extends Game.Default {
 	}
 	
 	private void addSolider(float x, float y, SpriteAssets assets) {
-		Solider solider = new Solider(x, y, assets, animationLayer_2RD);
+		Solider solider = new Solider(x, y, assets, animationLayer_3RD);
 		animations.add(solider);
 	}
-	
+
 	private void addTank(float x, float y) {
-		this.tank = new Tank(x, y, animationLayer_2RD, animationLayer_3RD);
+		this.tank = new Tank(x, y, animationLayer_3RD, animationLayer_4RD);
 		animations.add(tank);
 	}
 
 	private void addBlow(float x, float y) {
-		blow = new Blow(x, y, animationLayer_2RD);
+		blow = new Blow(x, y, animationLayer_3RD);
 		animations.add(blow);
 		blow.setMoving(true);
 		blow.setFire(true);
@@ -327,7 +354,7 @@ public class MainGame extends Game.Default {
 		float tempTransformX = event.x() - Point.getTransformStartPoint().getX();
 		float tempTransformY = event.y() - Point.getTransformStartPoint().getY();
 
-			if(tempTransformX <= 0 &&  (tempTransformX - WINDOW_WIDTH) >= (-MAP_SIZE) ) {
+		if(tempTransformX <= 0 &&  (tempTransformX - WINDOW_WIDTH) >= (-MAP_SIZE) ) {
 			Transform.setX(tempTransformX);
 			layer.setTx(Transform.getX());
 		}

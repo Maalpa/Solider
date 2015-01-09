@@ -52,6 +52,8 @@ public class Bags extends StaticObject {
 	}
 
 
+
+
 	public MPoint calcColision( MapPoint[][] map, MarkArea markArea ) {
 
 		System.out.println("*********************************");

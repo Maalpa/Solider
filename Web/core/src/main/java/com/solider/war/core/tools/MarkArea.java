@@ -116,6 +116,7 @@ public class MarkArea {
 	
 	public void clear(){
 		canvas.clear();
+		canvas2.clear();
 	}
 
 	public int getX() {
