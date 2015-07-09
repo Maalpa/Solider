@@ -86,10 +86,7 @@
 			<artifactId>guava</artifactId>
 			<version>17.0</version>
 		</dependency>
-
 	</dependencies>
-
-
 
 
 	<build>
@@ -238,7 +235,6 @@
 						</lifecycleMappingMetadata>
 					</configuration>
 				</plugin>
-
 			</plugins>
 		</pluginManagement>
 		<!-- End Google App Engine plugin configuration -->
